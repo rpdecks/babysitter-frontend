@@ -1,26 +1,54 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './App.css';
+import Welcome from './components/Welcome';
+import Dashboard from './components/Dashboard';
+import LoginForm from './components/LoginForm';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isLoggedIn: false,
+    userType: ''
+  }
+  
+  handleLogin = token => {
+    localStorage.setItem('auth_token', token);
+    this.setState({ isLoggedIn: true })
+    this.getUserData();
+  }
+
+  handleLogout = () => {
+    localStorage.removeItem('auth_token');
+    this.setState({ isLoggedIn: false })
+  }
+
+  setUserType = (input) => {
+    this.setState({ userType: input})
+  }
+
+  selectFirstPage = () => {
+    if (!this.state.userType) {
+      return <Welcome setUserType={this.setUserType} /> 
+    } else if (this.state.userType && !this.state.isLoggedIn) {
+      return <LoginForm handleLogin={this.handleLogin} setUserType={this.setUserType} />
+    } else { return <Dashboard /> }
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/'>
+            {this.selectFirstPage()}
+          </Route>
+          <Route exact path='/login'>
+            {/* <LoginForm handleLogin={this.handleLogin}/> */}
+            {this.selectFirstPage()}
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
