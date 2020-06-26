@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 
 function Welcome(props) {
     return (
@@ -19,4 +20,10 @@ function Welcome(props) {
     )
 }
 
-export default Welcome;
+const mapDispatchToProps = dispatch => {
+    return {
+        setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType})
+    }
+}
+
+export default connect(null, mapDispatchToProps)(Welcome);

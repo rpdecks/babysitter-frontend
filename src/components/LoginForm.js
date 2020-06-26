@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
 
@@ -12,11 +13,16 @@ class LoginForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   }
 
+  handleLogin = token => {
+    localStorage.setItem('auth_token', token);
+    this.props.setLoginStatus(true)
+  }
+
   login = e => {
     e.preventDefault();
 
-    const userObj = {
-      user: {
+    const userObj =  {
+      [this.props.userType]: {
         email: this.state.email,
         password: this.state.password
       }
@@ -29,19 +35,31 @@ class LoginForm extends React.Component {
       },
       body: JSON.stringify(userObj)
     }
-
-    fetch('http://localhost:3000/api/v1/login', fetchObj)
+    if (this.props.userType === 'employer') {
+      fetch('http://localhost:3000/api/v1/employers/login', fetchObj)
       .then(res => res.json())
       .then(loginData => {
         if (loginData.token) {
-          this.props.handleLogin(loginData.token)
+          this.handleLogin(loginData.token)
+          this.props.history.push('/')
+        }
+        else
+          alert(loginData.message);
+      })
+      .catch(() => alert('Something went wrong'))
+    } else if (this.props.userType === 'caregiver') {
+      fetch('http://localhost:3000/api/v1/caregivers/login', fetchObj)
+      .then(res => res.json())
+      .then(loginData => {
+        if (loginData.token) {
+          this.handleLogin(loginData.token)
           this.props.history.push('/');
         }
         else
           alert(loginData.message);
       })
       .catch(() => alert('Something went wrong'))
-
+    }
     e.target.reset();
   }
 
@@ -65,4 +83,18 @@ class LoginForm extends React.Component {
   }
 }
 
-export default withRouter(LoginForm);
+const mapStateToProps = state => {
+  return { 
+    userType: state.userReducer.userType,
+    isLoggedIn: state.userReducer.isLoggedIn
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
+    setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status})
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginForm));
