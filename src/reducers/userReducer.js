@@ -1,4 +1,4 @@
-export default function userReducer(state = {}, action) {
+export default function userReducer(state = {userType: null}, action) {
     switch (action.type) {
       case 'SET_USER_TYPE':
         return { ...state,
