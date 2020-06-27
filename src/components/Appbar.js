@@ -26,12 +26,12 @@ function Appbar(props) {
         }
     }
     return (
-        <Navbar>
+        <Navbar bg='dark' variant='dark'>
           <Col xs={2}>
-                <Navbar.Brand>Sitters.com</Navbar.Brand>
+                <Navbar.Brand>Babysitter</Navbar.Brand>
           </Col>
           <Navbar.Collapse>
-                <Col xs={6}>
+                <Col xs={8}>    
                 </Col>
                 <Col xs={4}>
                     <Nav>

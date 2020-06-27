@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal } from 'react-bootstrap'
 
 function Welcome(props) {
 

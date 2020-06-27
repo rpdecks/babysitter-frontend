@@ -1,11 +1,12 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom'
-import { Col, Container, Row } from 'react-bootstrap'
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Welcome from './components/Welcome'
-import Dashboard from './components/Dashboard'
 import LoginForm from './components/LoginForm'
 import Appbar from './components/Appbar'
+import DashNav from './components/DashNav'
+import CalendarView from './components/CalendarView'
 import styled from 'styled-components'
 
 const Styles = styled.div `
@@ -13,6 +14,10 @@ const Styles = styled.div `
     border: black solid 1px;
     height: 90vh;
     background: dodgerblue
+  }
+  .center-column {
+    border: black solid 1px;
+    height: 90vh;
   }
 `
  
@@ -31,19 +36,22 @@ class App extends React.Component {
       return <Welcome />
     } else if (!this.props.isLoggedIn && this.props.userType) { 
       return <LoginForm />
-    } else { return <Dashboard />}
+    } 
+    // else { return <Dashboard />}
   }
 
   render() {
     return (
       <BrowserRouter>
-        <Appbar />
+        <Appbar />  
         <Styles>
+          <Row>
             <Col xs={2} className="sidebar-column">
               <Row>Hello I am the side bar</Row>
             </Col>
-            <Col xs={8}>
-              Middle column is right here as is wider
+            <Col xs={8} className="center-column">
+              <DashNav />
+              <CalendarView />
             </Col>
             <Switch>
               <Route exact path='/'>
@@ -53,7 +61,8 @@ class App extends React.Component {
                 {this.selectFirstPage()}
               </Route>
             </Switch>
-          </Styles>
+          </Row>
+        </Styles>
       </BrowserRouter>
     );
   }
