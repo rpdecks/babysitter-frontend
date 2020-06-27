@@ -6,7 +6,15 @@ import Welcome from './components/Welcome'
 import Dashboard from './components/Dashboard'
 import LoginForm from './components/LoginForm'
 import Appbar from './components/Appbar'
-import { Modal, Button } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const Styles = styled.div `
+  .sidebar-column {
+    border: black solid 1px;
+    height: 90vh;
+    background: dodgerblue
+  }
+`
  
 class App extends React.Component {
 
@@ -28,11 +36,10 @@ class App extends React.Component {
 
   render() {
     return (
-      <>
-        <BrowserRouter>
-          <Appbar />
-          <Container fluid >
-            <Col xs={2} >
+      <BrowserRouter>
+        <Appbar />
+        <Styles>
+            <Col xs={2} className="sidebar-column">
               <Row>Hello I am the side bar</Row>
             </Col>
             <Col xs={8}>
@@ -46,9 +53,8 @@ class App extends React.Component {
                 {this.selectFirstPage()}
               </Route>
             </Switch>
-          </Container>
-        </BrowserRouter>
-      </>
+          </Styles>
+      </BrowserRouter>
     );
   }
 }
