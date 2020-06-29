@@ -4,6 +4,8 @@ import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import Welcome from './components/Welcome'
 import LoginForm from './components/LoginForm'
+import CaregiverSignup from './components/CaregiverSignup'
+import EmployerSignup from './components/EmployerSignup'
 import Appbar from './components/Appbar'
 import DashNav from './components/DashNav'
 import CalendarView from './components/CalendarView'
@@ -24,8 +26,9 @@ const Styles = styled.div `
 class App extends React.Component {
 
   componentDidMount() {
-    if (localStorage.getItem('auth_token')) {
+    if (localStorage.getItem('auth_token') && localStorage.getItem('userType')) {
       this.props.setLoginStatus(true)
+      this.props.setUserType(localStorage.getItem('userType'))
     } else {
       this.props.setLoginStatus(false)
     }
@@ -36,8 +39,14 @@ class App extends React.Component {
       return <Welcome />
     } else if (!this.props.isLoggedIn && this.props.userType) { 
       return <LoginForm />
-    } 
-    // else { return <Dashboard />}
+    } else {
+      return (
+        <>
+          <DashNav />
+          <CalendarView />
+        </>
+      )
+    }
   }
 
   render() {
@@ -49,17 +58,20 @@ class App extends React.Component {
             <Col xs={2} className="sidebar-column">
               <Row>Hello I am the side bar</Row>
             </Col>
-            <Col xs={8} className="center-column">
-              <DashNav />
-              <CalendarView />
-            </Col>
             <Switch>
-              <Route exact path='/'>
-                {this.selectFirstPage()}
-              </Route>
-              <Route exact path='/login'>
-                {this.selectFirstPage()}
-              </Route>
+              <>
+                <Col xs={8} className="center-column">
+                  <Route exact path='/'>
+                    {this.selectFirstPage()}
+                  </Route>
+                  <Route exact path='/login'>
+                    {this.selectFirstPage()}
+                  </Route>
+                  <Route exact path='/signup'>
+                    {this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
+                  </Route>
+                </Col>
+              </>
             </Switch>
           </Row>
         </Styles>
@@ -77,8 +89,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-      setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
-      setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status})
+    setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
+    setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status})
   }
 }
 

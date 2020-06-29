@@ -1,5 +1,10 @@
-export default function userReducer(state = {userType: null}, action) {
+export default function userReducer(state = {}, action) {
     switch (action.type) {
+      case 'STORE_USER':
+        return {
+          ...state,
+          user: action.user
+        }
       case 'SET_USER_TYPE':
         return { ...state,
             userType: action.userType 
