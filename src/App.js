@@ -10,6 +10,8 @@ import Appbar from './components/Appbar'
 import DashNav from './components/DashNav'
 import CalendarView from './components/CalendarView'
 import styled from 'styled-components'
+import NewJobForm from './components/NewJobForm';
+import Account from './components/Account';
 
 const Styles = styled.div `
   .sidebar-column {
@@ -68,6 +70,12 @@ class App extends React.Component {
                   </Route>
                   <Route exact path='/signup'>
                     {this.props.signingUp && this.props.userType && this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
+                  </Route>
+                  <Route exact path='/newjob'>
+                    <NewJobForm />
+                  </Route>
+                  <Route exact path='/account'>
+                    <Account />
                   </Route>
                 </Col>
               </>
