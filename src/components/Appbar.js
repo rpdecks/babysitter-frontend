@@ -15,6 +15,11 @@ function Appbar(props) {
                 <>
                     <Nav.Item>
                         <Nav.Link>
+                            Post a Job
+                        </Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
+                        <Nav.Link>
                             My Account
                         </Nav.Link>
                     </Nav.Item>
@@ -37,11 +42,6 @@ function Appbar(props) {
                 </Col>
                 <Col xs={4}>
                     <Nav>
-                        <Nav.Item>
-                            <Nav.Link>
-                                Post a Job
-                            </Nav.Link>
-                        </Nav.Item>
                         {renderButtons()}
                     </Nav>
                 </Col>

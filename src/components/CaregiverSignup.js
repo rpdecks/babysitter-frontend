@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button } from 'react-bootstrap'
-import handleLogin from './LoginForm'
 
 class CaregiverSignup extends React.Component {
     state = {
@@ -16,10 +15,9 @@ class CaregiverSignup extends React.Component {
         phone: '',
         smoker: '',
         has_pets: '',
-        first_aid_cert: '',
         bio: '',
         pay_rate: '',
-
+        first_aid_cert: '',
     }
 
     handleChange = e => {
@@ -45,11 +43,11 @@ class CaregiverSignup extends React.Component {
         .then(res => res.json())
         .then(loginData => {
             if (loginData.token) {
-            handleLogin(loginData.token)
-            this.props.history.push('/');
-            }
-            else
-            alert(loginData.message);
+                localStorage.setItem('auth_token', loginData.token);
+                localStorage.setItem('userType', this.props.userType);
+                this.props.setLoginStatus(true)
+                this.props.history.push('/');
+            } else { alert(loginData.message) };
         })
         .catch(() => alert('Something went wrong'))
         
@@ -58,6 +56,7 @@ class CaregiverSignup extends React.Component {
 
     handleCancelClick = () => {
         this.props.setUserType(null) 
+        this.props.setSigningUp(false)
         this.props.history.push('/')
     }
 
@@ -106,7 +105,7 @@ class CaregiverSignup extends React.Component {
 
                         <Form.Group as={Col} controlId="formGridGender">
                             <Form.Label>Gender</Form.Label>
-                            <Form.Control name="gender" as="select" value="Choose..." onChange={e => this.handleChange(e)}>
+                            <Form.Control name="gender" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
                                 <option>Choose...</option>
                                 <option>Male</option>
                                 <option>Female</option>
@@ -157,7 +156,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value})
+        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
+        setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}), 
+        setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition })
     }
 }
 
