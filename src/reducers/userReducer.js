@@ -1,4 +1,4 @@
-export default function userReducer(state = {}, action) {
+export default function userReducer(state = { signingUp: false}, action) {
     switch (action.type) {
       case 'STORE_USER':
         return {
@@ -16,6 +16,10 @@ export default function userReducer(state = {}, action) {
       case 'LOGOUT':
         return { ...state,
           isLoggedIn: action.isLoggedIn
+        }
+      case 'SETTING_SIGNING_UP':
+        return { ...state,
+          signingUp: true
         }
       default:
         return state;

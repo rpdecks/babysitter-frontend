@@ -35,18 +35,17 @@ class App extends React.Component {
   }
   
   selectFirstPage = () => {
-    if (!this.props.isLoggedIn && !this.props.userType) {
-      return <Welcome />
-    } else if (!this.props.isLoggedIn && this.props.userType) { 
-      return <LoginForm />
-    } else {
+    if (this.props.isLoggedIn && this.props.userType) {
       return (
         <>
           <DashNav />
           <CalendarView />
         </>
       )
-    }
+    } else if (!this.props.isLoggedIn && !this.props.userType) {
+      return <Welcome />
+    } else if (!this.props.isLoggedIn && this.props.userType) { 
+    return <LoginForm /> }
   }
 
   render() {
@@ -68,7 +67,7 @@ class App extends React.Component {
                     {this.selectFirstPage()}
                   </Route>
                   <Route exact path='/signup'>
-                    {this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
+                    {this.props.signingUp && this.props.userType && this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
                   </Route>
                 </Col>
               </>
@@ -84,13 +83,14 @@ const mapStateToProps = state => {
   return {
     userType: state.userReducer.userType,
     isLoggedIn: state.userReducer.isLoggedIn, 
+    signingUp: state.userReducer.signingUp
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
-    setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status})
+    setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
   }
 }
 

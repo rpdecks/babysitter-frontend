@@ -101,17 +101,17 @@ class LoginForm extends React.Component {
           <input type="submit" />
           <input type="button" value="Back" onClick={() => this.props.setUserType(null)} />
         </form>
-        <Link to="/signup">Sign up</Link>
-      </>
-    )
+        <Link to="/signup" onClick={() => this.props.setSigningUp(true)}>Create an account</Link>
+        </>
+      )
+    }
   }
-}
 
-const mapStateToProps = state => {
+  const mapStateToProps = state => {
   return { 
     user: state.userReducer.user,
     userType: state.userReducer.userType,
-    isLoggedIn: state.userReducer.isLoggedIn
+    isLoggedIn: state.userReducer.isLoggedIn,
   }
 }
 
@@ -119,7 +119,8 @@ const mapDispatchToProps = dispatch => {
   return {
     storeUser: (user) => dispatch({ type: 'STORE_USER', user: user}),
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
-    setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status})
+    setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
+    setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition })
   }
 }
 
