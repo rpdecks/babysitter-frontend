@@ -1,6 +1,7 @@
 import React from 'react'
 import { Nav, Navbar, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 
 function Appbar(props) {
     function handleLogout() {
@@ -8,6 +9,7 @@ function Appbar(props) {
         localStorage.removeItem('user_type');
         props.setUserType(null)
         props.logout()
+        props.history.push('/')
     }
     function renderButtons() {
         if (props.isLoggedIn) {
@@ -63,4 +65,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Appbar)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Appbar))

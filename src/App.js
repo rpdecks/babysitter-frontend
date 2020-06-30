@@ -17,12 +17,14 @@ import Account from './components/Account';
 const Styles = styled.div `
   .sidebar-column {
     border: black solid 1px;
-    height: 90vh;
+    height: 95vh;
+    margin-left: 15px;
     background: dodgerblue
   }
   .center-column {
     border: black solid 1px;
-    height: 90vh;
+    height: 95vh;
+    overflow-y: scroll;
   }
 `
  
@@ -52,7 +54,7 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/app_status', fetchObj)
       .then(res => res.json())
       .then(appData => {
-        this.props.storeJobs(appData.jobs)
+        this.props.storeUserJobs(appData.jobs)
         this.props.storeUserData(appData.user)
         this.props.storeEmployerReviews(appData.employer_reviews)
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
@@ -62,6 +64,8 @@ class App extends React.Component {
         } else if (userType === 'caregiver') {
           this.props.storeCaregiverFavorites(appData.caregiver_favorites)
           this.props.storeCaregiverEmployers(appData.employers)
+          this.props.storeAvailableJobs(appData.available_jobs)
+          this.props.storeInterestedJobs(appData.interested_jobs)
         } else { console.log('No userType specific appData stored')}
       })
       .catch(error => console.log(error))
@@ -132,7 +136,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
     setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
-    storeJobs: (jobs) => dispatch({type: 'STORE_JOBS', jobs: jobs}),
+    storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
+    storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
     storeUserData: (userData) => dispatch({type: 'STORE_USER_DATA', userData: userData}),
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
@@ -140,7 +145,7 @@ const mapDispatchToProps = dispatch => {
     storeEmployerCaregivers: (caregivers) => dispatch({type: 'STORE_EMPLOYER_CAREGIVERS', employerCaregivers: caregivers}),
     storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
     storeCaregiverEmployers: (employers) => dispatch({type: 'STORE_CAREGIVER_EMPLOYERS', caregiverEmployers: employers}),
-
+    storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
   }
 }
 

@@ -17,31 +17,8 @@ class LoginForm extends React.Component {
     localStorage.setItem('auth_token', token);
     localStorage.setItem('userType', this.props.userType);
     this.props.setLoginStatus(true)
-    // this.getUserData()
+    this.props.history.push('/')
   }
-
-  // getUserData = () => {
-  //   const auth_token = localStorage.getItem('auth_token');
-  //   const routeForUserType = () => {
-  //     if (this.props.userType === 'employer') { return 'employers'}
-  //     else if (this.props.userType === 'caregiver') { return 'caregivers'}
-  //   }
-    
-  //   if (!auth_token) {
-  //     return;
-  //   }
-
-  //   const fetchObj = {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Auth-Token': auth_token
-  //     }
-  //   }
-  //   fetch(`http://localhost:3000/api/v1/${routeForUserType()}/get_info`, fetchObj)
-  //     .then(res => res.json())
-  //     .then(userData => this.props.storeUser(userData))
-  // }
 
   login = e => {
     e.preventDefault();
