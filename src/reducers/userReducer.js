@@ -26,6 +26,11 @@ export default function userReducer(state = { signingUp: false}, action) {
           ...state,
           employerCaregivers: action.employerCaregivers
         }
+      case 'STORE_CAREGIVER_EMPLOYERS':
+        return {
+          ...state,
+          caregiverEmployers: action.caregiverEmployers
+        }
       default:
         return state;
     }

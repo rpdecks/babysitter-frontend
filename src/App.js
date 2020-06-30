@@ -56,8 +56,13 @@ class App extends React.Component {
         this.props.storeUserData(appData.user)
         this.props.storeEmployerReviews(appData.employer_reviews)
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
-        this.props.storeEmployerFavorites(appData.employer_favorites)
-        this.props.storeEmployerCaregivers(appData.caregivers)
+        if (userType === 'employer') {
+          this.props.storeEmployerFavorites(appData.employer_favorites)
+          this.props.storeEmployerCaregivers(appData.caregivers)
+        } else if (userType === 'caregiver') {
+          this.props.storeCaregiverFavorites(appData.caregiver_favorites)
+          this.props.storeCaregiverEmployers(appData.employers)
+        } else { console.log('No userType specific appData stored')}
       })
       .catch(error => console.log(error))
   }
@@ -132,7 +137,10 @@ const mapDispatchToProps = dispatch => {
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
     storeEmployerFavorites: (favorites) => dispatch({type: 'STORE_EMPLOYER_FAVORITES', employerFavorites: favorites}),
-    storeEmployerCaregivers: (caregivers) => dispatch({type: 'STORE_EMPLOYER_CAREGIVERS', employerCaregivers: caregivers})
+    storeEmployerCaregivers: (caregivers) => dispatch({type: 'STORE_EMPLOYER_CAREGIVERS', employerCaregivers: caregivers}),
+    storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
+    storeCaregiverEmployers: (employers) => dispatch({type: 'STORE_CAREGIVER_EMPLOYERS', caregiverEmployers: employers}),
+
   }
 }
 
