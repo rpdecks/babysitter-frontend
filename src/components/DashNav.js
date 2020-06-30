@@ -11,8 +11,8 @@ function DashNav(props) {
                     <Col>
                         <Nav>
                             <Nav.Item>
-                                <Nav.Link>
-                                    Jobs
+                                <Nav.Link href="/jobs">
+                                    {window.location.pathname === '/jobs' ? <b><u>Jobs</u></b> : 'Jobs'}
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
@@ -21,7 +21,7 @@ function DashNav(props) {
                         <Nav>
                             <Nav.Item>
                                 <Nav.Link>
-                                    Browse
+                                    {window.location.pathname === '/browse' ? <b><u>Browse</u></b> : 'Browse'}
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
@@ -30,7 +30,7 @@ function DashNav(props) {
                         <Nav>
                             <Nav.Item>
                                 <Nav.Link>
-                                    Reviews
+                                    {window.location.pathname === '/reviews' ? <b><u>Reviews</u></b> : 'Reviews'}
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>
@@ -39,7 +39,7 @@ function DashNav(props) {
                         <Nav>
                             <Nav.Item>
                                 <Nav.Link>
-                                    Messages
+                                    {window.location.pathname === '/messages' ? <b><u>Messages</u></b> : 'Messages'}
                                 </Nav.Link>
                             </Nav.Item>
                         </Nav>

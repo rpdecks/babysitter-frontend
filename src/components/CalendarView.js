@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react"
 import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import listPlugin from '@fullcalendar/list';
-import interactionPlugin from '@fullcalendar/interaction'
+// import interactionPlugin from '@fullcalendar/interaction'
 
 // import "@fullcalendar/core/main.css"
 // import "@fullcalendar/daygrid/main.css"
@@ -23,7 +23,7 @@ function CalendarView() {
             right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek"
         }}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin]}
-        // events={events}
+        events={events}
         />
     </div>
   );

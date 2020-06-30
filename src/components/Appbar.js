@@ -14,12 +14,12 @@ function Appbar(props) {
             return (
                 <>
                     <Nav.Item>
-                        <Nav.Link>
+                        <Nav.Link href="/newjob">
                             Post a Job
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link>
+                        <Nav.Link href='/account'>
                             My Account
                         </Nav.Link>
                     </Nav.Item>

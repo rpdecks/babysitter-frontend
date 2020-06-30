@@ -1,10 +1,14 @@
 import { combineReducers, createStore } from 'redux';
-import sitterReducer from './reducers/sitterReducer';
+import jobReducer from './reducers/jobReducer';
 import userReducer from './reducers/userReducer';
+import reviewsReducer from './reducers/reviewsReducer';
+import favoritesReducer from './reducers/favoritesReducer';
 
 const rootReducer = combineReducers({
-  sitterReducer: sitterReducer,
   userReducer: userReducer,
+  jobReducer: jobReducer,
+  favoritesReducer: favoritesReducer,
+  reviewsReducer: reviewsReducer,
 });
 
 export default createStore(

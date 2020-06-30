@@ -17,31 +17,31 @@ class LoginForm extends React.Component {
     localStorage.setItem('auth_token', token);
     localStorage.setItem('userType', this.props.userType);
     this.props.setLoginStatus(true)
-    this.getUserData()
+    // this.getUserData()
   }
 
-  getUserData = () => {
-    const auth_token = localStorage.getItem('auth_token');
-    const routeForUserType = () => {
-      if (this.props.userType === 'employer') { return 'employers'}
-      else if (this.props.userType === 'caregiver') { return 'caregivers'}
-    }
+  // getUserData = () => {
+  //   const auth_token = localStorage.getItem('auth_token');
+  //   const routeForUserType = () => {
+  //     if (this.props.userType === 'employer') { return 'employers'}
+  //     else if (this.props.userType === 'caregiver') { return 'caregivers'}
+  //   }
     
-    if (!auth_token) {
-      return;
-    }
+  //   if (!auth_token) {
+  //     return;
+  //   }
 
-    const fetchObj = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Auth-Token': auth_token
-      }
-    }
-    fetch(`http://localhost:3000/api/v1/${routeForUserType()}/get_info`, fetchObj)
-      .then(res => res.json())
-      .then(userData => this.props.storeUser(userData))
-  }
+  //   const fetchObj = {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Auth-Token': auth_token
+  //     }
+  //   }
+  //   fetch(`http://localhost:3000/api/v1/${routeForUserType()}/get_info`, fetchObj)
+  //     .then(res => res.json())
+  //     .then(userData => this.props.storeUser(userData))
+  // }
 
   login = e => {
     e.preventDefault();
@@ -117,7 +117,7 @@ class LoginForm extends React.Component {
 
 const mapDispatchToProps = dispatch => {
   return {
-    storeUser: (user) => dispatch({ type: 'STORE_USER', user: user}),
+    storeUser: (user) => dispatch({ type: 'STORE_USER_DATA', user: user}),
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
     setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
     setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition })
