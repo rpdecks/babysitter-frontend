@@ -1,4 +1,4 @@
-export default function userReducer(state = { signingUp: false}, action) {
+export default function userReducer(state = { signingUp: false, calendarView: false }, action) {
     switch (action.type) {
       case 'STORE_USER_DATA':
         return {
@@ -30,6 +30,11 @@ export default function userReducer(state = { signingUp: false}, action) {
         return {
           ...state,
           caregiverEmployers: action.caregiverEmployers
+        }
+      case 'SWITCH_VIEW':
+        return {
+          ...state,
+          calendarView: action.calendarView
         }
       default:
         return state;

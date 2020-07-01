@@ -8,24 +8,31 @@ import CaregiverSignup from './components/CaregiverSignup'
 import EmployerSignup from './components/EmployerSignup'
 import Appbar from './components/Appbar'
 import DashNav from './components/DashNav'
-// import CalendarView from './components/CalendarView'
 import styled from 'styled-components'
-import NewJobForm from './components/NewJobForm';
-import Jobs from './components/Jobs';
-import Account from './components/Account';
+import NewJobForm from './components/NewJobForm'
+import Jobs from './components/Jobs'
+import JobShow from './components/JobShow'
+import Account from './components/Account'
+import Reviews from './components/Reviews';
+import FilterContainer from './containers/FilterContainer'
+import CalendarView from './components/CalendarView'
 
 const Styles = styled.div `
   .sidebar-column {
     border: black solid 1px;
     height: 95vh;
-    margin-left: 15px;
-    background: dodgerblue
+    background: #89cff0;
   }
   .center-column {
     border: black solid 1px;
     height: 95vh;
     overflow-y: scroll;
   }
+  .right-column {
+    border: black solid 1px;
+    height: 95vh;
+    background: #89cff0;
+  };
 `
  
 class App extends React.Component {
@@ -54,6 +61,7 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/app_status', fetchObj)
       .then(res => res.json())
       .then(appData => {
+        console.log(appData.jobs)
         this.props.storeUserJobs(appData.jobs)
         this.props.storeUserData(appData.user)
         this.props.storeEmployerReviews(appData.employer_reviews)
@@ -77,18 +85,26 @@ class App extends React.Component {
     } else if (!this.props.isLoggedIn && this.props.userType) { 
     return <LoginForm /> }
   }
+  
+  whatToShowPage = () => {
+    if (this.props.selectedJob) {
+      return <JobShow />
+    }
+  }
 
   render() {
     return (
       <BrowserRouter>
         <Appbar />  
         <Styles>
-          <Row>
-            <Col xs={2} className="sidebar-column">
-              <Row>Hello I am the side bar</Row>
-            </Col>
-            <Switch>
-              <>
+          <Switch>
+            <>
+              <Row>
+                <Col xs={2} className="sidebar-column">
+                    <Route exact path='/jobs'>
+                      <FilterContainer />
+                    </Route>
+                </Col>
                 <Col xs={8} className="center-column">
                   {this.props.isLoggedIn && this.props.userType ? 
                     <>
@@ -112,12 +128,20 @@ class App extends React.Component {
                     <Account />
                   </Route>
                   <Route exact path='/jobs'>
-                    <Jobs />
+                    {this.props.calendarView ? <CalendarView /> : <Jobs />}
+                  </Route>
+                  <Route exact path='/reviews'>
+                    <Reviews />
+                  </Route>
+                  <Route exact path='/show'>
+                    <JobShow />
                   </Route>
                 </Col>
-              </>
-            </Switch>
-          </Row>
+                <Col xs={2} className="right-column">
+                </Col>
+              </Row>
+            </>
+          </Switch>
         </Styles>
       </BrowserRouter>
     );
@@ -128,7 +152,9 @@ const mapStateToProps = state => {
   return {
     userType: state.userReducer.userType,
     isLoggedIn: state.userReducer.isLoggedIn, 
-    signingUp: state.userReducer.signingUp
+    signingUp: state.userReducer.signingUp,
+    calendarView: state.userReducer.calendarView,
+    selectedJob: state.jobReducer.selectedJob,
   }
 }
 
