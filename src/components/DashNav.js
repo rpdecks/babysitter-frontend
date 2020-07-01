@@ -1,51 +1,43 @@
 import React from 'react'
-import { Nav, Navbar, Col } from 'react-bootstrap'
+import { Navbar, Tabs, Tab } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
+import { withRouter } from 'react-router'
+
+const Styles = styled.div `
+  .topmenu {
+      position: sticky;
+      top: 0;
+    }
+`
 
 function DashNav(props) {
 
+    function handleSelect(e) {
+       if (e === 'jobs') {
+           props.history.push('/jobs')
+       } else if (e === 'browse') {
+           props.history.push('/browse')
+       } else if (e === 'reviews') {
+           props.history.push('/reviews')
+       } else if ( e === 'messages') {
+           props.history.push('/messages')
+       }
+    }
     if (props.isLoggedIn) {
         return (
-            <Navbar>
-                <Navbar.Collapse>
-                    <Col>
-                        <Nav>
-                            <Nav.Item>
-                                <Nav.Link href="/jobs">
-                                    {window.location.pathname === '/jobs' ? <b><u>Jobs</u></b> : 'Jobs'}
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col>
-                        <Nav>
-                            <Nav.Item>
-                                <Nav.Link>
-                                    {window.location.pathname === '/browse' ? <b><u>Browse</u></b> : 'Browse'}
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col>
-                        <Nav>
-                            <Nav.Item>
-                                <Nav.Link>
-                                    {window.location.pathname === '/reviews' ? <b><u>Reviews</u></b> : 'Reviews'}
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                    <Col>
-                        <Nav>
-                            <Nav.Item>
-                                <Nav.Link>
-                                    {window.location.pathname === '/messages' ? <b><u>Messages</u></b> : 'Messages'}
-                                </Nav.Link>
-                            </Nav.Item>
-                        </Nav>
-                    </Col>
-                </Navbar.Collapse>
-            </Navbar>
+            <Styles>
+                <Tabs defaultActiveKey="jobs" id="uncontrolled-tab-example" onSelect={handleSelect}>
+                    <Tab eventKey="jobs" title="Jobs">
+                    </Tab>
+                    <Tab eventKey="browse" title="Browse" onClick={() => this.props.history('/browse')}>
+                    </Tab>
+                    <Tab eventKey="reviews" title="Reviews" onClick={() => this.props.history('/reviews')}>
+                    </Tab>
+                    <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
+                    </Tab>
+                </Tabs>
+            </Styles>
         )} else return <Navbar />
 }
 
@@ -55,4 +47,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps)(DashNav)
+export default withRouter(connect(mapStateToProps)(DashNav))

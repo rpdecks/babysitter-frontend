@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
 import { Table } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -22,12 +23,30 @@ function Jobs(props) {
         } else { return <button onClick={() => handleClick(job_id, props)}>Interested?</button>}
     }
 
-    function mapMyJobs(jobs) {
-        return jobs.map((job, index)=> {
+    function sortJobs(jobs, criteria ) {
+        jobs.sort(function (a, b) {
+        if (typeof(a[criteria]) !== 'number') {
+            return (a[criteria]).localeCompare(b[criteria])
+        } else { return a[criteria] - b[criteria] }
+        })
+    }
+
+    function showJob(id) {
+        props.setSelectedJob(id)
+        props.history.push('/show')
+    }
+
+    function mapMyJobs(jobs, props) {
+        let filteredJobs = [...jobs]
+        if (props.completionFilter) {
+            filteredJobs = filteredJobs.filter(job => job.status === props.completionFilter)
+        }
+        sortJobs(filteredJobs, props.sortBy)
+        return filteredJobs.map((job, index)=> {
             let date = new Date(job.start_time).toDateString()
-            let startTime = new Date(job.start_time).toISOString().substr(11, 8)
+            let startTime = new Date(job.start_time).toISOString().substr(11, 5)
             return (
-                <tr key={index}>
+                <tr key={index} onClick={() => showJob(job)}>
                     <td>{index + 1}</td>
                     <td>{date}</td>
                     <td>{startTime}</td>
@@ -45,42 +64,44 @@ function Jobs(props) {
     return (
         <Styles>
             <hr />
-            <h1>My Jobs</h1> 
+            <h1>My Babysitting Jobs</h1> 
             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Date</th>
-                        <th>Start time</th>
-                        <th>Length</th>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th>Pay rate</th>
-                        <th>Kids #</th>
-                        <th>Status</th>
+                        <th onClick={() => props.sortTable('start_time')}>Date</th>
+                        <th onClick={() => props.sortTable('start_time')}>Start time</th>
+                        <th onClick={() => props.sortTable('length')}>Length</th>
+                        <th onClick={() => props.sortTable('title')}>Title</th>
+                        <th onClick={() => props.sortTable('location')}>Location</th>
+                        <th onClick={() => props.sortTable('pay_rate')}>Pay rate</th>
+                        <th onClick={() => props.sortTable('total_child_count')}>Kids</th>
+                        <th onClick={() => props.sortTable('status')}>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                {props.userJobs && mapMyJobs(props.userJobs)} 
+                    {props.userJobs && mapMyJobs(props.userJobs, props)} 
                 </tbody>
             </Table>
             <hr />
-            <h1>Available Jobs</h1> 
+            <h1>Available Babysitting Jobs</h1> 
             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Date</th>
-                        <th>Start time</th>
-                        <th>Length</th>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th>Pay rate</th>
-                        <th>Kids #</th>
+                        <th onClick={() => props.sortTable('start_time')}>Date</th>
+                        <th onClick={() => props.sortTable('start_time')}>Start time</th>
+                        <th onClick={() => props.sortTable('length')}>Length</th>
+                        <th onClick={() => props.sortTable('title')}>Title</th>
+                        <th onClick={() => props.sortTable('location')}>Location</th>
+                        <th onClick={() => props.sortTable('pay_rate')}>Pay rate</th>
+                        <th onClick={() => props.sortTable('total_child_count')}>Kids</th>
                         <th>Interested?</th>
                     </tr>
                 </thead>
-                {props.availableJobs && mapMyJobs(props.availableJobs)} 
+                <tbody>
+                    {props.availableJobs && mapMyJobs(props.availableJobs, props)} 
+                </tbody>
             </Table>
         </Styles>
     )
@@ -119,7 +140,10 @@ const mapStateToProps = state => {
         user: state.userReducer.user,
         userJobs: state.jobReducer.userJobs,
         interestedJobs: state.jobReducer.interestedJobs,
-        availableJobs: state.jobReducer.availableJobs
+        availableJobs: state.jobReducer.availableJobs,
+        completionFilter: state.jobReducer.completionFilter,
+        sortBy: state.jobReducer.sortBy,
+        selectedJob: state.jobReducer.selectedJob,
     }
 }
 
@@ -127,6 +151,9 @@ const mapDispatchToProps = dispatch => {
     return {
         addInterested: (jobId) => dispatch({ type: 'ADD_CANDIDATE', job_id: jobId}),
         removeInterested: (jobId) => dispatch({ type: 'REMOVE_CANDIDATE', job_id: jobId}),
+        sortTable: (criteria) => dispatch({ type: 'SORT_BY', sortBy: criteria }),
+        switchOrder: (criteria) => dispatch({ type: 'SWITCH_ORDER', ascending: criteria }),
+        setSelectedJob: (job) => dispatch({ type: 'SET_SELECTED_JOB', selectedJob: job }),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Jobs)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Jobs))

@@ -1,5 +1,31 @@
-export default function jobReducer(state = { jobs: []}, action) {
+export default function jobReducer(state = {
+                                  jobs: [], 
+                                  completionFilter: null, 
+                                  sortBy: 'start_time', 
+                                  ascending: true, 
+                                  selectedJob: {}
+                                  }, action) {
   switch (action.type) {
+    case 'SET_SELECTED_JOB':
+      return {
+        ...state,
+        selectedJob: action.selectedJob
+      }
+    case 'SWITCH_ORDER':
+      return {
+        ...state,
+        ascending: action.ascending
+      }
+    case 'SORT_BY': 
+      return {
+        ...state,
+        sortBy: action.sortBy
+      }
+    case 'FILTER_BY_COMPLETED':
+      return {
+        ...state,
+        completionFilter: action.completionFilter
+      }
     case 'CREATE_NEW_JOB':
       return {
         ...state,
