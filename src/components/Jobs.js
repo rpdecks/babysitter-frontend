@@ -24,7 +24,8 @@ function Jobs(props) {
     }
 
     function sortJobs(jobs, criteria ) {
-        jobs.sort(function (a, b) {
+        let jobsToSort = [...jobs]
+        jobsToSort.sort(function (a, b) {
         if (typeof(a[criteria]) !== 'number') {
             return (a[criteria]).localeCompare(b[criteria])
         } else { return a[criteria] - b[criteria] }
@@ -36,12 +37,14 @@ function Jobs(props) {
         props.history.push('/show')
     }
 
-    function mapMyJobs(jobs, props) {
+    function mapMyJobs(jobs, completionFilter) {
         let filteredJobs = [...jobs]
-        if (props.completionFilter) {
+        if (completionFilter) {
             filteredJobs = filteredJobs.filter(job => job.status === props.completionFilter)
         }
+        console.log(filteredJobs, 'before sort')
         sortJobs(filteredJobs, props.sortBy)
+        console.log(filteredJobs, 'after sort')
         return filteredJobs.map((job, index)=> {
             let date = new Date(job.start_time).toDateString()
             let startTime = new Date(job.start_time).toISOString().substr(11, 5)
@@ -55,7 +58,10 @@ function Jobs(props) {
                     <td>{job.location}</td>
                     <td>${job.pay_rate}/hour</td>
                     <td>{job.total_child_count}</td>
-                    <td>{job.caregiver_id ? job.status : interestBtn(job.id, props)}</td>
+                    <td>{job.smoker}</td>
+                    <td>{job.first_aid_cert}</td>
+                    <td>{job.has_pets}</td>
+                    <td>{props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : interestBtn(job.id, props)}</td>
                 </tr>
             )
         })
@@ -65,27 +71,33 @@ function Jobs(props) {
         <Styles>
             <hr />
             <h1>My Babysitting Jobs</h1> 
-            <Table striped bordered hover size="sm">
+            {props.userJobs && <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th onClick={() => props.sortTable('start_time')}>Date</th>
                         <th onClick={() => props.sortTable('start_time')}>Start time</th>
                         <th onClick={() => props.sortTable('length')}>Length</th>
-                        <th onClick={() => props.sortTable('title')}>Title</th>
-                        <th onClick={() => props.sortTable('location')}>Location</th>
+                        <th>Title</th>
+                        <th>Location</th>
                         <th onClick={() => props.sortTable('pay_rate')}>Pay rate</th>
                         <th onClick={() => props.sortTable('total_child_count')}>Kids</th>
+                        <th>Smoking</th>
+                        <th>First-aid</th>
+                        <th>Pets</th>
                         <th onClick={() => props.sortTable('status')}>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {props.userJobs && mapMyJobs(props.userJobs, props)} 
+                    {props.userJobs && mapMyJobs(props.userJobs, props.completionFilter)} 
                 </tbody>
             </Table>
+            }
+            {props.availableJobs &&
+            <>
             <hr />
             <h1>Available Babysitting Jobs</h1> 
-            <Table striped bordered hover size="sm">
+             <Table striped bordered hover size="sm">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -103,6 +115,8 @@ function Jobs(props) {
                     {props.availableJobs && mapMyJobs(props.availableJobs, props)} 
                 </tbody>
             </Table>
+            </>
+            }
         </Styles>
     )
 }
@@ -138,6 +152,7 @@ function saveInterestInJob(jobId, props) {
 const mapStateToProps = state => {
     return {
         user: state.userReducer.user,
+        userType: state.userReducer.userType,
         userJobs: state.jobReducer.userJobs,
         interestedJobs: state.jobReducer.interestedJobs,
         availableJobs: state.jobReducer.availableJobs,

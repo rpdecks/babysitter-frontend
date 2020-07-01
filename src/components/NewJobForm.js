@@ -6,9 +6,10 @@ import { Col, Form, Button } from 'react-bootstrap'
 class NewJobForm extends React.Component {
     state = {
         title: '',
-        status: '',
         location: '',
+        start_date: '',
         start_time: '',
+        end_date: '',
         end_time: '',
         desc: '',
         total_child_count: '',
@@ -30,7 +31,7 @@ class NewJobForm extends React.Component {
 
         const auth_token = localStorage.getItem('auth_token');
         const jobObj =  {
-            job: this.state
+            job: this.state.job
         }
      
         if (!auth_token) {
@@ -81,12 +82,22 @@ class NewJobForm extends React.Component {
                 </Form.Row>
                 <Form.Row>
                     <Form.Group as={Col} controlId="formGridStartTime">
+                        <Form.Label>Start date:</Form.Label>
+                            <Form.Control name="start_date" type="date"  onChange={e => this.handleChange(e)}/>
+                    </Form.Group>
+                    <Form.Group as={Col} controlId="formGridStartTime">
                         <Form.Label>Start time:</Form.Label>
-                            <Form.Control name="start_time" type="date"  onChange={e => this.handleChange(e)}/>
+                            <Form.Control name="start_time" type="time"  onChange={e => this.handleChange(e)}/>
+                    </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                    <Form.Group as={Col} controlId="formGridEndTime">
+                        <Form.Label>End date:</Form.Label>
+                            <Form.Control name="end_date" type="date"  onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridEndTime">
                         <Form.Label>End time:</Form.Label>
-                            <Form.Control name="end_time" type="date"  onChange={e => this.handleChange(e)}/>
+                            <Form.Control name="end_time" type="time"  onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
                 <Form.Row>

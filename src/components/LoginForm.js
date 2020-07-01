@@ -43,7 +43,7 @@ class LoginForm extends React.Component {
       .then(loginData => {
         if (loginData.token) {
           this.handleLogin(loginData.token)
-          this.props.history.push('/')
+          this.props.history.push('/jobs')
         }
         else
           alert(loginData.message);
@@ -55,7 +55,7 @@ class LoginForm extends React.Component {
       .then(loginData => {
         if (loginData.token) {
           this.handleLogin(loginData.token)
-          this.props.history.push('/');
+          this.props.history.push('/jobs');
         }
         else
           alert(loginData.message);
