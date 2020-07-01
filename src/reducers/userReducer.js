@@ -1,5 +1,10 @@
 export default function userReducer(state = { signingUp: false, calendarView: false }, action) {
     switch (action.type) {
+      case 'SET_SELECTED_USER':
+        return {
+          ...state,
+          selectedUser: action.selectedUser
+        }
       case 'STORE_USER_DATA':
         return {
           ...state,

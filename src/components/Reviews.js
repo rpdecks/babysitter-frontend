@@ -6,7 +6,9 @@ class Reviews extends React.Component {
 
     render(){
         return (
-            <React.Fragment />
+            <>
+                <h1>Reviews index page</h1>
+            </>
         )
     }
 }

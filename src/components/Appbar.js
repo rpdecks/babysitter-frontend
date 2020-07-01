@@ -7,7 +7,8 @@ function Appbar(props) {
     function handleLogout() {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user_type');
-        props.setUserType(null)
+        // props.setUserType(null)
+        props.logoutStateClear(undefined)
         props.logout()
         props.history.push('/')
     }
@@ -62,6 +63,7 @@ const mapDispatchToProps = dispatch => {
     return {
         logout: (status) => dispatch({type: 'LOGOUT', isLoggedIn: status}),
         setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
+        logoutStateClear: (value) => dispatch({ type: 'USER_LOGGED_OUT', state: value })
     }
 }
 

@@ -9,7 +9,9 @@ class Account extends React.Component {
 
     render(){
         return (
-            <React.Fragment />
+            <>
+                <h1>My Account</h1>
+            </>
         )
     }
 }

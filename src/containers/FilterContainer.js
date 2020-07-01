@@ -26,6 +26,7 @@ function FilterContainer(props) {
         <Styles>
             <h3>Filters</h3><br />
             <p>Job status:</p>
+            <hr /> 
             <Form className="completionButtons">
                 <Form.Check 
                     name='completionFilter'
@@ -46,13 +47,38 @@ function FilterContainer(props) {
                     type={'radio'}
                     id={'selectAll-radio'}
                     label={'all'}
+                    defaultChecked={true}
                     onChange={() => props.filterByCompleted(null)}
                 />
+            </Form><br />
+            <p>Job requirements:</p>
+            <hr /> 
+            <Form className="job_requirements">
+                <Form.Check 
+                    name='smoker'
+                    type={'checkbox'}
+                    id={'smoker'}
+                    label={'smoker'}
+                    onChange={() => props.filterBySmoker()}
+                />
+                <Form.Check
+                    name='first_aid_cert'
+                    type={'checkbox'}
+                    id={'first_aid_cert'}
+                    label={'First-aid certified'}
+                    onChange={() => props.filterByFirstAidCert()}
+                />
+                <Form.Check
+                    name='has_pets'
+                    type={'checkbox'}
+                    id={'has_pets'}
+                    label={'Has pets'}
+                    onChange={() => props.filterByPets(null)}
+                />
             </Form>
-            
-            <h3>Buttons:</h3>
+            <hr />
             <div className="buttons">
-                <Button variant="primary" size="sm" onClick={() => props.switchView(!props.view)}>
+                <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
                     Calendar view
                 </Button>{' '}
                 {/* <Button variant="secondary" size="sm">
@@ -66,7 +92,7 @@ function FilterContainer(props) {
 const mapStateToProps = state => {
     return {
         jobs: state.userReducer.user,
-        view: state.userReducer.calendarView,
+        calendarView: state.userReducer.calendarView,
         filteredJobs: state.jobReducer.filteredJobs
     }
 }
@@ -75,6 +101,9 @@ const mapDispatchToProps = dispatch => {
     return {
         switchView: (view) => dispatch({ type: "SWITCH_VIEW", calendarView: view}),
         filterByCompleted: (filter) => dispatch({ type: "FILTER_BY_COMPLETED", completionFilter: filter}),
+        filterBySmoker: (filter) => dispatch({ type: "FILTER_BY_SMOKER", completionFilter: filter}),
+        filterByFirstAidCert: (filter) => dispatch({ type: "FILTER_BY_FIRST_AID", completionFilter: filter}),
+        filterByPets: (filter) => dispatch({ type: "FILTER_BY_PETS", completionFilter: filter}),
     }
 }
 

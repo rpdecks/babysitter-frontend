@@ -4,12 +4,20 @@ import userReducer from './reducers/userReducer';
 import reviewsReducer from './reducers/reviewsReducer';
 import favoritesReducer from './reducers/favoritesReducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   userReducer: userReducer,
   jobReducer: jobReducer,
   favoritesReducer: favoritesReducer,
   reviewsReducer: reviewsReducer,
 });
+
+const rootReducer = (state, action) => {
+  // when a logout action is dispatched it will reset redux state
+  if (action.type === 'USER_LOGGED_OUT') {
+    state = undefined;
+  }
+  return appReducer(state, action)
+}
 
 export default createStore(
   rootReducer,

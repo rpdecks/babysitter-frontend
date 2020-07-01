@@ -12,6 +12,8 @@ import styled from 'styled-components'
 import NewJobForm from './components/NewJobForm'
 import Jobs from './components/Jobs'
 import JobShow from './components/JobShow'
+import UserIndex from './components/UserIndex'
+import UserShow from './components/UserShow'
 import Account from './components/Account'
 import Reviews from './components/Reviews';
 import FilterContainer from './containers/FilterContainer'
@@ -61,7 +63,6 @@ class App extends React.Component {
     fetch('http://localhost:3000/api/v1/app_status', fetchObj)
       .then(res => res.json())
       .then(appData => {
-        console.log(appData.jobs)
         this.props.storeUserJobs(appData.jobs)
         this.props.storeUserData(appData.user)
         this.props.storeEmployerReviews(appData.employer_reviews)
@@ -83,7 +84,8 @@ class App extends React.Component {
     if (!this.props.isLoggedIn && !this.props.userType) {
       return <Welcome />
     } else if (!this.props.isLoggedIn && this.props.userType) { 
-    return <LoginForm /> }
+    return <LoginForm /> 
+    } else return <Jobs />
   }
   
   whatToShowPage = () => {
@@ -101,8 +103,8 @@ class App extends React.Component {
             <>
               <Row>
                 <Col xs={2} className="sidebar-column">
-                    <Route exact path='/jobs'>
-                      <FilterContainer />
+                    <Route path='/'>
+                      {this.props.isLoggedIn && <FilterContainer />}
                     </Route>
                 </Col>
                 <Col xs={8} className="center-column">
@@ -134,7 +136,10 @@ class App extends React.Component {
                     <Reviews />
                   </Route>
                   <Route exact path='/show'>
-                    <JobShow />
+                    {this.props.selectedJob && <JobShow />}
+                  </Route>
+                  <Route exact path='/browse'>
+                    {this.props.selectedUser ? <UserShow /> : <UserIndex />}
                   </Route>
                 </Col>
                 <Col xs={2} className="right-column">
