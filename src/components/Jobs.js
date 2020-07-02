@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Table } from 'react-bootstrap'
 import styled from 'styled-components'
+import jobReducer from '../reducers/jobReducer'
 
 const Styles = styled.div `
 //   overflow-y: scroll;
@@ -65,37 +66,30 @@ class Jobs extends React.Component {
         this.props.history.push('/show')
     }
 
-    filterJobs = (jobs, filter) => {
-        if (filter) {
-            let filteredJobs = [...jobs]
-            filteredJobs = jobs.filter(job => job.filter === filter)
-            return filteredJobs
-        } else return jobs
+    // Filters based on job properties
+    applyCompletionFilter = (job) => {
+        if (!this.props.completionFilter) return true 
+        else if (this.props.completionFilter === 'complete') return (job.status === 'complete')
+        else if (this.props.completionFilter === 'incomplete') return (job.status === 'incomplete')
+    }
+    applyNonSmokingFilter = (job) => {
+        if (this.props.nonSmokingFilter === true) return (job.non_smoking === true)
+        else return true
+    }
+    applyPetsFilter = (job) => {
+        if (this.props.petsFilter === true) return (job.has_pets === true)
+        else return true
+    }
+    applyFirstAidCertFilter = (job) => {
+        if (this.props.firstAidCertFilter === true) return (job.first_aid_cert === true)
+        else return true
     }
 
-    // applyCompletionFilter = (job) => {
-    //     return (job.status === "complete")
-    // }
-
-    // applyNonSmokingFilter = (job) => {
-    //     return (job.non_smoking == true)
-    // }
-
-    // const myfilters = [this.applyCompletionFilter, this.applyNonSmokingFilter]
-
-    // const filteredJobs = jobs.filter(job => this.myfilters.every(f =>(job)))
-
-
-    mapMyJobs = (jobs, completionFilter, nonSmokingFilter, firstAidCertFilter, petsFilter) => {
+    mapMyJobs = (jobs) => {
         let jobsCopy = [...jobs]
-        // console.log(jobsCopy)
-        // const filterAry = [completionFilter, nonSmokingFilter, firstAidCertFilter, petsFilter]
-        // const filteredJobs = filterAry.forEach (filter => {
-        //     if (filter)
-        //     return this.filterJobs(jobsCopy)
-        // })
-        // console.log(filteredJobs)
-        return jobsCopy.map((job, index)=> {
+        const myFilters = [this.applyCompletionFilter, this.applyNonSmokingFilter, this.applyPetsFilter, this.applyFirstAidCertFilter]
+        const filteredJobs = jobsCopy.filter(job => myFilters.every(f => f(job)))
+        return filteredJobs.map((job, index)=> {
             return (
                 <tr key={index} onClick={() => this.showJob(job.id)}>
                     <td>{index + 1}</td>
@@ -108,7 +102,7 @@ class Jobs extends React.Component {
                     <td>{job.total_child_count}</td>
                     <td>{job.non_smoking === true ? 'Yes' : 'No'}</td>
                     <td>{job.first_aid_cert === true ? 'Yes' : 'No'}</td>
-                    <td>{job.has_pets === true ? 'Yes' : 'No'}}</td>
+                    <td>{job.has_pets === true ? 'Yes' : 'No'}</td>
                     <td>{this.props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : this.interestBtn(job.id, this.props)}</td>
                 </tr>
             )
@@ -138,7 +132,7 @@ class Jobs extends React.Component {
                         </tr>
                     </thead>
                 <tbody>
-                        {this.props.userJobs && this.mapMyJobs(this.props.userJobs, this.props.completionFilter, this.props.nonSmokingFilter, this.props.firstAidCertFilter, this.props.petsFilter)} 
+                        {this.props.userJobs && this.mapMyJobs(this.props.userJobs)} 
                     </tbody>
                 </Table>
                 }
