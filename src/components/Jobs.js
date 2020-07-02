@@ -10,14 +10,14 @@ const Styles = styled.div `
 `
 class Jobs extends React.Component {
 
-    handleClick(jobId, props) {
+    handleClick = (jobId, props) => {
         if (props.interestedJobs.find(job => job.job_id === jobId)) {
             props.removeInterested(jobId)
         } else { props.addInterested(jobId) }
         this.saveInterestInJob(jobId)
     }
 
-    saveInterestInJob(jobId, props) {
+    saveInterestInJob = (jobId, props) => {
 
         const auth_token = localStorage.getItem('auth_token')
         if (!auth_token) {
@@ -45,13 +45,13 @@ class Jobs extends React.Component {
         .catch(errors => console.log(errors))
     }
 
-    interestBtn(job_id, props) {
+    interestBtn = (job_id, props) => {
         if (props.interestedJobs && props.interestedJobs.find(job => job.job_id === job_id)) {
             return <button onClick={() => this.handleClick(job_id, props)}>Remove</button> 
         } else { return <button onClick={() => this.handleClick(job_id, props)}>Interested?</button>}
     }
 
-    sortJobs(jobs, criteria ) {
+    sortJobs = (jobs, criteria ) => {
         let jobsToSort = [...jobs]
         jobsToSort.sort(function (a, b) {
         if (typeof(a[criteria]) !== 'number') {
@@ -60,21 +60,42 @@ class Jobs extends React.Component {
         })
     }
 
-    showJob(id) {
+    showJob = (id) => {
         this.props.setSelectedJob(id)
         this.props.history.push('/show')
     }
 
-    mapMyJobs(jobs, completionFilter) {
-        let filteredJobs = [...jobs]
-        if (completionFilter) {
-            filteredJobs = filteredJobs.filter(job => job.status === this.props.completionFilter)
-        }
-        // console.log(filteredJobs, 'before sort')
-        // sortJobs(filteredJobs, props.sortBy)
-        // console.log(filteredJobs, 'after sort')
-        
-        return filteredJobs.map((job, index)=> {
+    filterJobs = (jobs, filter) => {
+        if (filter) {
+            let filteredJobs = [...jobs]
+            filteredJobs = jobs.filter(job => job.filter === filter)
+            return filteredJobs
+        } else return jobs
+    }
+
+    // applyCompletionFilter = (job) => {
+    //     return (job.status === "complete")
+    // }
+
+    // applyNonSmokingFilter = (job) => {
+    //     return (job.non_smoking == true)
+    // }
+
+    // const myfilters = [this.applyCompletionFilter, this.applyNonSmokingFilter]
+
+    // const filteredJobs = jobs.filter(job => this.myfilters.every(f =>(job)))
+
+
+    mapMyJobs = (jobs, completionFilter, nonSmokingFilter, firstAidCertFilter, petsFilter) => {
+        let jobsCopy = [...jobs]
+        // console.log(jobsCopy)
+        // const filterAry = [completionFilter, nonSmokingFilter, firstAidCertFilter, petsFilter]
+        // const filteredJobs = filterAry.forEach (filter => {
+        //     if (filter)
+        //     return this.filterJobs(jobsCopy)
+        // })
+        // console.log(filteredJobs)
+        return jobsCopy.map((job, index)=> {
             return (
                 <tr key={index} onClick={() => this.showJob(job.id)}>
                     <td>{index + 1}</td>
@@ -85,9 +106,9 @@ class Jobs extends React.Component {
                     <td>{job.location}</td>
                     <td>${job.pay_rate}/hour</td>
                     <td>{job.total_child_count}</td>
-                    <td>{job.non_smoking.toString()}</td>
+                    <td>{job.non_smoking === true ? 'Yes' : 'No'}</td>
                     <td>{job.first_aid_cert === true ? 'Yes' : 'No'}</td>
-                    <td>{job.has_pets}</td>
+                    <td>{job.has_pets === true ? 'Yes' : 'No'}}</td>
                     <td>{this.props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : this.interestBtn(job.id, this.props)}</td>
                 </tr>
             )
@@ -117,7 +138,7 @@ class Jobs extends React.Component {
                         </tr>
                     </thead>
                 <tbody>
-                        {this.props.userJobs && this.mapMyJobs(this.props.userJobs, this.props.completionFilter)} 
+                        {this.props.userJobs && this.mapMyJobs(this.props.userJobs, this.props.completionFilter, this.props.nonSmokingFilter, this.props.firstAidCertFilter, this.props.petsFilter)} 
                     </tbody>
                 </Table>
                 }
@@ -156,12 +177,14 @@ class Jobs extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        user: state.userReducer.user,
         userType: state.userReducer.userType,
         userJobs: state.jobReducer.userJobs,
         interestedJobs: state.jobReducer.interestedJobs,
         availableJobs: state.jobReducer.availableJobs,
         completionFilter: state.jobReducer.completionFilter,
+        nonSmokingFilter:  state.jobReducer.nonSmokingFilter, 
+        firstAidCertFilter:  state.jobReducer.firstAidCertFilter, 
+        petsFilter: state.jobReducer.petsFilter,
         sortBy: state.jobReducer.sortBy,
         selectedJob: state.jobReducer.selectedJob,
     }

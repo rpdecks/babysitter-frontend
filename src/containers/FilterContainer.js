@@ -32,7 +32,7 @@ function FilterContainer(props) {
                     name='completionFilter'
                     type={'radio'}
                     id={'completed-radio'}
-                    label={'completed'}
+                    label={'complete'}
                     onChange={() => props.filterByCompleted('complete')}
                 />
                 <Form.Check
@@ -55,25 +55,26 @@ function FilterContainer(props) {
             <hr /> 
             <Form className="job_requirements">
                 <Form.Check 
-                    name='smoker'
+                    name='non-smoking'
                     type={'checkbox'}
-                    id={'Smoker'}
-                    label={'smoker'}
-                    onChange={() => props.filterBySmoker()}
+                    id={'non-smoking'}
+                    label={'Non-smoking'}
+                    checked={props.nonSmokingFilter}
+                    onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
                 />
                 <Form.Check
                     name='first_aid_cert'
                     type={'checkbox'}
                     id={'first_aid_cert'}
                     label={'First-aid certified'}
-                    onChange={() => props.filterByFirstAidCert()}
+                    onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
                 />
                 <Form.Check
                     name='has_pets'
                     type={'checkbox'}
                     id={'has_pets'}
                     label={'Has pets'}
-                    onChange={() => props.filterByPets(null)}
+                    onChange={() => props.filterByPets(!props.petsFilter)}
                 />
             </Form>
             <hr />
@@ -93,7 +94,11 @@ const mapStateToProps = state => {
     return {
         jobs: state.userReducer.user,
         calendarView: state.userReducer.calendarView,
-        filteredJobs: state.jobReducer.filteredJobs
+        filteredJobs: state.jobReducer.filteredJobs,
+        completionFilter: state.jobReducer.completionFilter,
+        nonSmokingFilter: state.jobReducer.nonSmokingFilter,
+        firstAidCertFilter: state.jobReducer.firstAidCertFilter,
+        petsFilter: state.jobReducer.petsFilter,
     }
 }
 
@@ -101,9 +106,9 @@ const mapDispatchToProps = dispatch => {
     return {
         switchView: (view) => dispatch({ type: "SWITCH_VIEW", calendarView: view}),
         filterByCompleted: (filter) => dispatch({ type: "FILTER_BY_COMPLETED", completionFilter: filter}),
-        filterBySmoker: (filter) => dispatch({ type: "FILTER_BY_SMOKER", completionFilter: filter}),
-        filterByFirstAidCert: (filter) => dispatch({ type: "FILTER_BY_FIRST_AID", completionFilter: filter}),
-        filterByPets: (filter) => dispatch({ type: "FILTER_BY_PETS", completionFilter: filter}),
+        filterByNonSmoking: (filter) => dispatch({ type: "FILTER_BY_NON_SMOKING", nonSmokingFilter: filter}),
+        filterByFirstAidCert: (filter) => dispatch({ type: "FILTER_BY_FIRST_AID", firstAidCertFilter: filter}),
+        filterByPets: (filter) => dispatch({ type: "FILTER_BY_PETS", petsFilter: filter}),
     }
 }
 
