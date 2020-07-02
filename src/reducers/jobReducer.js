@@ -4,9 +4,9 @@ export default function jobReducer(state = {
                                   nonSmokingFilter: false, 
                                   firstAidCertFilter: false, 
                                   petsFilter: false, 
+                                  selectedJob: {},
                                   sortBy: 'start_time', 
                                   ascending: true, 
-                                  selectedJob: {}
                                   }, action) {
   switch (action.type) {
     case 'SET_SELECTED_JOB':

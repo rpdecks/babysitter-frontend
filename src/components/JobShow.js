@@ -2,28 +2,35 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { withRouter } from 'react-router'
+import { render } from 'react-dom'
 
-function JobShow(props) {
+class JobShow extends React.Component {
 
-    function handleClick() {
-        props.unselectJob(null)
-        props.history.push('/')
+    handleClick = () => {
+        debugger
+        localStorage.removeItem('selectedJobId')
     }
 
-    return (
-        <>
-            <h1>Job title: {props.selectedJob.title}</h1>
+    render() {
+        return (
+            <>
+                <h3>Job title:</h3>
+                <p>{this.props.job.title}</p>
 
-            <Button variant="danger" onClick={() => handleClick()} >
-                Back
-            </Button>
-        </>
-    )
+                <Button variant="danger" onClick={() => this.props.history.push('/')} >
+                    Back
+                </Button>
+            </>
+        )
+    }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
     return {
-        selectedJob: state.jobReducer.selectedJob
+        userJobs: state.jobReducer.userJobs,
+        availableJobs: state.jobReducer.availableJobs,
+        jobId: props.match.params,
+        job: props.job,
     }
 }
 
