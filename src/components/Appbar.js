@@ -7,7 +7,6 @@ function Appbar(props) {
     function handleLogout() {
         localStorage.removeItem('auth_token');
         localStorage.removeItem('user_type');
-        // props.setUserType(null)
         props.logoutStateClear(undefined)
         props.logout()
         props.history.push('/')

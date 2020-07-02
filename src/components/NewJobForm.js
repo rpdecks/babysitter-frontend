@@ -17,10 +17,11 @@ class NewJobForm extends React.Component {
         toddler_count: '',
         school_age_count: '',
         pay_rate: '',
-        smoker: '',
+        non_smoking: '',
         first_aid_cert: '',
         has_pets: '',
     }
+    b
 
     handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
@@ -31,7 +32,7 @@ class NewJobForm extends React.Component {
 
         const auth_token = localStorage.getItem('auth_token');
         const jobObj =  {
-            job: this.state.job
+            job: this.state
         }
      
         if (!auth_token) {
@@ -138,6 +139,7 @@ class NewJobForm extends React.Component {
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
+                            
                             <option>4</option>
                             <option>5+</option>
                         </Form.Control>
@@ -158,10 +160,10 @@ class NewJobForm extends React.Component {
                 <h3>Select job requirements below:</h3>
                 <br />
                 <Form.Group id="formGridSmoker">    
-                    <Form.Check name="smoker" type="checkbox" label="Non-smoker" onChange={e => this.handleChange(e)}/>
+                    <Form.Check name="non_smoking" type="checkbox" label="Non-smoking" onChange={e => this.handleChange(e)}/>
                 </Form.Group>
                 <Form.Group id="formGridHasPets">
-                    <Form.Check name="has_pets" type="checkbox" label="Does not have pets" onChange={e => this.handleChange(e)}/>
+                    <Form.Check name="has_pets" type="checkbox" label="Pets involved" onChange={e => this.handleChange(e)}/>
                 </Form.Group>
                 <Form.Group id="formGridHasFirstAid">
                     <Form.Check name="first_aid_cert" type="checkbox" label="First aid certified" onChange={e => this.handleChange(e)}/>

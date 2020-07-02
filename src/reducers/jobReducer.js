@@ -1,4 +1,5 @@
 export default function jobReducer(state = {
+                                  jobs: [], 
                                   completionFilter: null, 
                                   sortBy: 'start_time', 
                                   ascending: true, 
@@ -24,21 +25,6 @@ export default function jobReducer(state = {
       return {
         ...state,
         completionFilter: action.completionFilter
-      }
-    case 'FILTER_BY_SMOKER':
-      return {
-        ...state,
-        smokerFilter: action.smokerFilter
-      }
-    case 'FILTER_BY_FIRST_AID':
-      return {
-        ...state,
-        firstAidFilter: action.firstAidFilter
-      }
-    case 'FILTER_BY_PETS':
-      return {
-        ...state,
-        filterByPets: action.filterByPets
       }
     case 'CREATE_NEW_JOB':
       return {

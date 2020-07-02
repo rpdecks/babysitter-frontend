@@ -57,7 +57,7 @@ function FilterContainer(props) {
                 <Form.Check 
                     name='smoker'
                     type={'checkbox'}
-                    id={'smoker'}
+                    id={'Smoker'}
                     label={'smoker'}
                     onChange={() => props.filterBySmoker()}
                 />
