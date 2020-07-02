@@ -114,6 +114,7 @@ class NewJobForm extends React.Component {
                         <Form.Label>Total # of kids:</Form.Label>
                         <Form.Control name="total_child_count" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
                             <option>Choose...</option>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -125,6 +126,7 @@ class NewJobForm extends React.Component {
                         <Form.Label># of infants:</Form.Label>
                         <Form.Control name="infant_count" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
                             <option>Choose...</option>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
@@ -136,10 +138,10 @@ class NewJobForm extends React.Component {
                         <Form.Label># of toddlers:</Form.Label>
                         <Form.Control name="toddler_count" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
                             <option>Choose...</option>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>
-                            
                             <option>4</option>
                             <option>5+</option>
                         </Form.Control>
@@ -148,6 +150,7 @@ class NewJobForm extends React.Component {
                         <Form.Label># of school age:</Form.Label>
                         <Form.Control name="school_age_count" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
                             <option>Choose...</option>
+                            <option>0</option>
                             <option>1</option>
                             <option>2</option>
                             <option>3</option>

@@ -68,7 +68,7 @@ class LoginForm extends React.Component {
   render() {
     return (
       <>
-        <h1>Welcome to Babysiters</h1>
+        <h1>Welcome to Babysitters</h1>
         <p>Please login below as <b>{this.props.userType}</b>.</p>
         <form onSubmit={(e) => this.login(e)}>
           <label>Email:</label><br />
