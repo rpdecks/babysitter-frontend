@@ -1,9 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Table } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
+import { Table, Button } from 'react-bootstrap'
 import styled from 'styled-components'
-import jobReducer from '../reducers/jobReducer'
 
 const Styles = styled.div `
 //   overflow-y: scroll;
@@ -11,18 +11,17 @@ const Styles = styled.div `
 `
 class Jobs extends React.Component {
 
-    handleClick = (jobId, props) => {
-        if (props.interestedJobs.find(job => job.job_id === jobId)) {
-            props.removeInterested(jobId)
-        } else { props.addInterested(jobId) }
-        this.saveInterestInJob(jobId)
-    }
-
-    saveInterestInJob = (jobId, props) => {
+    saveInterestInJob = (jobId) => {
 
         const auth_token = localStorage.getItem('auth_token')
         if (!auth_token) {
         return
+        }
+
+        const candidateObj = {
+            candidate: {
+                job_id: jobId
+            }
         }
 
         const fetchObj = {
@@ -31,25 +30,33 @@ class Jobs extends React.Component {
                 'Content-Type': 'application/json',
                 'Auth-Token': auth_token
             },
-            body: JSON.stringify({job_id: jobId})
+            body: JSON.stringify(candidateObj)
         }
 
         fetch('http://localhost:3000/api/v1/candidates', fetchObj)
         .then(res => res.json())
-        .then(candidateResponse=> {
+        .then(candidateResponse => {
             if (candidateResponse.created) {
-                props.addInterested(candidateResponse.job_id)
+                console.log('interest saved')   
+                return this.props.addInterested(candidateResponse.job_id)
             } else {
-                props.removeInterested(candidateResponse.job_id)
+                console.log('interest saved')   
+                return this.props.removeInterested(candidateResponse.job_id)
             }
         })
         .catch(errors => console.log(errors))
     }
 
-    interestBtn = (job_id, props) => {
-        if (props.interestedJobs && props.interestedJobs.find(job => job.job_id === job_id)) {
-            return <button onClick={() => this.handleClick(job_id, props)}>Remove</button> 
-        } else { return <button onClick={() => this.handleClick(job_id, props)}>Interested?</button>}
+    interestBtn = (job_id) => {
+        if (this.props.interestedJobs && this.props.interestedJobs.find(job => job.job_id === job_id)) {
+            return <Button variant='danger' onClick={() => this.saveInterestInJob(job_id)}>Remove</Button> 
+            } else return <Button onClick={() => this.saveInterestInJob(job_id)}>Interested?</Button>
+    }
+
+    showJob = (job) => {
+        this.props.setSelectedJob(job)
+        localStorage.setItem('selectedJobId', job.id)
+        this.props.history.push(`/jobs/${job.id}`)
     }
 
     sortJobs = (jobs, criteria ) => {
@@ -59,11 +66,6 @@ class Jobs extends React.Component {
             return (a[criteria]).localeCompare(b[criteria])
         } else { return a[criteria] - b[criteria] }
         })
-    }
-
-    showJob = (id) => {
-        this.props.setSelectedJob(id)
-        this.props.history.push('/show')
     }
 
     // Filters based on job properties
@@ -91,8 +93,9 @@ class Jobs extends React.Component {
         const filteredJobs = jobsCopy.filter(job => myFilters.every(f => f(job)))
         return filteredJobs.map((job, index)=> {
             return (
-                <tr key={index} onClick={() => this.showJob(job.id)}>
-                    <td>{index + 1}</td>
+                <tr key={index}>
+                    {/* <td><Button variant="secondary" size='sm' onClick={() => this.showJob(job)}>Link</Button></td> */}
+                    <td><Link to={`/jobs/${job.id}`}>Details</Link></td>
                     <td>{job.start_date_MMDDYY}</td>
                     <td>{job.start_time_HHMM}</td>
                     <td>{job.duration} hr</td>
@@ -103,21 +106,51 @@ class Jobs extends React.Component {
                     <td>{job.non_smoking === true ? 'Yes' : 'No'}</td>
                     <td>{job.first_aid_cert === true ? 'Yes' : 'No'}</td>
                     <td>{job.has_pets === true ? 'Yes' : 'No'}</td>
-                    <td>{this.props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : this.interestBtn(job.id, this.props)}</td>
+                    <td>{this.props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : this.interestBtn(job.id)}</td>
                 </tr>
             )
         })
     }
 
+    renderAvailableJobs = (jobs) => {
+       if (this.props.userType === 'caregiver' && this.props.availableJobs) {
+        return <>
+            <hr />
+            <h1>Available Babysitting Jobs</h1> 
+            <Table striped bordered hover size="sm">
+                <thead>
+                    <tr>
+                        <th>Details</th>
+                        <th onClick={() => this.props.sortTable('start_time')}>Date</th>
+                        <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
+                        <th onClick={() => this.props.sortTable('length')}>Duration</th>
+                        <th>Title</th>
+                        <th>Location</th>
+                        <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
+                        <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
+                        <th>Non-Smoking?</th>
+                        <th>First-aid cert?</th>
+                        <th>Pets?</th>
+                        <th>Interested?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.mapMyJobs(jobs)} 
+                </tbody>
+            </Table>
+        </>
+       } 
+    }
+    
     render() {
         return (
             <Styles>
                 <hr />
                 <h1>My Babysitting Jobs</h1> 
-                {this.props.userJobs && <Table striped bordered hover size="sm">
+                <Table striped bordered hover size="sm">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Details</th>
                             <th onClick={() => this.props.sortTable('start_time')}>Date</th>
                             <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
                             <th onClick={() => this.props.sortTable('length')}>Duration</th>
@@ -131,38 +164,11 @@ class Jobs extends React.Component {
                             <th onClick={() => this.props.sortTable('status')}>Status</th>
                         </tr>
                     </thead>
-                <tbody>
+                    <tbody>
                         {this.props.userJobs && this.mapMyJobs(this.props.userJobs)} 
                     </tbody>
                 </Table>
-                }
-                {this.props.availableJobs &&
-                <>
-                <hr />
-                <h1>Available Babysitting Jobs</h1> 
-                <Table striped bordered hover size="sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th onClick={() => this.props.sortTable('start_time')}>Date</th>
-                            <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
-                            <th onClick={() => this.props.sortTable('length')}>Duration</th>
-                            <th>Title</th>
-                            <th>Location</th>
-                            <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
-                            <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
-                            <th>Non-Smoking?</th>
-                            <th>First-aid cert?</th>
-                            <th>Pets?</th>
-                            <th>Interested?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.availableJobs && this.mapMyJobs(this.props.availableJobs, this.props)} 
-                    </tbody>
-                </Table>
-                </>
-                }
+                {this.props.availableJobs && this.renderAvailableJobs(this.props.availableJobs)}
             </Styles>
         )
     }

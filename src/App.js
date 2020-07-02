@@ -17,6 +17,7 @@ import UserShow from './components/UserShow'
 import Account from './components/Account'
 import Reviews from './components/Reviews';
 import FilterContainer from './containers/FilterContainer'
+import Hydrate from './components/Hydrate'
 import CalendarView from './components/CalendarView'
 
 const Styles = styled.div `
@@ -97,6 +98,7 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
+      <Hydrate />
         <Appbar />  
         <Styles>
           <Switch>
@@ -132,11 +134,18 @@ class App extends React.Component {
                   <Route exact path='/jobs'>
                     {this.props.calendarView ? <CalendarView /> : <Jobs />}
                   </Route>
+                  <Route 
+                    path='/jobs/:id'
+                    render={({match}) => {
+                        const jobId = parseInt(match.params.id)
+                        const jobAry = this.props.userJobs.concat(this.props.availableJobs)
+                        const job = jobAry.find(j => j.id === jobId) 
+                        if (job) return <JobShow job={job} />
+                        else return null
+                    }}
+                  />
                   <Route exact path='/reviews'>
                     <Reviews />
-                  </Route>
-                  <Route exact path='/show'>
-                    {this.props.selectedJob && <JobShow />}
                   </Route>
                   <Route exact path='/browse'>
                     {this.props.selectedUser ? <UserShow /> : <UserIndex />}
@@ -159,7 +168,8 @@ const mapStateToProps = state => {
     isLoggedIn: state.userReducer.isLoggedIn, 
     signingUp: state.userReducer.signingUp,
     calendarView: state.userReducer.calendarView,
-    selectedJob: state.jobReducer.selectedJob,
+    userJobs: state.jobReducer.userJobs,
+    availableJobs: state.jobReducer.availableJobs,
   }
 }
 
