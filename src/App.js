@@ -128,6 +128,16 @@ class App extends React.Component {
                   <Route exact path='/newjob'>
                     <NewJobForm />
                   </Route>
+                  <Route 
+                    exact path='/jobs/:id/edit'
+                    render={({match}) => {
+                        const jobId = parseInt(match.params.id)
+                        const jobAry = this.props.userJobs.concat(this.props.availableJobs)
+                        const job = jobAry.find(j => j.id === jobId) 
+                        if (job) return <NewJobForm job={job} />
+                        else return null
+                    }}  
+                  />
                   <Route exact path='/account'>
                     <Account />
                   </Route>
@@ -135,7 +145,7 @@ class App extends React.Component {
                     {this.props.calendarView ? <CalendarView /> : <Jobs />}
                   </Route>
                   <Route 
-                    path='/jobs/:id'
+                    exact path='/jobs/:id'
                     render={({match}) => {
                         const jobId = parseInt(match.params.id)
                         const jobAry = this.props.userJobs.concat(this.props.availableJobs)
