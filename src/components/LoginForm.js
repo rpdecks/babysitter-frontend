@@ -39,10 +39,10 @@ class LoginForm extends React.Component {
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
         if (userType === 'employer') {
           this.props.storeEmployerFavorites(appData.employer_favorites)
-          this.props.storeEmployerCaregivers(appData.caregivers)
+          this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
           this.props.storeCaregiverFavorites(appData.caregiver_favorites)
-          this.props.storeCaregiverEmployers(appData.employers)
+          this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
         } else { console.log('No userType specific appData stored') }
@@ -134,9 +134,9 @@ const mapDispatchToProps = dispatch => {
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
     storeEmployerFavorites: (favorites) => dispatch({type: 'STORE_EMPLOYER_FAVORITES', employerFavorites: favorites}),
-    storeEmployerCaregivers: (caregivers) => dispatch({type: 'STORE_EMPLOYER_CAREGIVERS', employerCaregivers: caregivers}),
+    storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
     storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
-    storeCaregiverEmployers: (employers) => dispatch({type: 'STORE_CAREGIVER_EMPLOYERS', caregiverEmployers: employers}),
+    storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
   }
 }

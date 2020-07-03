@@ -17,7 +17,6 @@ import UserShow from './components/UserShow'
 import Account from './components/Account'
 import Reviews from './components/Reviews';
 import FilterContainer from './containers/FilterContainer'
-import Hydrate from './components/Hydrate'
 import CalendarView from './components/CalendarView'
 
 const Styles = styled.div `
@@ -70,10 +69,10 @@ class App extends React.Component {
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
         if (userType === 'employer') {
           this.props.storeEmployerFavorites(appData.employer_favorites)
-          this.props.storeEmployerCaregivers(appData.caregivers)
+          this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
           this.props.storeCaregiverFavorites(appData.caregiver_favorites)
-          this.props.storeCaregiverEmployers(appData.employers)
+          this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
         } else { console.log('No userType specific appData stored')}
@@ -98,14 +97,16 @@ class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-      <Hydrate />
         <Appbar />  
         <Styles>
           <Switch>
             <>
               <Row>
                 <Col xs={2} className="sidebar-column">
-                    <Route path='/'>
+                    {/* <Route path='/'>
+                      {this.props.isLoggedIn && <FilterContainer />}
+                    </Route> */}
+                    <Route path='/jobs'>
                       {this.props.isLoggedIn && <FilterContainer />}
                     </Route>
                 </Col>
@@ -142,7 +143,12 @@ class App extends React.Component {
                     <Account />
                   </Route>
                   <Route exact path='/jobs'>
-                    {this.props.calendarView ? <CalendarView /> : <Jobs />}
+                    {(this.props.isLoggedIn && this.props.calendarView) ? 
+                      <CalendarView /> 
+                      : 
+                      this.props.isLoggedIn ? 
+                          <Jobs /> : <Welcome /> 
+                    }
                   </Route>
                   <Route 
                     exact path='/jobs/:id'
@@ -154,11 +160,29 @@ class App extends React.Component {
                         else return null
                     }}
                   />
+                  <Route 
+                    exact path='/caregivers/:id'
+                    render={({match}) => {
+                        const userId = parseInt(match.params.id)
+                        const user = this.props.caregivers.find(c => c.id === userId) 
+                        if (user) return <UserShow user={user} />
+                        else return null
+                    }}
+                  />
+                  <Route 
+                    exact path='/employers/:id'
+                    render={({match}) => {
+                        const userId = parseInt(match.params.id)
+                        const user = this.props.employers.find(c => c.id === userId) 
+                        if (user) return <UserShow user={user} />
+                        else return null
+                    }}
+                  />
                   <Route exact path='/reviews'>
                     <Reviews />
                   </Route>
                   <Route exact path='/browse'>
-                    {this.props.selectedUser ? <UserShow /> : <UserIndex />}
+                    <UserIndex />
                   </Route>
                 </Col>
                 <Col xs={2} className="right-column">
@@ -180,6 +204,8 @@ const mapStateToProps = state => {
     calendarView: state.userReducer.calendarView,
     userJobs: state.jobReducer.userJobs,
     availableJobs: state.jobReducer.availableJobs,
+    caregivers: state.userReducer.caregivers,
+    employers: state.userReducer.employers,
   }
 }
 
@@ -193,9 +219,9 @@ const mapDispatchToProps = dispatch => {
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
     storeEmployerFavorites: (favorites) => dispatch({type: 'STORE_EMPLOYER_FAVORITES', employerFavorites: favorites}),
-    storeEmployerCaregivers: (caregivers) => dispatch({type: 'STORE_EMPLOYER_CAREGIVERS', employerCaregivers: caregivers}),
+    storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
     storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
-    storeCaregiverEmployers: (employers) => dispatch({type: 'STORE_CAREGIVER_EMPLOYERS', caregiverEmployers: employers}),
+    storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
   }
 }

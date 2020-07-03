@@ -26,15 +26,15 @@ export default function userReducer(state = { signingUp: false, calendarView: fa
         return { ...state,
           signingUp: true
         }
-      case 'STORE_EMPLOYER_CAREGIVERS':
+      case 'STORE_CAREGIVERS':
         return {
           ...state,
-          employerCaregivers: action.employerCaregivers
+          caregivers: action.caregivers
         }
-      case 'STORE_CAREGIVER_EMPLOYERS':
+      case 'STORE_EMPLOYERS':
         return {
           ...state,
-          caregiverEmployers: action.caregiverEmployers
+         employers: action.employers
         }
       case 'SWITCH_VIEW':
         return {
