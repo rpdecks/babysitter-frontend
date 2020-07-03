@@ -2,34 +2,61 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { withRouter } from 'react-router'
-import { render } from 'react-dom'
+import { Link } from 'react-router-dom'
 
 class JobShow extends React.Component {
+    state = {
+        editing: '',
+    }
 
-    handleClick = () => {
-        debugger
-        localStorage.removeItem('selectedJobId')
+    renderEditBtn = () => {
+        if (this.props.userType === 'employer') {
+            return <Link to={`/jobs/${this.props.job.id}/edit`}>
+                <Button variant="primary" onClick={() => this.props.history.push('/')} >
+                    Edit
+                </Button>
+            </Link>
+        }
+    }   
+
+    renderInfo = () => {
+        return <>
+            <h3>{this.props.job.title}</h3>
+            <hr />
+            <p>{new Date(this.props.job.end_time).toDateString()}</p>
+            <p><b>Duration:</b> {this.props.job.duration} hours</p>
+            <p>{this.props.job.start_time_HHMM} to {this.props.job.start_time_HHMM}</p>
+            <p><b>Location:</b> {this.props.job.job_location}</p>
+            <p><b>Pay rate:</b> ${this.props.job.pay_rate} / hour</p>
+            <hr />
+            <h3>Job requirements:</h3>
+            <p><b>Non-smoking?</b> {this.props.job.non_smoking === true ? 'Yes' : 'No'}</p>
+            <p><b>First Aid Cert?</b> {this.props.job.first_aid_cert === true ? 'Yes' : 'No'}</p>
+            <p><b>Pets involved?</b> {this.props.job.has_pets === true ? 'Yes' : 'No'}</p>
+            <hr />
+            <h3>Description:</h3>
+            <p>{this.props.job.desc}</p>
+
+            {this.renderEditBtn()}
+            <Button variant="danger" onClick={() => this.props.history.push('/')} >
+                Back
+                </Button>
+        </>
+
     }
 
     render() {
         return (
-            <>
-                <h3>Job title:</h3>
-                <p>{this.props.job.title}</p>
-
-                <Button variant="danger" onClick={() => this.props.history.push('/')} >
-                    Back
-                </Button>
-            </>
+            this.state.editing ? this.renderForm() : this.renderInfo()
         )
     }
 }
 
 const mapStateToProps = (state, props) => {
     return {
+        userType: state.userReducer.userType,
         userJobs: state.jobReducer.userJobs,
         availableJobs: state.jobReducer.availableJobs,
-        jobId: props.match.params,
         job: props.job,
     }
 }

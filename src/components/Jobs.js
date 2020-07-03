@@ -94,13 +94,12 @@ class Jobs extends React.Component {
         return filteredJobs.map((job, index)=> {
             return (
                 <tr key={index}>
-                    {/* <td><Button variant="secondary" size='sm' onClick={() => this.showJob(job)}>Link</Button></td> */}
                     <td><Link to={`/jobs/${job.id}`}>Details</Link></td>
-                    <td>{job.start_date_MMDDYY}</td>
+                    <td>{job.start_date_YYYYMMDD}</td>
                     <td>{job.start_time_HHMM}</td>
                     <td>{job.duration} hr</td>
                     <td>{job.title}</td>
-                    <td>{job.location}</td>
+                    <td>{job.job_location}</td>
                     <td>${job.pay_rate}/hour</td>
                     <td>{job.total_child_count}</td>
                     <td>{job.non_smoking === true ? 'Yes' : 'No'}</td>

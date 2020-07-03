@@ -49,6 +49,17 @@ export default function jobReducer(state = {
         ...state,
         userJobs: [...state.userJobs, action.newJob]
       }
+    case 'EDIT_JOB':
+      let jobsCopy = [...state.userJobs.filter(job => job.id !== action.editedJob.id)]
+      return {
+        ...state,
+        userJobs: [...jobsCopy, action.editedJob]
+      }
+    case 'DELETE_JOB':
+      return {
+        ...state,
+        userJobs: [...state.userJobs.filter(job => job.id !== action.deleteJob)]
+      }
     case 'STORE_USER_JOBS':
       return {
         ...state,
