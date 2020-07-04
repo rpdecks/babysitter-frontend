@@ -1,18 +1,22 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, Col, Image, Row } from 'react-bootstrap'
+import { Button, Col, Image, Row, Tabs, Tab } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 // import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BsHeart, BsHeartFill } from "react-icons/bs"
-import { MdSmokeFree, MdSmokingRooms, MdPets } from "react-icons/md";
-import { GiHealthNormal } from "react-icons/gi";
+import { MdSmokeFree, MdSmokingRooms, MdPets } from "react-icons/md"
+import { GiHealthNormal } from "react-icons/gi"
 import StarRatings from 'react-star-ratings'
-import { IconContext } from "react-icons";
+import { IconContext } from "react-icons"
+import Review from './Review'
 
 const Styles = styled.div `
   .img {
     height: 40vh;
+  }
+  .review-row {
+      background-color: blue;
   }
 `
 
@@ -77,6 +81,12 @@ function UserShow(props) {
         }
     }
 
+    function renderReviews() {
+        return props.reviews.map(review => {
+            return <Review review={review}/>
+        })
+    }
+
     return (
         <Styles>
             <Row>
@@ -112,30 +122,22 @@ function UserShow(props) {
                         <Row>
                             {props.user.non_smoking ? 
                                 <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                    <div>
                                         <MdSmokeFree />
-                                    </div>
                                 </IconContext.Provider> 
                                 : 
                                 <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                    <div>
                                         <MdSmokingRooms />
-                                    </div>
                                 </IconContext.Provider>
                             }
                             {props.user.first_aid_cert ? 
                                 <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                    <div>
                                         <GiHealthNormal />
-                                    </div>
                                 </IconContext.Provider>
                                 :
                                 null}
                             {props.user.has_pets ? 
                                 <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                    <div>
                                         <MdPets />
-                                    </div>
                                 </IconContext.Provider>
                                 :
                                 null}
@@ -144,15 +146,19 @@ function UserShow(props) {
                     </Row>
                 </Col>  
             </Row>
-            <Row>
-                <h3>A little about me:</h3>
-                <p>{props.user.bio}</p>
-            </Row>
-            <Row>
-                <Button variant="danger" onClick={() => props.history.push('/browse')} >
-                    Back
-                </Button>
-            </Row>
+            <Tabs defaultActiveKey="bio" id="uncontrolled-tab-example">
+                <Tab eventKey="bio" title="A little about me...">
+                    <h3>A little about me:</h3>
+                    <hr />
+                    <p>{props.user.bio}</p>
+                </Tab>
+                <Tab eventKey="reviews" title="Reviews">
+                    {renderReviews()}
+                </Tab>
+            </Tabs>
+            <Button variant="danger" onClick={() => props.history.push('/browse')} >
+                Back
+            </Button>
         </Styles>
     )   
 }
@@ -163,7 +169,8 @@ const mapStateToProps = (state, props) => {
         user: props.user,
         userData: state.userReducer.userData,
         userType: state.userReducer.userType,
-        userFavorites: state.favoritesReducer.userFavorites
+        userFavorites: state.favoritesReducer.userFavorites,
+        reviews: state.reviewsReducer.reviews
     }
 }
 
