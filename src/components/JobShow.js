@@ -40,7 +40,7 @@ class JobShow extends React.Component {
             {this.renderEditBtn()}
             <Button variant="danger" onClick={() => this.props.history.push('/')} >
                 Back
-                </Button>
+            </Button>
         </>
 
     }
@@ -61,10 +61,4 @@ const mapStateToProps = (state, props) => {
     }
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        unselectJob: (value) => dispatch({ type: 'SET_SELECTED_JOB', selectedJob: value})
-    }
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(JobShow))
+export default withRouter(connect(mapStateToProps)(JobShow))
