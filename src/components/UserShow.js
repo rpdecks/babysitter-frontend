@@ -82,8 +82,8 @@ function UserShow(props) {
     }
 
     function renderReviews() {
-        return props.reviews.map(review => {
-            return <Review review={review}/>
+        return props.reviews.map((review, index) => {
+            return <Review key={index} review={review}/>
         })
     }
 
