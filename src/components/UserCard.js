@@ -1,24 +1,31 @@
 import React from 'react'
 import { Col, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import StarRatings from 'react-star-ratings'
 
 function UserCard(props) {
     return (
-        <Link to={`/${props.userType}s/${props.user.id}`}>
-            <Col xs={3}>
-                <Card className='m-3'>
-                    <Card.Img variant="top" src={props.user.image} />
-                    <Card.Body>
-                        <Card.Title>{props.user.first_name} {props.user.last_name[0]}.</Card.Title>
-                        <Card.Text>
-                            Experience: {props.user.jobs} completed<br />
-                            ${props.user.pay_rate}/hour<br />
-                            {props.user.rating}
-                        </Card.Text>
-                    </Card.Body>
-                </Card>
-            </Col>
-        </Link>
+        <Card>
+            <Link to={`/${props.userType}s/${props.user.id}`}>
+                <Card.Img variant="top" src={props.user.image} />
+            </Link>
+            <Card.Body>
+                <Card.Title>{props.user.first_name} {props.user.last_name[0]}.</Card.Title>
+                <Card.Text>
+                    <StarRatings
+                        name='rating'
+                        rating={props.user.rating}
+                        starRatedColor="red"
+                        numberOfStars={5}
+                        starDimension="20px"
+                        starSpacing="2px"
+                    /><br />
+                    {props.user.age} years old<br /> 
+                    {props.user.job_count} jobs experience<br />
+                    {props.userType === 'employer' ? null: <p>${props.user.pay_rate} /hour</p>}
+                </Card.Text>
+            </Card.Body>
+        </Card>
     )
 }
 

@@ -5,11 +5,14 @@ import { withRouter } from 'react-router'
 // import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BsHeart, BsHeartFill } from "react-icons/bs"
+import { MdSmokeFree, MdSmokingRooms, MdPets } from "react-icons/md";
+import { GiHealthNormal } from "react-icons/gi";
 import StarRatings from 'react-star-ratings'
+import { IconContext } from "react-icons";
 
 const Styles = styled.div `
   .img {
-    height: 30vh;
+    height: 40vh;
   }
 `
 
@@ -76,7 +79,7 @@ function UserShow(props) {
 
     return (
         <Styles>
-            <Row className="name-row">
+            <Row>
                 <Col xs={8}>
                     <Row >
                     <Image 
@@ -86,7 +89,10 @@ function UserShow(props) {
                         alt={'babysitter'} 
                     />  
                     <Col>
-                        <h5>{props.user.first_name} {props.user.last_name[0]}.</h5>
+                        <Row>
+                            <h3>{props.user.first_name} {props.user.last_name[0]}.</h3>
+                            {props.userFavorites && renderFavoriteHearts()}
+                        </Row>
                         <StarRatings
                             name='rating'
                             rating={props.user.rating}
@@ -95,13 +101,52 @@ function UserShow(props) {
                             starDimension="30px"
                             starSpacing="2px"
                         />
-                        <p>{props.user.ratings} out of 5 stars</p>
-                        </Col>
-                        <Col>
-                            {props.userFavorites && renderFavoriteHearts()}
-                        </Col>
+                        <p>{props.user.rating} out of 5 stars</p><br />
+                        
+                        <b>Age:</b> ~ {props.user.age} years old<br />
+                        <b>Gender:</b> {props.user.gender}<br />
+                        <b>Has pets?</b> {props.user.has_pets.toString()}<br />
+                        <b>Experience:</b> {props.user.job_count} completed jobs<br />
+                        <b>Pay rate</b> ${props.user.pay_rate} / hour
+                        <br /><br />
+                        <Row>
+                            {props.user.non_smoking ? 
+                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
+                                    <div>
+                                        <MdSmokeFree />
+                                    </div>
+                                </IconContext.Provider> 
+                                : 
+                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
+                                    <div>
+                                        <MdSmokingRooms />
+                                    </div>
+                                </IconContext.Provider>
+                            }
+                            {props.user.first_aid_cert ? 
+                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
+                                    <div>
+                                        <GiHealthNormal />
+                                    </div>
+                                </IconContext.Provider>
+                                :
+                                null}
+                            {props.user.has_pets ? 
+                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
+                                    <div>
+                                        <MdPets />
+                                    </div>
+                                </IconContext.Provider>
+                                :
+                                null}
+                        </Row>
+                    </Col>
                     </Row>
                 </Col>  
+            </Row>
+            <Row>
+                <h3>A little about me:</h3>
+                <p>{props.user.bio}</p>
             </Row>
             <Row>
                 <Button variant="danger" onClick={() => props.history.push('/browse')} >

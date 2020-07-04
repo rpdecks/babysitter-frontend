@@ -1,8 +1,15 @@
 import React from 'react'
-import { CardDeck, Row } from 'react-bootstrap'
+import { CardDeck, Col, Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import UserCard from './UserCard'
+import styled from 'styled-components'
+
+const Styles = styled.div `
+  .row {
+    // height: 25vh;
+  }
+`
 
 function UserIndex(props) {
 
@@ -21,18 +28,27 @@ function UserIndex(props) {
             />)
     }
 
+    function welcomeUser() {
+        if (props.userType === 'employer') {
+            return <h1>Browse potential <b>Caregivers</b></h1> 
+        } else return <h1 className='h1'>Browse potential <b>Employers</b></h1> 
+    }
+
     return (
-        <>
+        <Styles>
+            {welcomeUser()}
             <CardDeck >
-                <Row className="row">
+                <Row>
+                <Col xs={3}>
                     {props.userType === 'employer' ? 
                         renderUsers(props.caregivers)
                         :
                         renderUsers(props.employers)
                     }
+                </Col>
                 </Row>
             </CardDeck>
-        </>
+        </Styles>
     )   
 }
 
