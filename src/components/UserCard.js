@@ -1,15 +1,6 @@
 import React from 'react'
 import { Col, Card } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
-
-// const Styles = styled.div `
-//     .card-img-top {
-//         // width: 100%;
-//         // height: 15vw;
-//         // object-fit: cover;
-//     }
-// `
 
 function UserCard(props) {
     return (

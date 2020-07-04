@@ -53,20 +53,14 @@ class Jobs extends React.Component {
             } else return <Button onClick={() => this.saveInterestInJob(job_id)}>Interested?</Button>
     }
 
-    showJob = (job) => {
-        this.props.setSelectedJob(job)
-        localStorage.setItem('selectedJobId', job.id)
-        this.props.history.push(`/jobs/${job.id}`)
-    }
-
-    sortJobs = (jobs, criteria ) => {
-        let jobsToSort = [...jobs]
-        jobsToSort.sort(function (a, b) {
-        if (typeof(a[criteria]) !== 'number') {
-            return (a[criteria]).localeCompare(b[criteria])
-        } else { return a[criteria] - b[criteria] }
-        })
-    }
+    // sortJobs = (jobs, criteria ) => {
+    //     let jobsToSort = [...jobs]
+    //     jobsToSort.sort(function (a, b) {
+    //     if (typeof(a[criteria]) !== 'number') {
+    //         return (a[criteria]).localeCompare(b[criteria])
+    //     } else { return a[criteria] - b[criteria] }
+    //     })
+    // }
 
     // Filters based on job properties
     applyCompletionFilter = (job) => {

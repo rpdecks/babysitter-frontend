@@ -1,14 +1,19 @@
 export default function favoritesReducer(state = {}, action) {
     switch (action.type) {
-    case 'STORE_EMPLOYER_FAVORITES':
+    case 'FAVORITE_USER':
         return {
             ...state,
-            employerFavorites: action.employerFavorites
+            employerFavorites: [...state.employerFavorites, action.favorite]
         }
-    case 'STORE_CAREGIVER_FAVORITES':
+    case 'UNFAVORITE_USER':
+        return {
+            ...state,   
+            employerFavorites: [...state.employerFavorites.filter(fav => fav.id !== action.favoriteInstanceId)]
+        }
+    case 'STORE_USER_FAVORITES':
         return {
             ...state,
-            caregiverFavorites: action.caregiverFavorites
+            userFavorites: action.userFavorites
         }
     default:
         return state;

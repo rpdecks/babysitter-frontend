@@ -8,7 +8,7 @@ export default function userReducer(state = { signingUp: false, calendarView: fa
       case 'STORE_USER_DATA':
         return {
           ...state,
-          user: action.user
+          userData: action.userData
         }
       case 'SET_USER_TYPE':
         return { ...state,

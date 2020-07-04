@@ -38,10 +38,10 @@ class LoginForm extends React.Component {
         this.props.storeEmployerReviews(appData.employer_reviews)
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
         if (userType === 'employer') {
-          this.props.storeEmployerFavorites(appData.employer_favorites)
+          this.props.storeUserFavorites(appData.employer_favorites)
           this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
-          this.props.storeCaregiverFavorites(appData.caregiver_favorites)
+          this.props.storeUserFavorites(appData.caregiver_favorites)
           this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
@@ -124,20 +124,18 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    storeUser: (user) => dispatch({ type: 'STORE_USER_DATA', user: user }),
+    storeUserData: (userData) => dispatch({type: 'STORE_USER_DATA', userData: userData}),
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType }),
     setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
     setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
     storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
     storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
-    storeUserData: (userData) => dispatch({type: 'STORE_USER_DATA', userData: userData}),
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
-    storeEmployerFavorites: (favorites) => dispatch({type: 'STORE_EMPLOYER_FAVORITES', employerFavorites: favorites}),
     storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
-    storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
     storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
+    storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
   }
 }
 

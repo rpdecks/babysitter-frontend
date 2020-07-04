@@ -68,10 +68,10 @@ class App extends React.Component {
         this.props.storeEmployerReviews(appData.employer_reviews)
         this.props.storeCaregiverReviews(appData.caregiver_reviews)
         if (userType === 'employer') {
-          this.props.storeEmployerFavorites(appData.employer_favorites)
+          this.props.storeUserFavorites(appData.employer_favorites)
           this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
-          this.props.storeCaregiverFavorites(appData.caregiver_favorites)
+          this.props.storeUserFavorites(appData.caregiver_favorites)
           this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
@@ -103,9 +103,6 @@ class App extends React.Component {
             <>
               <Row>
                 <Col xs={2} className="sidebar-column">
-                    {/* <Route path='/'>
-                      {this.props.isLoggedIn && <FilterContainer />}
-                    </Route> */}
                     <Route path='/jobs'>
                       {this.props.isLoggedIn && <FilterContainer />}
                     </Route>
@@ -218,11 +215,10 @@ const mapDispatchToProps = dispatch => {
     storeUserData: (userData) => dispatch({type: 'STORE_USER_DATA', userData: userData}),
     storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
     storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
-    storeEmployerFavorites: (favorites) => dispatch({type: 'STORE_EMPLOYER_FAVORITES', employerFavorites: favorites}),
     storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
-    storeCaregiverFavorites: (favorites) => dispatch({type: 'STORE_CAREGIVER_FAVORITES', caregiverFavorites: favorites}),
     storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
+    storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
   }
 }
 

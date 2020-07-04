@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, CardDeck, Row } from 'react-bootstrap'
+import { CardDeck, Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import UserCard from './UserCard'
