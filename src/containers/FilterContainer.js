@@ -22,13 +22,42 @@ const Styles = styled.div `
 
 function FilterContainer(props) {
 
-    return (
-        <Styles>
-            <h3>Filters</h3><br />
-            <p>Job status:</p>
-            <hr /> 
-            <Form className="completionButtons">
+    function whatToRender() {
+        if (props.path === '/browse') {
+            return <>
+            <p>Filters:</p>
+            <hr />
+            <Form className="job_requirements">
                 <Form.Check 
+                    name='non-smoking'
+                    type={'checkbox'}
+                    id={'non-smoking'}
+                    label={'Non-smoking'}
+                    checked={props.nonSmokingFilter}
+                    onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
+                />
+                <Form.Check
+                    name='first_aid_cert'
+                    type={'checkbox'}
+                    id={'first_aid_cert'}
+                    label={'First-aid certified'}
+                    onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
+                />
+                <Form.Check
+                    name='has_pets'
+                    type={'checkbox'}
+                    id={'has_pets'}
+                    label={'Has pets'}
+                    onChange={() => props.filterByPets(!props.petsFilter)}
+                />
+            </Form>
+            </>
+        } else if (props.path === '/jobs') {
+            return <>
+            <p>Job status:</p>
+            <hr />
+            <Form className="completionButtons">
+                <Form.Check
                     name='completionFilter'
                     type={'radio'}
                     id={'completed-radio'}
@@ -51,10 +80,10 @@ function FilterContainer(props) {
                     onChange={() => props.filterByCompleted(null)}
                 />
             </Form><br />
-            <p>Job requirements:</p>
-            <hr /> 
+            <p>Job filters:</p>
+            <hr />
             <Form className="job_requirements">
-                <Form.Check 
+                <Form.Check
                     name='non-smoking'
                     type={'checkbox'}
                     id={'non-smoking'}
@@ -82,15 +111,18 @@ function FilterContainer(props) {
                 <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
                     Calendar view
                 </Button>{' '}
-                {/* <Button variant="secondary" size="sm">
-                    List view
-                </Button> */}
             </div>
+            </>
+        }
+    }
+    return (
+        <Styles>
+            {whatToRender()}
         </Styles>
     )
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
     return {
         jobs: state.userReducer.user,
         calendarView: state.userReducer.calendarView,
@@ -99,6 +131,7 @@ const mapStateToProps = state => {
         nonSmokingFilter: state.jobReducer.nonSmokingFilter,
         firstAidCertFilter: state.jobReducer.firstAidCertFilter,
         petsFilter: state.jobReducer.petsFilter,
+        path: props.path,
     }
 }
 

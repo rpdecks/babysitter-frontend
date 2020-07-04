@@ -35,13 +35,13 @@ class LoginForm extends React.Component {
       .then(appData => {
         this.props.storeUserJobs(appData.jobs)
         this.props.storeUserData(appData.user)
-        this.props.storeEmployerReviews(appData.employer_reviews)
-        this.props.storeCaregiverReviews(appData.caregiver_reviews)
         if (userType === 'employer') {
           this.props.storeUserFavorites(appData.employer_favorites)
+          this.props.storeReviews(appData.caregiver_reviews)
           this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
           this.props.storeUserFavorites(appData.caregiver_favorites)
+          this.props.storeReviews(appData.employer_reviews)
           this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
@@ -130,12 +130,11 @@ const mapDispatchToProps = dispatch => {
     setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
     storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
     storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
-    storeEmployerReviews: (reviews) => dispatch({type: 'STORE_EMPLOYER_REVIEWS', employerReviews: reviews}),
-    storeCaregiverReviews: (reviews) => dispatch({type: 'STORE_CAREGIVER_REVIEWS', caregiverReviews: reviews}),
     storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
     storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
     storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
+    storeReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', reviews: reviews}),
   }
 }
 

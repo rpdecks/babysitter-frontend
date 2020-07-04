@@ -1,14 +1,9 @@
 export default function reviewsReducer(state = {}, action) {
     switch (action.type) {
-    case 'STORE_EMPLOYER_REVIEWS':
+    case 'STORE_REVIEWS':
         return {
             ...state,
-            employer_reviews: action.employerReviews
-        }
-    case 'STORE_CAREGIVER_REVIEWS':
-        return {
-            ...state,
-            caregiverReviews: action.caregiverReviews
+            reviews: action.reviews
         }
     default:
         return state;
