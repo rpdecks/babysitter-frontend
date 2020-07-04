@@ -11,9 +11,6 @@ const Styles = styled.div `
   .img {
     height: 30vh;
   }
-  .name-row {
-    background: #89cff0;
-  }
 `
 
 function UserShow(props) {
@@ -27,14 +24,14 @@ function UserShow(props) {
         let favoriteObj = {}
         if (props.userType === 'employer') {
             favoriteObj = {
-                caregiver_favorite: {
+                employer_favorite: {
                     employer_id: props.userData.id,
                     caregiver_id: props.user.id
                 }
             }
         } else if (props.userType === 'caregiver') {
             favoriteObj = {
-                employer_favorite: {
+                caregiver_favorite: {
                     caregiver_id: props.userData.id,
                     employer_id: props.user.id
                 }
@@ -50,7 +47,7 @@ function UserShow(props) {
             body: JSON.stringify(favoriteObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/${props.userType}s`, fetchObj)
+        fetch(`http://localhost:3000/api/v1/${props.userType}_favorites`, fetchObj)
         .then(res => res.json())
         .then(favResponse => {
             if (favResponse.created) {
@@ -62,6 +59,19 @@ function UserShow(props) {
             }
         })
         .catch(errors => console.log(errors))
+    }
+
+    function renderFavoriteHearts() {
+        let result = null
+        if (props.userType === 'employer') {
+            result = props.userFavorites.filter(f => f.caregiver_id === props.user.id)
+            if (result.length > 0) return <BsHeartFill onClick={() => favoriteUser()} />
+            else return <BsHeart onClick={() => favoriteUser()} />
+        } else if ( props.userType === 'caregiver' ) {
+            result = props.userFavorites.filter(f => f.employer_id === props.user.id)
+            if (result.length> 0) return <BsHeartFill onClick={() => favoriteUser()} />
+            else return <BsHeart onClick={() => favoriteUser()} />
+        }
     }
 
     return (
@@ -88,9 +98,7 @@ function UserShow(props) {
                         <p>{props.user.ratings} out of 5 stars</p>
                         </Col>
                         <Col>
-                            {props.userData.employer_favorites.includes(props.user.id) ? 
-                                <BsHeartFill onClick={favoriteUser()}/> : <BsHeart onClick={favoriteUser()}/>
-                            }
+                            {props.userFavorites && renderFavoriteHearts()}
                         </Col>
                     </Row>
                 </Col>  
@@ -104,11 +112,13 @@ function UserShow(props) {
     )   
 }
 
+
 const mapStateToProps = (state, props) => {
     return {
         user: props.user,
         userData: state.userReducer.userData,
-        userType: state.userReducer.userType
+        userType: state.userReducer.userType,
+        userFavorites: state.favoritesReducer.userFavorites
     }
 }
 
