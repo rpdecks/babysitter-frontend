@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import StarRatings from 'react-star-ratings'
 
 function UserCard(props) {
-    
     return (
         <Card>
             <Link to={`/${props.userType}s/${props.user.id}`}>

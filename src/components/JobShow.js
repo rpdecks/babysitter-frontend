@@ -1,8 +1,20 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button } from 'react-bootstrap'
+import { Button, CardDeck, Col, Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
+import UserCard from './UserCard'
+import styled from 'styled-components'
+
+const Styles = styled.div `
+  .row-fluid {
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .card {
+    //   width: 25vw;
+  }
+`  
 
 class JobShow extends React.Component {
     state = {
@@ -17,10 +29,31 @@ class JobShow extends React.Component {
                 </Button>
             </Link>
         }
-    }   
+    }       
 
-    renderInfo = () => {
-        return <>
+    renderResponses = () => {
+        if (this.props.job.candidates && this.props.job.candidates.length > 0) {
+            return this.props.job.candidates.map((cand, index) => {
+                const candidate = this.props.caregivers.find(c => c.id === cand.caregiver_id)
+                return (
+                    <Col xs={3} key={index} >
+                        <UserCard user={candidate} key={index} userType={'caregiver'} />
+                    </Col>
+                )
+            })
+        }
+    }
+
+    render() {
+        return (
+            <>
+            <Styles>
+                <Row>
+                    <CardDeck>
+                        { this.renderResponses() }
+                    </CardDeck>
+                </Row>
+            </Styles>
             <h3>{this.props.job.title}</h3>
             <hr />
             <p>{new Date(this.props.job.end_time).toDateString()}</p>
@@ -38,16 +71,10 @@ class JobShow extends React.Component {
             <p>{this.props.job.desc}</p>
 
             {this.renderEditBtn()}
-            <Button variant="danger" onClick={() => this.props.history.push('/')} >
+            <Button variant="danger" onClick={() => this.props.history.push('/jobs')} >
                 Back
             </Button>
-        </>
-
-    }
-
-    render() {
-        return (
-            this.state.editing ? this.renderForm() : this.renderInfo()
+            </>
         )
     }
 }
@@ -57,6 +84,7 @@ const mapStateToProps = (state, props) => {
         userType: state.userReducer.userType,
         userJobs: state.jobReducer.userJobs,
         availableJobs: state.jobReducer.availableJobs,
+        caregivers: state.userReducer.caregivers,
         job: props.job,
     }
 }
