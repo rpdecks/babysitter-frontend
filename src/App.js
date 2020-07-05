@@ -15,7 +15,6 @@ import JobShow from './components/JobShow'
 import UserIndex from './components/UserIndex'
 import UserShow from './components/UserShow'
 import Account from './components/Account'
-import Reviews from './components/Reviews';
 import FilterContainer from './containers/FilterContainer'
 import CalendarView from './components/CalendarView'
 
@@ -178,9 +177,6 @@ class App extends React.Component {
                         else return null
                     }}
                   />
-                  <Route exact path='/reviews'>
-                    <Reviews />
-                  </Route>
                   <Route exact path='/browse'>
                     <UserIndex />
                   </Route>
