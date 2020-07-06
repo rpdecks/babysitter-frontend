@@ -180,7 +180,7 @@ class NewJobForm extends React.Component {
                         <Form.Label>Job Title:</Form.Label>
                         <Form.Control name="title" 
                             type="text" 
-                            defaultValue={this.props.job.title}
+                            defaultValue={this.state.title}
                             onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
@@ -189,14 +189,14 @@ class NewJobForm extends React.Component {
                         <Form.Label>Job Location:</Form.Label>
                         <Form.Control name="job_location" 
                             placeholder="physical address" 
-                            defaultValue={this.props.job.job_location} 
+                            defaultValue={this.state.job_location} 
                             onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridPayRate">
                         <Form.Label>Pay rate:</Form.Label>
                         <Form.Control name="pay_rate" 
                             placeholder="$ per hour" 
-                            defaultValue={this.props.job.pay_rate} 
+                            defaultValue={this.state.pay_rate} 
                             onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
@@ -205,14 +205,14 @@ class NewJobForm extends React.Component {
                         <Form.Label>Start date:</Form.Label>
                             <Form.Control name="start_date" 
                                 type="date" 
-                                defaultValue={this.props.job.start_date_YYYYMMDD} 
+                                defaultValue={this.state.start_date_YYYYMMDD} 
                                 onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridStartTime">
                         <Form.Label>Start time:</Form.Label>
                             <Form.Control name="start_time" 
                                 type="time" 
-                                defaultValue={this.props.job.start_time_HHMM} 
+                                defaultValue={this.state.start_time_HHMM} 
                                 onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
@@ -221,14 +221,14 @@ class NewJobForm extends React.Component {
                         <Form.Label>End date:</Form.Label>
                             <Form.Control name="end_date" 
                                 type="date" 
-                                defaultValue={this.props.job.end_date_YYYYMMDD} 
+                                defaultValue={this.state.end_date_YYYYMMDD} 
                                 onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                     <Form.Group as={Col} controlId="formGridEndTime">
                         <Form.Label>End time:</Form.Label>
                             <Form.Control name="end_time" 
                                 type="time" 
-                                defaultValue={this.props.job.end_time_HHMM} 
+                                defaultValue={this.state.end_time_HHMM} 
                                 onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
@@ -240,7 +240,7 @@ class NewJobForm extends React.Component {
                         <textarea className="form-control" 
                             name="desc" 
                             placeholder="describe the job details" 
-                            defaultValue={this.props.job.desc} 
+                            defaultValue={this.state.desc} 
                             onChange={e => this.handleChange(e)}/>
                     </Form.Group>
                 </Form.Row>
@@ -313,21 +313,21 @@ class NewJobForm extends React.Component {
                     <Form.Check name="non_smoking" 
                         type="checkbox" 
                         label="Non-smoking" 
-                        defaultValue={this.props.job.non_smoking} 
+                        defaultValue={this.state.non_smoking} 
                         onChange={e => this.handleChange(e)}/>
                 </Form.Group>
                 <Form.Group id="formGridHasPets">
                     <Form.Check name="has_pets" 
                         type="checkbox" 
                         label="Pets involved" 
-                        defaultValue={this.props.job.has_pets} 
+                        defaultValue={this.state.has_pets} 
                         onChange={e => this.handleChange(e)}/>
                 </Form.Group>
                 <Form.Group id="formGridHasFirstAid">
                     <Form.Check name="first_aid_cert" 
                         type="checkbox" 
                         label="First aid certified" 
-                        defaultValue={this.props.job.first_aid_cert} 
+                        defaultValue={this.state.first_aid_cert} 
                         onChange={e => this.handleChange(e)}/>
                 </Form.Group>
 

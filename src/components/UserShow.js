@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, Col, Image, Modal, Row, Tabs, Tab } from 'react-bootstrap'
+import { Accordion, Button, Card, Col, Image, Modal, Row, Tabs, Tab } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
@@ -29,11 +29,16 @@ const Styles = styled.div `
 
 function UserShow(props) {
     const [show, setShow] = useState(false);
-    const handleClose = (jobId, caregiverId) => {
-        setShow(false);
-        awardJob(jobId, caregiverId)
-    }
+    const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+    function handleBackButton() {
+        if (props.user) {
+            window.history.go(-1)
+        } else {
+            props.history.push('/browse')
+        }
+    }
 
     function awardJob(jobId, caregiverId) {
         const auth_token = localStorage.getItem('auth_token')
@@ -43,7 +48,7 @@ function UserShow(props) {
 
         const jobObj = {
             job: {
-                job_id: jobId,
+                id: jobId,
                 caregiver_id: caregiverId
             }
         }
@@ -61,6 +66,7 @@ function UserShow(props) {
         .then(res => res.json())
         .then(job => {
             props.editJob(job)
+            props.history.push(`/jobs/${jobId}`)
         })
         .catch(errors => console.log(errors))
     }
@@ -136,34 +142,50 @@ function UserShow(props) {
         incompleteJobs = props.jobs.filter(job => job.status !== 'complete')
         if (incompleteJobs.length > 0) {
             myJobsUserAppliedFor = incompleteJobs.filter(job => {
-                if (job.candidates.length > 0) {
+                if (job.candidates && job.candidates.length > 0) {
                     return job.candidates.filter(c => c.id === props.user.id)
                 } else return myJobsUserAppliedFor
             })
         }
         if (myJobsUserAppliedFor.length > 0) {
-            return myJobsUserAppliedFor.map(job => {
+            return myJobsUserAppliedFor.map((job, index) => {
                 return (
                     <>
-                        <div className='award-title'>{job.title}:</div>
-                        <button className='award-btn' onClick={handleShow}><li>Award</li></button><br />
-                        <Link to={`/jobs/${job.id}`} >
-                            <div className='award-job-details'>Job details</div><br />
-                        </Link>
-                        <Modal show={show} className='award-modal' onHide={handleClose}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>Award job</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>Are you sure you would like to award this job to {props.user.first_name}</Modal.Body>
-                            <Modal.Footer>
-                                <Button variant="secondary" onClick={handleClose}>
-                                    Close
-                                </Button>
-                                <Button variant="primary" onClick={awardJob}>
-                                    Award job
-                                </Button>
-                            </Modal.Footer>
-                        </Modal>
+                        <Accordion>
+                            <Card xs={12} key={index} >
+                                <Card.Header>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                        <b key={index} >{job.title}</b>
+                                    </Accordion.Toggle>
+                                </Card.Header>
+                                <Accordion.Collapse eventKey="0">
+                                    <Card.Body key={index} >
+                                        <Link to={`/jobs/${job.id}`} key={index} >
+                                            <Button variant="link" key={index} >Job details page</Button>
+                                        </Link>
+                                        <Button variant="link" onClick={handleShow} >Award job to this user</Button>
+                                        <Modal show={show} className='award-modal' onHide={handleClose}>
+                                            <Modal.Header closeButton >
+                                                <Modal.Title>Award job</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                Are you sure you would like to award:<br /><br />  
+                                                <b>Job: </b>{job.title} - {job.start_date_YYYYMMDD}<br /> 
+                                                <b>To: </b>{props.user.first_name}<br /> 
+                                            </Modal.Body>
+                                            <Modal.Footer >
+                                                <Button variant="secondary" onClick={handleClose} >
+                                                    Cancel
+                                                </Button>
+                                                <Button variant="primary" onClick={() => awardJob(job.id, props.user.id)} >
+                                                    Award job
+                                                </Button>
+                                            </Modal.Footer>
+                                        </Modal>
+                                    </Card.Body>
+                                </Accordion.Collapse>
+                            </Card>
+                        </Accordion>
                     </>
                 )
             })
@@ -228,8 +250,8 @@ function UserShow(props) {
                     </Col>
                     <Col >
                         <ul>
-                            <Row><h3>Award job:</h3></Row>
-                            <Row className='award-row'>
+                            <Row><h3>Job applications:</h3></Row>
+                            <Row className='award-column'>
                                 <Col>{renderJobsToAward()}</Col>
                             </Row>
                         </ul>
@@ -247,7 +269,7 @@ function UserShow(props) {
                     {renderReviews()}
                 </Tab>
             </Tabs>
-            <Button variant="danger" onClick={() => props.history.push('/browse')} >
+            <Button variant="danger" onClick={() => handleBackButton()} >
                 Back
             </Button>
         </Styles>
@@ -263,7 +285,6 @@ const mapStateToProps = (state, props) => {
         userFavorites: state.favoritesReducer.userFavorites,
         reviews: state.reviewsReducer.reviews,
         jobs: state.jobReducer.userJobs
-
     }
 }
 

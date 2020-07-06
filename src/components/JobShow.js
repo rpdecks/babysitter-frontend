@@ -22,14 +22,15 @@ const Styles = styled.div `
         margin-bottom: 10rem !important;
         margin-top: 10px !important;
     }
-    .row {
+    .award-success {
+        color: green;
+    }
+    .award-failure {
+        color: red;
     }
 `  
 
 class JobShow extends React.Component {
-    state = {
-        editing: '',
-    }
 
     renderEditBtn = () => {
         if (this.props.userType === 'employer') {
@@ -39,7 +40,7 @@ class JobShow extends React.Component {
                 </Button>
             </Link>
         }
-    }       
+    }
 
     renderResponses = () => {
         if (this.props.job.candidates && this.props.job.candidates.length > 0) {
@@ -51,16 +52,32 @@ class JobShow extends React.Component {
                             user={candidate} 
                             className='card'
                             key={index} 
-                            userType={'caregiver'} />
+                            userType={'caregiver'}
+                            />
                     </Col>
                 )
             })
         }
     }
 
+    renderJobCaregiverInfo() {
+        const caregiver = this.props.caregivers.find(c => c.id === this.props.job.caregiver_id)
+        if (this.props.job.caregiver_id) {
+            return <>
+                <h3 className="award-success">Job awarded!</h3>
+                    Caregiver name: 
+                        <Link to={`/caregivers/${caregiver.id}`}>
+                            {caregiver.first_name}
+                        </Link>
+            </>
+        } else {
+            return <h3 className="award-failure">Job not yet awarded! Pick your babysitter</h3>
+        }
+    }
+
     render() {
         return (
-            <>
+            <Styles>
                 {this.props.job.candidates && this.props.job.candidates.length > 0 ?
                     <Styles>
                         <h3>Review your applicants and award your job!</h3>
@@ -75,9 +92,12 @@ class JobShow extends React.Component {
                     :
                     null
                 }
+            <hr />
             <h3>{this.props.job.title}</h3>
             <hr />
-            <p>{new Date(this.props.job.end_time).toDateString()}</p>
+            { this.props.userType === 'employer' ? this.renderJobCaregiverInfo() : null }
+            <p><b>Status:</b> {this.props.job.status}</p>
+            <p><b>When:</b>{new Date(this.props.job.end_time).toDateString()}</p>
             <p><b>Duration:</b> {this.props.job.duration} hours</p>
             <p>{this.props.job.start_time_HHMM} to {this.props.job.start_time_HHMM}</p>
             <p><b>Location:</b> {this.props.job.job_location}</p>
@@ -95,7 +115,7 @@ class JobShow extends React.Component {
             <Button variant="danger" onClick={() => this.props.history.push('/jobs')} >
                 Back
             </Button>
-            </>
+        </Styles>
         )
     }
 }
