@@ -65,7 +65,7 @@ class JobShow extends React.Component {
         if (this.props.job.caregiver_id) {
             return <>
                 <h3 className="award-success">Job awarded!</h3>
-                    Caregiver name: 
+                <p>Charegiver name:</p>
                         <Link to={`/caregivers/${caregiver.id}`}>
                             {caregiver.first_name}
                         </Link>

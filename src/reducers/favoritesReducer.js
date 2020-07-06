@@ -1,4 +1,4 @@
-export default function favoritesReducer(state = {}, action) {
+export default function favoritesReducer(state = {favoritesFilter: false,}, action) {
     switch (action.type) {
     case 'FAVORITE_USER':
         return {
@@ -15,6 +15,11 @@ export default function favoritesReducer(state = {}, action) {
             ...state,
             userFavorites: action.userFavorites
         }
+    case 'FILTER_BY_FAVORITES':
+      return {
+        ...state,
+        favoritesFilter: action.favoritesFilter
+      }
     default:
         return state;
     }

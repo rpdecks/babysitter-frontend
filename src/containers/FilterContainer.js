@@ -29,6 +29,14 @@ function FilterContainer(props) {
             <hr />
             <Form className="job_requirements">
                 <Form.Check 
+                    name='favorites'
+                    type={'checkbox'}
+                    id={'favorites'}
+                    label={'My favorites'}
+                    checked={props.favoritesFilter}
+                    onChange={() => props.filterByFavorites(!props.favoritesFilter)}
+                />
+                <Form.Check 
                     name='non-smoking'
                     type={'checkbox'}
                     id={'non-smoking'}
@@ -127,6 +135,7 @@ const mapStateToProps = (state, props) => {
         jobs: state.userReducer.user,
         calendarView: state.userReducer.calendarView,
         filteredJobs: state.jobReducer.filteredJobs,
+        favoritesFilter: state.favoritesReducer.favoritesFilter,
         completionFilter: state.jobReducer.completionFilter,
         nonSmokingFilter: state.jobReducer.nonSmokingFilter,
         firstAidCertFilter: state.jobReducer.firstAidCertFilter,
@@ -138,6 +147,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = dispatch => {
     return {
         switchView: (view) => dispatch({ type: "SWITCH_VIEW", calendarView: view}),
+        filterByFavorites: (filter) => dispatch({ type: "FILTER_BY_FAVORITES", favoritesFilter: filter}),
         filterByCompleted: (filter) => dispatch({ type: "FILTER_BY_COMPLETED", completionFilter: filter}),
         filterByNonSmoking: (filter) => dispatch({ type: "FILTER_BY_NON_SMOKING", nonSmokingFilter: filter}),
         filterByFirstAidCert: (filter) => dispatch({ type: "FILTER_BY_FIRST_AID", firstAidCertFilter: filter}),
