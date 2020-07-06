@@ -38,7 +38,7 @@ function UserIndex(props) {
 
         // Filters
         let usersCopy = [...users]
-        const myFilters = [applyNonSmokingFilter, applyPetsFilter, applyFirstAidCertFilter]
+        const myFilters = [applyNonSmokingFilter, applyPetsFilter, applyFirstAidCertFilter, applyFavoritesFilter]
         const filteredUsers = usersCopy.filter(user => myFilters.every(f => f(user)))
         // map for render
         return filteredUsers.map( u => 
@@ -51,6 +51,18 @@ function UserIndex(props) {
     }
 
     // Filters
+    function applyFavoritesFilter(user) {
+        if (props.favoritesFilter === true) {
+            let filtered = []
+            if (props.userType === 'caregiver') {
+                filtered = props.favorites.filter(fav => fav.employer_id === user.id)
+                return (filtered && filtered.length > 0) 
+            } else if (props.userType === 'employer') {
+                filtered = props.favorites.filter(fav => fav.caregiver_id === user.id)
+                return (filtered && filtered.length > 0) 
+            } 
+        } else return true
+    }
     function applyNonSmokingFilter(user) {
         if (props.nonSmokingFilter === true) return (user.smoker === true)
         else return true
@@ -63,6 +75,7 @@ function UserIndex(props) {
         if (props.firstAidCertFilter === true) return (user.first_aid_cert === true)
         else return true
     }
+
     function welcomeUser() {
         if (props.userType === 'employer') {
             return <h1>Browse potential <b>Caregivers</b></h1> 
@@ -93,6 +106,8 @@ const mapStateToProps = (state) => {
         nonSmokingFilter:  state.jobReducer.nonSmokingFilter, 
         firstAidCertFilter:  state.jobReducer.firstAidCertFilter, 
         petsFilter: state.jobReducer.petsFilter,
+        favoritesFilter: state.favoritesReducer.favoritesFilter,
+        favorites: state.favoritesReducer.userFavorites,
     }
 }
 
