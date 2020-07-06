@@ -6,10 +6,24 @@ import UserCard from './UserCard'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-  .row {
-    // height: 25vh;
-  }
-`
+    .card-deck {
+        // height: 40vh;
+        overflow-y: auto;
+        white-space: nowrap;
+        float: none;
+    }
+    .card-img-top {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+    .card {
+        margin-bottom: 10px !important;
+        margin-top: 10px !important;
+    }
+    .row {
+    }
+`  
 
 function UserIndex(props) {
 
@@ -27,11 +41,13 @@ function UserIndex(props) {
         const myFilters = [applyNonSmokingFilter, applyPetsFilter, applyFirstAidCertFilter]
         const filteredUsers = usersCopy.filter(user => myFilters.every(f => f(user)))
         // map for render
-        return filteredUsers.map( u => <UserCard 
-            key={u.id} 
-            userType={selectCardUserType()}
-            user={u} 
-            />)
+        return filteredUsers.map( u => 
+            <Col xs={3}>
+                <UserCard key={u.id} 
+                    user={u} 
+                    userType={selectCardUserType()}
+                />
+              </Col>)
     }
 
     // Filters
@@ -56,17 +72,15 @@ function UserIndex(props) {
     return (
         <Styles>
             {welcomeUser()}
-            <CardDeck >
                 <Row>
-                <Col xs={3}>
-                    {props.userType === 'employer' ? 
-                        renderUsers(props.caregivers)
-                        :
-                        renderUsers(props.employers)
-                    }
-                </Col>
+                    <CardDeck >
+                        {props.userType === 'employer' ? 
+                            renderUsers(props.caregivers)
+                            :
+                            renderUsers(props.employers)
+                        }
+                    </CardDeck>
                 </Row>
-            </CardDeck>
         </Styles>
     )   
 }

@@ -46,6 +46,7 @@ class LoginForm extends React.Component {
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
         } else { console.log('No userType specific appData stored') }
+        this.props.hydrateComplete()
       })
       .catch(error => console.log(error))
   }
@@ -135,6 +136,7 @@ const mapDispatchToProps = dispatch => {
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
     storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
     storeReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', reviews: reviews}),
+    hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
   }
 }
 

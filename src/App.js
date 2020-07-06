@@ -75,6 +75,7 @@ class App extends React.Component {
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
         } else { console.log('No userType specific appData stored')}
+        this.props.hydrateComplete()
       })
       .catch(error => console.log(error))
   }
@@ -91,6 +92,10 @@ class App extends React.Component {
     if (this.props.selectedJob) {
       return <JobShow />
     }
+  }
+
+  renderLoading() {
+    return <div>loading</div>
   }
 
   render() {
@@ -125,7 +130,10 @@ class App extends React.Component {
                   <Route exact path='/signup'>
                     {this.props.signingUp && this.props.userType && this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
                   </Route>
-                  <Route exact path='/newjob'>
+                  
+                  {this.props.hydrated ? (
+                    <>
+                    <Route exact path='/newjob'>
                     <NewJobForm />
                   </Route>
                   <Route 
@@ -180,6 +188,11 @@ class App extends React.Component {
                   <Route exact path='/browse'>
                     <UserIndex />
                   </Route>
+                </>
+                )
+                :
+                <Route render={this.renderLoading}/>
+                }
                 </Col>
                 <Col xs={2} className="right-column">
                 </Col>
@@ -202,6 +215,7 @@ const mapStateToProps = state => {
     availableJobs: state.jobReducer.availableJobs,
     caregivers: state.userReducer.caregivers,
     employers: state.userReducer.employers,
+    hydrated: state.uiReducer.hydrated,
   }
 }
 
@@ -217,6 +231,7 @@ const mapDispatchToProps = dispatch => {
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
     storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
     storeReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', reviews: reviews}),
+    hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
   }
 }
 
