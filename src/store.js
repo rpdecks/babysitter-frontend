@@ -3,12 +3,14 @@ import jobReducer from './reducers/jobReducer';
 import userReducer from './reducers/userReducer';
 import reviewsReducer from './reducers/reviewsReducer';
 import favoritesReducer from './reducers/favoritesReducer';
+import uiReducer from './reducers/uiReducer'
 
 const appReducer = combineReducers({
-  userReducer: userReducer,
-  jobReducer: jobReducer,
-  favoritesReducer: favoritesReducer,
-  reviewsReducer: reviewsReducer,
+  uiReducer,
+  userReducer,
+  jobReducer,
+  favoritesReducer,
+  reviewsReducer,
 });
 
 const rootReducer = (state, action) => {

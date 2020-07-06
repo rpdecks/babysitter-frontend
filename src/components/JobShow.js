@@ -1,19 +1,29 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, CardDeck, Col, Row } from 'react-bootstrap'
+import { Button, CardDeck, Col, Row, Container } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import UserCard from './UserCard'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-  .row-fluid {
-    overflow: auto;
-    white-space: nowrap;
-  }
-  .card {
-    //   width: 25vw;
-  }
+    .card-deck {
+        height: 40vh;
+        overflow-y: auto;
+        white-space: nowrap;
+        float: none;
+    }
+    .card-img-top {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+    }
+    .card {
+        margin-bottom: 10rem !important;
+        margin-top: 10px !important;
+    }
+    .row {
+    }
 `  
 
 class JobShow extends React.Component {
@@ -37,7 +47,11 @@ class JobShow extends React.Component {
                 const candidate = this.props.caregivers.find(c => c.id === cand.caregiver_id)
                 return (
                     <Col xs={3} key={index} >
-                        <UserCard user={candidate} key={index} userType={'caregiver'} />
+                        <UserCard 
+                            user={candidate} 
+                            className='card'
+                            key={index} 
+                            userType={'caregiver'} />
                     </Col>
                 )
             })
@@ -47,13 +61,20 @@ class JobShow extends React.Component {
     render() {
         return (
             <>
-            <Styles>
-                <Row>
-                    <CardDeck>
-                        { this.renderResponses() }
-                    </CardDeck>
-                </Row>
-            </Styles>
+                {this.props.job.candidates && this.props.job.candidates.length > 0 ?
+                    <Styles>
+                        <h3>Review your applicants and award your job!</h3>
+                        <Container>
+                            <Row className='row'>
+                                <CardDeck className='card-deck'>
+                                    { this.renderResponses() }
+                                </CardDeck>
+                            </Row>
+                        </Container>
+                    </Styles>
+                    :
+                    null
+                }
             <h3>{this.props.job.title}</h3>
             <hr />
             <p>{new Date(this.props.job.end_time).toDateString()}</p>

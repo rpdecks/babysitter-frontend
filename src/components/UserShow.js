@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Button, Col, Image, Row, Tabs, Tab } from 'react-bootstrap'
+import { Button, Col, Image, Modal, Row, Tabs, Tab } from 'react-bootstrap'
 import { withRouter } from 'react-router'
-// import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { BsHeart, BsHeartFill } from "react-icons/bs"
 import { MdSmokeFree, MdSmokingRooms, MdPets } from "react-icons/md"
@@ -15,12 +15,55 @@ const Styles = styled.div `
   .img {
     height: 40vh;
   }
-  .review-row {
-      background-color: blue;
+  .award-column {
+      overflow-y: scroll;
+      height: 40vh;
+  }
+  .award-title {
+  }
+  .award-btn {
+  }
+  .award-job-details {
   }
 `
 
 function UserShow(props) {
+    const [show, setShow] = useState(false);
+    const handleClose = (jobId, caregiverId) => {
+        setShow(false);
+        awardJob(jobId, caregiverId)
+    }
+    const handleShow = () => setShow(true);
+
+    function awardJob(jobId, caregiverId) {
+        const auth_token = localStorage.getItem('auth_token')
+        if (!auth_token) {
+            return
+        }
+
+        const jobObj = {
+            job: {
+                job_id: jobId,
+                caregiver_id: caregiverId
+            }
+        }
+
+        const fetchObj = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth-Token': auth_token
+            },
+            body: JSON.stringify(jobObj)
+        }
+
+        fetch(`http://localhost:3000/api/v1/jobs/${jobId}`, fetchObj)
+        .then(res => res.json())
+        .then(job => {
+            props.editJob(job)
+        })
+        .catch(errors => console.log(errors))
+    }
 
     function favoriteUser() {
         const auth_token = localStorage.getItem('auth_token')
@@ -82,16 +125,56 @@ function UserShow(props) {
     }
 
     function renderReviews() {
+
         return props.reviews.map((review, index) => {
             return <Review key={index} review={review}/>
         })
     }
 
+    function renderJobsToAward() {
+        let { myJobsUserAppliedFor, incompleteJobs } = []
+        incompleteJobs = props.jobs.filter(job => job.status !== 'complete')
+        if (incompleteJobs.length > 0) {
+            myJobsUserAppliedFor = incompleteJobs.filter(job => {
+                if (job.candidates.length > 0) {
+                    return job.candidates.filter(c => c.id === props.user.id)
+                } else return myJobsUserAppliedFor
+            })
+        }
+        if (myJobsUserAppliedFor.length > 0) {
+            return myJobsUserAppliedFor.map(job => {
+                return (
+                    <>
+                        <div className='award-title'>{job.title}:</div>
+                        <button className='award-btn' onClick={handleShow}><li>Award</li></button><br />
+                        <Link to={`/jobs/${job.id}`} >
+                            <div className='award-job-details'>Job details</div><br />
+                        </Link>
+                        <Modal show={show} className='award-modal' onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Award job</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>Are you sure you would like to award this job to {props.user.first_name}</Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Close
+                                </Button>
+                                <Button variant="primary" onClick={awardJob}>
+                                    Award job
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    </>
+                )
+            })
+        }
+    }
+
     return (
         <Styles>
             <Row>
-                <Col xs={8}>
-                    <Row >
+                <Col xs={12}>
+                    <Row>
                     <Image 
                         className='img' 
                         src={props.user.image} 
@@ -143,6 +226,14 @@ function UserShow(props) {
                                 null}
                         </Row>
                     </Col>
+                    <Col >
+                        <ul>
+                            <Row><h3>Award job:</h3></Row>
+                            <Row className='award-row'>
+                                <Col>{renderJobsToAward()}</Col>
+                            </Row>
+                        </ul>
+                    </Col>
                     </Row>
                 </Col>  
             </Row>
@@ -170,14 +261,17 @@ const mapStateToProps = (state, props) => {
         userData: state.userReducer.userData,
         userType: state.userReducer.userType,
         userFavorites: state.favoritesReducer.userFavorites,
-        reviews: state.reviewsReducer.reviews
+        reviews: state.reviewsReducer.reviews,
+        jobs: state.jobReducer.userJobs
+
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         favoriteUser: (favorite) => dispatch({ type: 'FAVORITE_USER', favorite: favorite}),
-        unFavoriteUser: (id) => dispatch({ type: 'UNFAVORITE_USER', favoriteInstanceId: id})
+        unFavoriteUser: (id) => dispatch({ type: 'UNFAVORITE_USER', favoriteInstanceId: id}),
+        editJob: (editedJob) => dispatch({ type: 'EDIT_JOB', editedJob: editedJob}),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserShow))
