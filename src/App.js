@@ -107,7 +107,7 @@ class App extends React.Component {
             <>
               <Row>
                 <Col xs={2} className="sidebar-column">
-                    <Route path='/jobs'
+                    <Route exact path='/jobs'
                       render={({match}) => <FilterContainer path={match.path}/>}  
                     />
                     <Route path='/browse'
@@ -130,69 +130,68 @@ class App extends React.Component {
                   <Route exact path='/signup'>
                     {this.props.signingUp && this.props.userType && this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
                   </Route>
-                  
                   {this.props.hydrated ? (
                     <>
-                    <Route exact path='/newjob'>
-                    <NewJobForm />
-                  </Route>
-                  <Route 
-                    exact path='/jobs/:id/edit'
-                    render={({match}) => {
-                        const jobId = parseInt(match.params.id)
-                        const jobAry = this.props.userJobs.concat(this.props.availableJobs)
-                        const job = jobAry.find(j => j.id === jobId) 
-                        if (job) return <NewJobForm job={job} />
-                        else return null
-                    }}  
-                  />
-                  <Route exact path='/account'>
-                    <Account />
-                  </Route>
-                  <Route exact path='/jobs'>
-                    {(this.props.isLoggedIn && this.props.calendarView) ? 
-                      <CalendarView /> 
-                      : 
-                      this.props.isLoggedIn ? 
-                          <Jobs /> : <Welcome /> 
-                    }
-                  </Route>
-                  <Route 
-                    exact path='/jobs/:id'
-                    render={({match}) => {
-                        const jobId = parseInt(match.params.id)
-                        const jobAry = this.props.userJobs.concat(this.props.availableJobs)
-                        const job = jobAry.find(j => j.id === jobId) 
-                        if (job) return <JobShow job={job} />
-                        else return null
-                    }}
-                  />
-                  <Route 
-                    exact path='/caregivers/:id'
-                    render={({match}) => {
-                        const userId = parseInt(match.params.id)
-                        const user = this.props.caregivers.find(c => c.id === userId) 
-                        if (user) return <UserShow user={user} />
-                        else return null
-                    }}
-                  />
-                  <Route 
-                    exact path='/employers/:id'
-                    render={({match}) => {
-                        const userId = parseInt(match.params.id)
-                        const user = this.props.employers.find(c => c.id === userId) 
-                        if (user) return <UserShow user={user} />
-                        else return null
-                    }}
-                  />
-                  <Route exact path='/browse'>
-                    <UserIndex />
-                  </Route>
-                </>
-                )
-                :
-                <Route render={this.renderLoading}/>
-                }
+                      <Route exact path='/newjob'>
+                        <NewJobForm />
+                      </Route>
+                      <Route
+                        exact path='/jobs/:id/edit'
+                        render={({ match }) => {
+                          const jobId = parseInt(match.params.id)
+                          const jobAry = this.props.userJobs.concat(this.props.availableJobs)
+                          const job = jobAry.find(j => j.id === jobId)
+                          if (job) return <NewJobForm job={job} />
+                          else return null
+                        }}
+                      />
+                      <Route exact path='/account'>
+                        <Account />
+                      </Route>
+                      <Route exact path='/jobs'>
+                        {(this.props.isLoggedIn && this.props.calendarView) ?
+                          <CalendarView />
+                          :
+                          this.props.isLoggedIn ?
+                            <Jobs /> : <Welcome />
+                        }
+                      </Route>
+                      <Route
+                        exact path='/jobs/:id'
+                        render={({ match }) => {
+                          const jobId = parseInt(match.params.id)
+                          const jobAry = this.props.userJobs.concat(this.props.availableJobs)
+                          const job = jobAry.find(j => j.id === jobId)
+                          if (job) return <JobShow job={job} />
+                          else return null
+                        }}
+                      />
+                      <Route
+                        exact path='/caregivers/:id'
+                        render={({ match }) => {
+                          const userId = parseInt(match.params.id)
+                          const user = this.props.caregivers.find(c => c.id === userId)
+                          if (user) return <UserShow user={user} />
+                          else return null
+                        }}
+                      />
+                      <Route
+                        exact path='/employers/:id'
+                        render={({ match }) => {
+                          const userId = parseInt(match.params.id)
+                          const user = this.props.employers.find(c => c.id === userId)
+                          if (user) return <UserShow user={user} />
+                          else return null
+                        }}
+                      />
+                      <Route exact path='/browse'>
+                        <UserIndex />
+                      </Route>
+                    </>
+                  )
+                    :
+                    <Route render={this.renderLoading} />
+                  }
                 </Col>
                 <Col xs={2} className="right-column">
                 </Col>
