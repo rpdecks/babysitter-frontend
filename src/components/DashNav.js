@@ -18,6 +18,8 @@ function DashNav(props) {
            props.history.push('/jobs')
        } else if (e === 'browse') {
            props.history.push('/browse')
+       } else if (e === 'reviews') {
+           props.history.push('/reviews')
        } else if ( e === 'messages') {
            props.history.push('/messages')
        }
@@ -29,6 +31,8 @@ function DashNav(props) {
                     <Tab eventKey="jobs" title="Jobs">
                     </Tab>
                     <Tab eventKey="browse" title="Browse" onClick={() => this.props.history('/browse')}>
+                    </Tab>
+                    <Tab eventKey="reviews" title="Reviews" onClick={() => this.props.history('/reviews')}>
                     </Tab>
                     <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
                     </Tab>

@@ -283,7 +283,7 @@ const mapStateToProps = (state, props) => {
         userData: state.userReducer.userData,
         userType: state.userReducer.userType,
         userFavorites: state.favoritesReducer.userFavorites,
-        reviews: state.reviewsReducer.reviews,
+        reviews: state.reviewsReducer.reviewsAboutMe,
         jobs: state.jobReducer.userJobs
     }
 }
