@@ -34,8 +34,8 @@ function DashNav(props) {
                     </Tab>
                     <Tab eventKey="reviews" title="Reviews" onClick={() => this.props.history('/reviews')}>
                     </Tab>
-                    <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
-                    </Tab>
+                    {/* <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
+                    </Tab> */}
                 </Tabs>
             </Styles>
         )} else return <Navbar />

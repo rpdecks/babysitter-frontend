@@ -116,9 +116,15 @@ function FilterContainer(props) {
             </Form>
             <hr />
             <div className="buttons">
-                <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
-                    Calendar view
-                </Button>{' '}
+                {props.calendarView ? 
+                    <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
+                        List view
+                    </Button>
+                    :
+                    <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
+                        Calendar view
+                    </Button>
+                }
             </div>
             </>
         }

@@ -3,7 +3,7 @@ import jobReducer from './reducers/jobReducer';
 import userReducer from './reducers/userReducer';
 import reviewsReducer from './reducers/reviewsReducer';
 import favoritesReducer from './reducers/favoritesReducer';
-import uiReducer from './reducers/uiReducer'
+import uiReducer from './reducers/uiReducer';
 
 const appReducer = combineReducers({
   uiReducer,

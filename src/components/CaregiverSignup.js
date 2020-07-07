@@ -77,8 +77,8 @@ class CaregiverSignup extends React.Component {
             this.editUser(this.props.userData.id)
         } else this.signup()
     }
+
     editUser = (id) => {
-        debugger
         const userObj =  {
             caregiver: this.state
         }
@@ -95,7 +95,7 @@ class CaregiverSignup extends React.Component {
         .then(res => res.json())
         .then(userData => {
             if (userData.id) {
-                this.props.editUser(userData)
+                this.props.storeUserData(userData)
                 this.props.history.push('/');
             } else { alert(userData.msg) };
         })
@@ -124,7 +124,7 @@ class CaregiverSignup extends React.Component {
                 localStorage.setItem('userType', this.props.userType);
                 this.props.setLoginStatus(true)
                 this.props.history.push('/');
-            } else { alert(loginData.message) };
+            } else { alert(loginData.msg) };
         })
         .catch((errors) => alert(errors))
     }
@@ -143,8 +143,8 @@ class CaregiverSignup extends React.Component {
             </>
         } else {
             return <>
-                Create a Your Babysitting Account<br />
-                Complete the form below and click submit to get started!
+                <h3>Create a Your Babysitting Account</h3>
+                <p>Complete the form below and click submit to get started!</p>
             </>
         }
     }
@@ -157,21 +157,21 @@ class CaregiverSignup extends React.Component {
                     <Row className="split-input-row">
                     <Col xs={4}>
                         <Form.Label>First name</Form.Label>
-                        <Form.Control name="first_name" defaultValue={this.props.userData.first_name} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="first_name" defaultValue={this.state.first_name} onChange={e => this.handleChange(e)}/>
 
                         <Form.Label>Last name</Form.Label>
-                        <Form.Control name="last_name" defaultValue={this.props.userData.last_name} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="last_name" defaultValue={this.state.last_name} onChange={e => this.handleChange(e)}/>
                         <Form.Label>Email</Form.Label>
-                        <Form.Control name="email" defaultValue={this.props.userData.email} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="email" defaultValue={this.state.email} onChange={e => this.handleChange(e)}/>
 
                         <Form.Label>Password</Form.Label>
                         <Form.Control name="password" defaultValue={''} onChange={e => this.handleChange(e)}/>
                     </Col>
                     <Col xs={4}>
                         <Form.Label>Phone:</Form.Label>
-                        <Form.Control name="phone" defaultValue={this.props.userData.phone} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="phone" defaultValue={this.state.phone} onChange={e => this.handleChange(e)}/>
                         <Form.Label>Date of birth:</Form.Label>
-                        <Form.Control name="dob" defaultValue={this.props.userData.dob} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="dob" defaultValue={this.state.dob} onChange={e => this.handleChange(e)}/>
 
                         <Form.Label>Gender</Form.Label>
                         <Form.Control name="gender" as="select" value={this.state.gender} onChange={e => this.handleChange(e)}>
@@ -183,7 +183,7 @@ class CaregiverSignup extends React.Component {
                         <Form.Control 
                             name="pay_rate" 
                             type="number" 
-                            defaultValue={this.props.userData.pay_rate} 
+                            defaultValue={this.state.pay_rate} 
                             onChange={e => this.handleChange(e)}
                         />
                     </Col>
@@ -192,22 +192,22 @@ class CaregiverSignup extends React.Component {
                         <Form.Check name="smoker" 
                                     type="checkbox" 
                                     label="Smoker" 
-                                    defaultValue={this.props.userData.smoker} 
+                                    defaultValue={this.state.smoker} 
                                     onChange={e => this.handleChange(e)}/>
                         <Form.Check name="has_pets" 
                                     type="checkbox" 
                                     label="I have pets" 
-                                    defaultValue={this.props.userData.has_pets} 
+                                    defaultValue={this.state.has_pets} 
                                     onChange={e => this.handleChange(e)}/>
                         <Form.Check name="first_aid_cert" 
                                     type="checkbox" 
                                     label="First aid certification" 
-                                    defaultValue={this.props.userData.first_aid_cert} 
+                                    defaultValue={this.state.first_aid_cert} 
                                     onChange={e => this.handleChange(e)}/>
                     </Col>
                     </Row>
                         <Form.Label>Address</Form.Label>
-                        <Form.Control name="address" defaultValue={this.props.userData.address} onChange={e => this.handleChange(e)}/>
+                        <Form.Control name="address" defaultValue={this.state.address} onChange={e => this.handleChange(e)}/>
                         <hr />
                         <Form.Label>Tell us a little about yourself...</Form.Label>
                         <Form.Control 
@@ -215,7 +215,7 @@ class CaregiverSignup extends React.Component {
                             rows="5"
                             name="content"
                             placeholder="Tell other users about yourself" 
-                            defaultValue={this.props.userData.bio}
+                            defaultValue={this.state.bio}
                             onChange={e => this.handleChange(e)}
                         /><br />
                     <Button variant="primary" type="submit">
@@ -242,7 +242,7 @@ const mapDispatchToProps = dispatch => {
         setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}), 
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
-        editUser: (user) => dispatch ({ type: 'EDIT_USER', editedUser: user }),
+        storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
     }
 }
 
