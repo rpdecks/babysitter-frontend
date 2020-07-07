@@ -21,8 +21,6 @@ const Styles = styled.div `
         margin-bottom: 10px !important;
         margin-top: 10px !important;
     }
-    .row {
-    }
 `  
 
 function UserIndex(props) {
