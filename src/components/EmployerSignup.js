@@ -1,25 +1,104 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { Col, Form, Button } from 'react-bootstrap'
+import { Col, Form, Button, Row } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const Styles = styled.div `
+  .left-column {
+    border: black solid 1px;
+  }
+  .split-input-row {
+    overflow-y: scroll;
+  }
+  .instructions {
+    // padding-bottom: 15px;
+  }
+  .instructions h3 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+`
 
 class EmployerSignup extends React.Component {
-    state = {
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
-        address: '',
-        dob: '',
-        gender: '',
-        phone: '',
-        smoker: '',
-        has_pets: '',
-        bio: '',
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            first_name: '',
+            last_name: '',
+            email: '',
+            password: '',
+            address: '',
+            dob: '',
+            gender: '',
+            phone: '',
+            smoker: '',
+            has_pets: '',
+            bio: '',
+            first_aid_cert: '',
+        }
+    }
+
+    componentDidMount() {
+        debugger
+        if (this.props.userData) {
+            this.setUser(this.props.userData);
+        }
+    }
+
+    setUser(user) {
+        this.setState({
+            first_name: user.first_name || '',
+            last_name: user.last_name || '',
+            address: user.address || '',
+            email: user.email || '',
+            password: user.password || '',
+            dob: user.dob || '',
+            gender: user.gender || '',
+            phone: user.phone || '',
+            smoker: user.smoker || '',
+            has_pets: user.has_pets || '',
+            bio: user.bio || '',
+            image: user.image || '',
+        })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        e.target.reset();
+        if (this.props.userData) {
+            this.editUser(this.props.userData.id)
+        } else this.signup()
     }
 
     handleChange = e => {
         this.setState({ [e.target.name]: e.target.value });
+    }
+
+    editUser = (id) => {
+        const userObj =  {
+            employer: this.state
+        }
+
+        const fetchObj = {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userObj)
+        }
+
+        fetch(`http://localhost:3000/api/v1/employers/${id}`, fetchObj)
+        .then(res => res.json())
+        .then(userData => {
+            if (userData.id) {
+                this.props.storeUserData(userData)
+                this.props.history.push('/');
+            } else { alert(userData.msg) };
+        })
+        .catch((errors) => console.log(errors))
+
     }
 
     signup = (e) => {
@@ -45,13 +124,9 @@ class EmployerSignup extends React.Component {
                 localStorage.setItem('userType', this.props.userType);
                 this.props.setLoginStatus(true)
                 this.props.history.push('/');
-            }
-            else
-            alert(loginData.message);
+            } else { alert(loginData.msg) };
         })
-        .catch(() => alert('Something went wrong'))
-        
-        e.target.reset();
+        .catch((errors) => alert(errors))
     }
 
     handleCancelClick = () => {
@@ -60,75 +135,97 @@ class EmployerSignup extends React.Component {
         this.props.history.push('/')
     }
 
+    renderInstructions = () => {
+        if (this.props.userData) {
+            return <>
+                <h3>My Account</h3>
+                <p>Edit the form below and click submit to edit your profile:</p>
+            </>
+        } else {
+            return <>
+                <h3>Create a Your Babysitting Account</h3>
+                <p>Complete the form below and click submit to get started!</p>
+            </>
+        }
+    }
+
     render() {
         return (
-            <> 
-                <h1>Welcome to Babysiters</h1>
-                <p>Please submit the form below to create your <b>employer</b> account.</p>
-                <Form onSubmit={(e) => this.signup(e)}>
-                    <Form.Row>
-                        <Form.Group as={Col} controlId="formGridFirstName">
-                            <Form.Label>First name</Form.Label>
-                            <Form.Control name="first_name" type="first_name" placeholder="First name" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
+            <Styles>
+                <div className="instructions">{this.renderInstructions()}</div>
+                <Form onSubmit={(e) => this.handleSubmit(e)}>
+                    <Row className="split-input-row">
+                    <Col xs={4}>
+                        <Form.Label>First name</Form.Label>
+                        <Form.Control name="first_name" defaultValue={this.state.first_name} onChange={e => this.handleChange(e)}/>
 
-                        <Form.Group as={Col} controlId="formGridLasttName">
-                            <Form.Label>Last name</Form.Label>
-                            <Form.Control name="last_name" type="last_name" placeholder="Last name" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group as={Col} controlId="formGridEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control name="email" type="email" placeholder="Enter email" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
+                        <Form.Label>Last name</Form.Label>
+                        <Form.Control name="last_name" defaultValue={this.state.last_name} onChange={e => this.handleChange(e)}/>
+                        <Form.Label>Email</Form.Label>
+                        <Form.Control name="email" defaultValue={this.state.email} onChange={e => this.handleChange(e)}/>
 
-                        <Form.Group as={Col} controlId="formGridPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control name="password" type="password" placeholder="Password" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
-                    </Form.Row>
-                        <Form.Group controlId="formGridAddress">
-                            <Form.Label>Address</Form.Label>
-                            <Form.Control name="address" placeholder="1234 Main St" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
-                    <Form.Row>
-                        <Form.Group controlId="formGridPhone">
-                            <Form.Label>Phone:</Form.Label>
-                            <Form.Control name="phone" placeholder="Phone number" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <Form.Control name="password" defaultValue={''} onChange={e => this.handleChange(e)}/>
+                    </Col>
+                    <Col xs={4}>
+                        <Form.Label>Phone:</Form.Label>
+                        <Form.Control name="phone" defaultValue={this.state.phone} onChange={e => this.handleChange(e)}/>
+                        <Form.Label>Date of birth:</Form.Label>
+                        <Form.Control name="dob" defaultValue={this.state.dob} onChange={e => this.handleChange(e)}/>
 
-                        <Form.Group as={Col} controlId="formGridDob">
-                            <Form.Label>Date of birth:</Form.Label>
-                                <Form.Control name="dob" type="date" label="Date of birth" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
-
-                        <Form.Group as={Col} controlId="formGridGender">
-                            <Form.Label>Gender</Form.Label>
-                            <Form.Control name="gender" as="select" value={this.state.value} onChange={e => this.handleChange(e)}>
-                                <option>Choose...</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                            </Form.Control>
-                        </Form.Group>
-                    </Form.Row>
-
-                    <Form.Row>
-                        <Form.Label>Bio:</Form.Label>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Group controlId="formGridBio">
-                            <textarea className="form-control" name="bio" placeholder="Tell other users about yourself" onChange={e => this.handleChange(e)}/>
-                        </Form.Group>
-                    </Form.Row>
-
-                    <Form.Group id="formGridSmoker">    
-                        <Form.Check name="smoker" type="checkbox" label="Smoker" onChange={e => this.handleChange(e)}/>
-                    </Form.Group>
-                    <Form.Group id="formGridHasPets">
-                        <Form.Check name="has_pets" type="checkbox" label="I have pets" onChange={e => this.handleChange(e)}/>
-                    </Form.Group>
-
+                        <Form.Label>Gender</Form.Label>
+                        <Form.Control name="gender" as="select" value={this.state.gender} onChange={e => this.handleChange(e)}>
+                            <option>Choose...</option>
+                            <option>Male</option>
+                            <option>Female</option>
+                        </Form.Control>
+                        { this.props.userType === 'caregiver' ? 
+                            <>
+                                <Form.Label>Pay Rate ($/hour) </Form.Label>
+                                <Form.Control 
+                                    name="pay_rate" 
+                                    type="number" 
+                                    defaultValue={this.state.pay_rate} 
+                                    onChange={e => this.handleChange(e)}
+                                />
+                            </>
+                            : 
+                            null }
+                    </Col>
+                    <Col xs={4}>
+                        <Form.Label>Additional info:</Form.Label>
+                        <Form.Check name="smoker" 
+                                    type="checkbox" 
+                                    label="Smoker" 
+                                    defaultValue={this.state.smoker} 
+                                    onChange={e => this.handleChange(e)}/>
+                        <Form.Check name="has_pets" 
+                                    type="checkbox" 
+                                    label="I have pets" 
+                                    defaultValue={this.state.has_pets} 
+                                    onChange={e => this.handleChange(e)}/>
+                        { this.props.userType === 'caregiver' ? 
+                            <Form.Check name="first_aid_cert" 
+                                        type="checkbox" 
+                                        label="First aid certification" 
+                                        defaultValue={this.state.first_aid_cert} 
+                                        onChange={e => this.handleChange(e)}
+                            />
+                            : null }
+                    </Col>
+                    </Row>
+                        <Form.Label>Address</Form.Label>
+                        <Form.Control name="address" defaultValue={this.state.address} onChange={e => this.handleChange(e)}/>
+                        <hr />
+                        <Form.Label>Tell us a little about yourself...</Form.Label>
+                        <Form.Control 
+                            as="textarea" 
+                            rows="5"
+                            name="content"
+                            placeholder="Tell other users about yourself" 
+                            defaultValue={this.state.bio}
+                            onChange={e => this.handleChange(e)}
+                        /><br />
                     <Button variant="primary" type="submit">
                         Submit
                     </Button>
@@ -136,14 +233,15 @@ class EmployerSignup extends React.Component {
                         Cancel
                     </Button>
                 </Form>
-            </>
+            </Styles>
         )
     }
 }
 
 const mapStateToProps = state => {
     return {
-        userType: state.userReducer.userType
+        userType: state.userReducer.userType,
+        userData: state.userReducer.userData,
     }
 }
 
@@ -151,7 +249,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
-        setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition })
+        setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
+        storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
     }
 }
 

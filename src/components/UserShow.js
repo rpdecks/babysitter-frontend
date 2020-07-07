@@ -247,6 +247,8 @@ function UserShow(props) {
                                 :
                                 null}
                         </Row>
+                        <br />
+                        <Button variant='primary'>Message me!</Button>
                     </Col>
                     <Col >
                         <ul>

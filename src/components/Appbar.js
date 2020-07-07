@@ -37,7 +37,9 @@ function Appbar(props) {
     return (
         <Navbar bg='dark' variant='dark'>
           <Col xs={2}>
-                <Navbar.Brand>Babysitter</Navbar.Brand>
+                <Navbar.Brand href='/'>
+                    Babysitter
+                </Navbar.Brand>
           </Col>
           <Navbar.Collapse>
                 <Col xs={8}>    
