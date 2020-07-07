@@ -32,9 +32,13 @@ class Reviews extends React.Component {
         }
     }
 
-    createReview = (e) => {
+    createReview = () => {
 
         const auth_token = localStorage.getItem('auth_token');
+        if (!auth_token) {
+        return;
+        }
+
         let reviewObj
         if (this.props.userType === 'employer') {
             reviewObj =  {
@@ -58,10 +62,6 @@ class Reviews extends React.Component {
             }
         }
 
-        if (!auth_token) {
-        return;
-        }
-
         const fetchObj = {
             method: 'POST',
             headers: {
@@ -74,15 +74,16 @@ class Reviews extends React.Component {
         fetch (`http://localhost:3000/api/v1/${this.props.userType}_reviews`, fetchObj)
         .then(res => res.json())
         .then(review => {
-            console.log(review)
-            this.props.createReview(review)
-            this.props.history.push('/')
+            if (review.id) {
+                console.log(review)
+                alert('Review saved!')
+                this.props.createReview(review)
+            } else alert(review.msg);
         })
         .catch(error => console.log(error))
-        e.target.reset();
     }
 
-    handleDelete  = (id) => {
+    handleDelete = (id) => {
         let result = window.confirm('Are you sure you want to delete this review?')
         if (result) {
             const auth_token = localStorage.getItem('auth_token');
@@ -111,7 +112,59 @@ class Reviews extends React.Component {
             .catch((errors) => console.log(errors))
         }
     }
+    
+    handleEdit = (id) => {
 
+    }
+
+    editReview = (id) => {
+
+        const auth_token = localStorage.getItem('auth_token');
+        if (!auth_token) {
+        return;
+        }
+
+        let reviewObj
+        if (this.props.userType === 'employer') {
+            reviewObj =  {
+                employer_review: {
+                    employer_id: this.props.userData.id,
+                    caregiver_id: this.state.userId,
+                    content: this.state.content,
+                    title: this.state.title,
+                    rating: this.state.rating,
+                }
+            }
+        } else {
+            reviewObj =  {
+                caregiver_review: {
+                    caregiver_id: this.props.userData.id,
+                    employer_id: this.state.userId,
+                    content: this.state.content,
+                    title: this.state.title,
+                    rating: this.state.rating,
+                }
+            }
+        }
+
+        const fetchObj = {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Auth-Token': auth_token
+            },
+            body: JSON.stringify(reviewObj)
+        }
+        fetch(`http://localhost:3000/api/v1/${this.props.userType}s/${id}`, fetchObj)
+        .then(res => res.json())
+        .then(review => {
+            if (review.id) {
+                console.log(review)
+                this.props.editJob(review)
+            }
+        })
+        .catch(() => alert('Something went wrong'))
+    }
     renderReviews(reviews) {
         return reviews.map((review, index) => {
             return <Review key={index} review={review} handleDelete={this.handleDelete}/>
@@ -125,7 +178,7 @@ class Reviews extends React.Component {
                 <Accordion>
                     <Card>
                         <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0" id="write-review">
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
                             Write a review
                         </Accordion.Toggle>
                         </Card.Header>
@@ -138,7 +191,7 @@ class Reviews extends React.Component {
                                             as="select" 
                                             name='userId'
                                             custom
-                                            value={this.state.userId}
+                                            defaultValue={this.state.userId}
                                             onChange={e => this.handleChange(e)}
                                         >
                                             <option>Choose...</option>
@@ -151,7 +204,7 @@ class Reviews extends React.Component {
                                             as="select" 
                                             custom
                                             name='rating'
-                                            value={this.state.rating}
+                                            defaultValue={this.state.rating}
                                             onChange={e => this.handleChange(e)}
                                         >
                                             <option>Choose...</option>
@@ -184,9 +237,11 @@ class Reviews extends React.Component {
                                             onChange={e => this.handleChange(e)}
                                         />
                                     </Form.Group>
-                                    <Button variant="primary" type="submit">
-                                        Submit
-                                    </Button>
+                                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                                        <Button variant="primary" type="submit">
+                                            Submit
+                                        </Button>
+                                    </Accordion.Toggle>
                                     <Accordion.Toggle as={Button} variant="secondary" eventKey="0">
                                         Cancel
                                     </Accordion.Toggle>

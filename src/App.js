@@ -14,7 +14,6 @@ import Jobs from './components/Jobs'
 import JobShow from './components/JobShow'
 import UserIndex from './components/UserIndex'
 import UserShow from './components/UserShow'
-import Account from './components/Account'
 import Reviews from './components/Reviews'
 import FilterContainer from './containers/FilterContainer'
 import CalendarView from './components/CalendarView'
@@ -149,7 +148,7 @@ class App extends React.Component {
                         }}
                       />
                       <Route exact path='/account'>
-                        <Account />
+                        {this.props.userType === 'employer' ? <EmployerSignup /> : <CaregiverSignup />}
                       </Route>
                       <Route exact path='/jobs'>
                         {(this.props.isLoggedIn && this.props.calendarView) ?

@@ -10,29 +10,29 @@ function Review(props) {
             let filteredReviews = props.authoredReviews.filter( r => r.employer_id === props.review.employer_id)
             if (filteredReviews && filteredReviews.length > 0) {
                 return (
+                    <>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            Close 
+                        </Accordion.Toggle>
+                        <Button variant="secondary" onClick={() =>props.handleDelete(props.review.id)} >
+                            Delete 
+                        </Button>
+                    </>
+                )
+            } 
+        } else {
+            let filteredReviews = props.authoredReviews.filter( r => r.caregiver_id === props.review.caregiver_id)
+            if (filteredReviews && filteredReviews.length > 0) {
+                return (
                 <>
-                    <Button variant="primary" >
-                        Edit 
-                    </Button>
-                    <Button variant="secondary" onClick={() =>props.handleDelete(props.review.id)} >
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                        Close 
+                    </Accordion.Toggle>
+                    <Button variant="secondary" onClick={() =>props.handleDelete(props.review.id)}>
                         Delete 
                     </Button>
                 </>
                 )
-            } else {
-                let filteredReviews = props.authoredReviews.filter( r => r.caregiver_id === props.review.caregiver_id)
-                if (filteredReviews && filteredReviews.length > 0) {
-                    return (
-                    <>
-                        <Button variant="primary" >
-                            Edit 
-                        </Button>
-                        <Button variant="secondary" delete={props.handleDelete}>
-                            Delete 
-                        </Button>
-                    </>
-                    )
-                }
             }
         }
     }

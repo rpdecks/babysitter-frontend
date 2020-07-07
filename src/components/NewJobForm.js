@@ -31,6 +31,7 @@ class NewJobForm extends React.Component {
             this.setJob(this.props.job);
         }
     }
+
     setJob (job) {
         this.setState({
             title: job.title || '',
