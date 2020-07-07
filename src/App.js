@@ -15,6 +15,7 @@ import JobShow from './components/JobShow'
 import UserIndex from './components/UserIndex'
 import UserShow from './components/UserShow'
 import Account from './components/Account'
+import Reviews from './components/Reviews'
 import FilterContainer from './containers/FilterContainer'
 import CalendarView from './components/CalendarView'
 
@@ -66,11 +67,13 @@ class App extends React.Component {
         this.props.storeUserData(appData.user)
         if (userType === 'employer') {
           this.props.storeUserFavorites(appData.employer_favorites)
-          this.props.storeReviews(appData.caregiver_reviews)
+          this.props.storeAuthoredReviews(appData.employer_reviews)
+          this.props.storeReviewsAboutMe(appData.caregiver_reviews)
           this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
           this.props.storeUserFavorites(appData.caregiver_favorites)
-          this.props.storeReviews(appData.employer_reviews)
+          this.props.storeAuthoredReviews(appData.caregiver_reviews)
+          this.props.storeReviewsAboutMe(appData.employer_reviews)
           this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
@@ -95,7 +98,7 @@ class App extends React.Component {
   }
 
   renderLoading() {
-    return <div>loading</div>
+    return <div></div>
   }
 
   render() {
@@ -187,6 +190,9 @@ class App extends React.Component {
                       <Route exact path='/browse'>
                         <UserIndex />
                       </Route>
+                      <Route exact path='/reviews'>
+                        <Reviews />
+                      </Route>
                     </>
                   )
                     :
@@ -229,7 +235,8 @@ const mapDispatchToProps = dispatch => {
     storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
     storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
-    storeReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', reviews: reviews}),
+    storeAuthoredReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', authoredReviews: reviews}),
+    storeReviewsAboutMe: (reviews) => dispatch ({ type: 'STORE_REVIEWS_ABOUT_ME', reviewsAboutMe: reviews}),
     hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
   }
 }

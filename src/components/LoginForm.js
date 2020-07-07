@@ -37,11 +37,13 @@ class LoginForm extends React.Component {
         this.props.storeUserData(appData.user)
         if (userType === 'employer') {
           this.props.storeUserFavorites(appData.employer_favorites)
-          this.props.storeReviews(appData.caregiver_reviews)
+          this.props.storeAuthoredReviews(appData.employer_reviews)
+          this.props.storeReviewsAboutMe(appData.caregiver_reviews)
           this.props.storeCaregivers(appData.caregivers)
         } else if (userType === 'caregiver') {
           this.props.storeUserFavorites(appData.caregiver_favorites)
-          this.props.storeReviews(appData.employer_reviews)
+          this.props.storeAuthoredReviews(appData.caregiver_reviews)
+          this.props.storeReviewsAboutMe(appData.employer_reviews)
           this.props.storeEmployers(appData.employers)
           this.props.storeAvailableJobs(appData.available_jobs)
           this.props.storeInterestedJobs(appData.interested_jobs)
@@ -135,7 +137,8 @@ const mapDispatchToProps = dispatch => {
     storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
     storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
     storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
-    storeReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', reviews: reviews}),
+    storeAuthoredReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', authoredReviews: reviews}),
+    storeReviewsAboutMe: (reviews) => dispatch ({ type: 'STORE_REVIEWS_ABOUT_ME', reviewsAboutMe: reviews}),
     hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
   }
 }
