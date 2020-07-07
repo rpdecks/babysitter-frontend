@@ -98,7 +98,7 @@ class App extends React.Component {
   }
 
   renderLoading() {
-    return <div>loading</div>
+    return <div></div>
   }
 
   render() {

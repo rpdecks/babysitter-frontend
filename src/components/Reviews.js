@@ -24,13 +24,15 @@ class Reviews extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        e.target.reset();
         if (this.props.review) {
             this.editReview()
-        } else this.createReview()
+        } else {
+            this.createReview(e)
+            e.target.reset();
+        }
     }
 
-    createReview = () => {
+    createReview = (e) => {
 
         const auth_token = localStorage.getItem('auth_token');
         let reviewObj
@@ -74,21 +76,45 @@ class Reviews extends React.Component {
         .then(review => {
             console.log(review)
             this.props.createReview(review)
-            this.props.history.push('/reviews')
+            this.props.history.push('/')
         })
         .catch(error => console.log(error))
+        e.target.reset();
     }
 
-    handleDelete  = () => {
+    handleDelete  = (id) => {
         let result = window.confirm('Are you sure you want to delete this review?')
         if (result) {
-            this.deleteReview(this.props.review.id)
+            const auth_token = localStorage.getItem('auth_token');
+            if (!auth_token) {
+            return;
+            }
+    
+            const fetchObj = {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Auth-Token': auth_token
+                },
+            }
+    
+            fetch(`http://localhost:3000/api/v1/${this.props.userType}_reviews/${id}`, fetchObj)
+            .then(res => res.json())
+            .then(review => {
+                if (review.deleted) {
+                    this.props.deleteReview(id)
+                    this.props.history.push('/reviews')
+                } else {
+                    alert(review.msg);
+                }
+            })
+            .catch((errors) => console.log(errors))
         }
     }
 
     renderReviews(reviews) {
         return reviews.map((review, index) => {
-            return <Review key={index} review={review}/>
+            return <Review key={index} review={review} handleDelete={this.handleDelete}/>
         })
     }
 
@@ -99,7 +125,7 @@ class Reviews extends React.Component {
                 <Accordion>
                     <Card>
                         <Card.Header>
-                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0" id="write-review">
                             Write a review
                         </Accordion.Toggle>
                         </Card.Header>
@@ -161,9 +187,9 @@ class Reviews extends React.Component {
                                     <Button variant="primary" type="submit">
                                         Submit
                                     </Button>
-                                    <Button variant="secondary" href="/reviews">
+                                    <Accordion.Toggle as={Button} variant="secondary" eventKey="0">
                                         Cancel
-                                    </Button>
+                                    </Accordion.Toggle>
                                 </Form>
                             </Card.Body>
                         </Accordion.Collapse>

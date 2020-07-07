@@ -11,10 +11,14 @@ export default function reviewsReducer(state = {}, action) {
             reviewsAboutMe: action.reviewsAboutMe
         }
     case 'ADD_REVIEW':
-        debugger
         return {
             ...state,
             authoredReviews: [ ...state.authoredReviews, action.newReview ]
+        }
+    case 'DELETE_REVIEW':
+        return {
+            ...state,
+            authoredReviews: [ ...state.authoredReviews.filter(rev => rev.id !== action.deletedReview) ]
         }
     default:
         return state;
