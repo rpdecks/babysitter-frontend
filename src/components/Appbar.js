@@ -1,7 +1,33 @@
 import React from 'react'
-import { Nav, Navbar, Col } from 'react-bootstrap'
+import { Nav, Navbar, Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import styled from 'styled-components'
+import { FaBabyCarriage } from 'react-icons/fa'
+
+const Styles = styled.div ` 
+    .navbar {
+        background-color: #0097A7;
+        max-height: 5vh;
+    }
+    .nav-link {
+        color: white;
+    }
+    .navbar-brand {
+        margin: 0;
+    }
+    .brand-text {
+        color: white;
+        font-size: 1.20rem;
+        font-family: 'Pacifico', cursive;
+    }
+    .brand-img {
+        margin-right: 1vw;
+    }
+    .right-btns {
+        float: right;
+    }
+`
 
 function Appbar(props) {
     function handleLogout() {
@@ -9,20 +35,16 @@ function Appbar(props) {
         localStorage.removeItem('user_type');
         props.logoutStateClear(undefined)
         props.logout()
-        props.history.push('/')
+        props.history.push('/') 
     }
     function renderButtons() {
         if (props.isLoggedIn) {
             return (
                 <>
+                <Row>
                     <Nav.Item>
                         <Nav.Link href="/newjob">
                             Post a Job
-                        </Nav.Link>
-                    </Nav.Item>
-                    <Nav.Item>
-                        <Nav.Link href='/account'>
-                            My Account
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
@@ -30,27 +52,32 @@ function Appbar(props) {
                             Logout
                         </Nav.Link>
                     </Nav.Item>
+                </Row>
                 </>
             )
         }
     }
     return (
-        <Navbar bg='dark' variant='dark'>
-          <Col xs={2}>
-                <Navbar.Brand href='/'>
-                    Babysitter
-                </Navbar.Brand>
-          </Col>
-          <Navbar.Collapse>
-                <Col xs={8}>    
+        <Styles>
+            <Navbar bg='navbar' variant='dark' >
+                <Col xs={2}>
+                    <div className='brand-text'>
+                        <FaBabyCarriage className='brand-img' />
+                        Babysitter
+                    </div>
                 </Col>
-                <Col xs={4}>
+                <Col xs={8} />
+                <Col xs={2} className='right-btns'>
+                <Navbar.Collapse>
                     <Nav>
+                        <div >
                         {renderButtons()}
+                        </div>
                     </Nav>
+                </Navbar.Collapse>
                 </Col>
-            </Navbar.Collapse>
-        </Navbar>
+            </Navbar>
+        </Styles>
     )
 }
 

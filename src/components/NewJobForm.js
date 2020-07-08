@@ -335,9 +335,12 @@ class NewJobForm extends React.Component {
                 <Button variant="primary" type="submit">
                     Submit
                 </Button>
+                {this.props.job ? 
                 <Button variant="danger" onClick={this.handleDelete}>
                     Delete
                 </Button>
+                :
+                null }
                 <Button variant="secondary" href="/">
                     Cancel
                 </Button>

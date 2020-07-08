@@ -4,10 +4,42 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Table, Button } from 'react-bootstrap'
 import styled from 'styled-components'
+import { FaAlignCenter } from 'react-icons/fa'
 
 const Styles = styled.div `
-//   overflow-y: scroll;
-//   max-height: 100vh;
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+    } 
+    table, th, td {
+        font-size: x-small;
+    }
+    table {
+        border: none;
+        text-align: center;
+    }
+    td:nth-child(1), td:nth-child(8), td:nth-child(9) {
+        text-align: center;
+    }
+    th:nth-child(2) {
+        width: 120px;
+    }
+    th:nth-child(4) {
+        width: 140px;
+    }
+    th:nth-child(6) {
+        width: 190px;
+    }
+    th:nth-child(8) {
+        width: 50px;
+    }
+    th:nth-child(9) {
+        width: 140px;
+    }
+    th:nth-child(n+10) {
+        width: 50px;
+    }
 `
 class Jobs extends React.Component {
 
@@ -88,10 +120,10 @@ class Jobs extends React.Component {
         return filteredJobs.map((job, index)=> {
             return (
                 <tr key={index}>
-                    <td><Link to={`/jobs/${job.id}`}>Details</Link></td>
+                    <td><Link to={`/jobs/${job.id}`}>Link</Link></td>
                     <td>{job.start_date_YYYYMMDD}</td>
                     <td>{job.start_time_HHMM}</td>
-                    <td>{job.duration} hr</td>
+                    <td>{job.duration}</td>
                     <td>{job.title}</td>
                     <td>{job.job_location}</td>
                     <td>${job.pay_rate}/hour</td>
@@ -108,44 +140,75 @@ class Jobs extends React.Component {
     renderAvailableJobs = (jobs) => {
        if (this.props.userType === 'caregiver' && this.props.availableJobs) {
         return <>
-            <hr />
-            <h1>Available Babysitting Jobs</h1> 
+            <div className='header-text'>
+                Available Babysitting Jobs 
+            </div>
             <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>Details</th>
-                        <th onClick={() => this.props.sortTable('start_time')}>Date</th>
-                        <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
-                        <th onClick={() => this.props.sortTable('length')}>Duration</th>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
-                        <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
-                        <th>Non-Smoking?</th>
-                        <th>First-aid cert?</th>
-                        <th>Pets?</th>
-                        <th>Interested?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.mapMyJobs(jobs)} 
-                </tbody>
+                <div className='table'>
+                    <thead>
+                        <tr>
+                            <th>Details</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Date</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Start</th>
+                            <th onClick={() => this.props.sortTable('length')}>Duration</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
+                            <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
+                            <th>Non-Smoking?</th>
+                            <th>First-aid cert?</th>
+                            <th>Pets?</th>
+                            <th>Interested?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.mapMyJobs(jobs)} 
+                    </tbody>
+                </div>
             </Table>
         </>
        } 
+    }
+
+    renderHeader = () => {
+        if (window.location.pathname === '/past-jobs') {
+            return (
+                <div className='header-text'>
+                    Past Babysitting Jobs
+                </div>
+            )
+        } else if (window.location.pathname === '/pending-jobs') {
+            return (
+                <div className='header-text'>
+                    Pending Babysitting Jobs
+                </div>
+            )
+        } else if (this.props.userType === 'employer') {
+            return (
+                <div className='header-text'>
+                    My Babysitting Jobs
+                </div>
+            )
+        } else if (this.props.userType === 'caregiver') {
+            return (
+                <div className='header-text'>
+                    Available Babysitting Jobs
+                </div>
+            )
+        }
     }
     
     render() {
         return (
             <Styles>
-                <hr />
-                <h1>My Babysitting Jobs</h1> 
+                {this.renderHeader()}
                 <Table striped bordered hover size="sm">
+                    <div className='table'>
                     <thead>
                         <tr>
                             <th>Details</th>
                             <th onClick={() => this.props.sortTable('start_time')}>Date</th>
-                            <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Start</th>
                             <th onClick={() => this.props.sortTable('length')}>Duration</th>
                             <th>Title</th>
                             <th>Location</th>
@@ -160,6 +223,7 @@ class Jobs extends React.Component {
                     <tbody>
                         {this.props.userJobs && this.mapMyJobs(this.props.userJobs)} 
                     </tbody>
+                    </div>
                 </Table>
                 {this.props.availableJobs && this.renderAvailableJobs(this.props.availableJobs)}
             </Styles>

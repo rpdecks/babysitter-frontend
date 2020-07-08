@@ -8,8 +8,7 @@ import { createEventId } from '../event-utils'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-  .calendar {
-    height: 90vh;
+  .fc-header-toolbar {
   }
 `
 
@@ -37,34 +36,32 @@ class CalendarView extends React.Component {
 
   render() {
     return (
-      <Styles>
-        <div className="calendar">
-          <FullCalendar
-            height={'100%'}
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            }}
-            initialView='timeGridWeek'
-            // editable={true}
-            //   selectable={true}
-            //   selectMirror={true}
-            dayMaxEvents={true}
-            initialEvents={this.parseEvents(this.props.jobs)} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-            eventAdd={function(){}}
-            eventChange={function(){}}
-            eventRemove={function(){}}
-            */
-          />
-        </div>
-      </Styles>
+      // <Styles>
+        <FullCalendar
+          height={'93%'}
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          headerToolbar={{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          initialView='timeGridWeek'
+          // editable={true}
+          //   selectable={true}
+          //   selectMirror={true}
+          dayMaxEvents={true}
+          initialEvents={this.parseEvents(this.props.jobs)} // alternatively, use the `events` setting to fetch from a feed
+          select={this.handleDateSelect}
+          eventContent={renderEventContent} // custom render function
+          eventClick={this.handleEventClick}
+          // eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
+          /* you can update a remote database when these fire:
+          eventAdd={function(){}}
+          eventChange={function(){}}
+          eventRemove={function(){}}
+          */
+        />
+      // </Styles>
     )
   }
 

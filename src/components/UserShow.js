@@ -14,6 +14,8 @@ import Review from './Review'
 const Styles = styled.div `
   .img {
     height: 40vh;
+    width: 15vw;
+    object-fit: cover;
   }
   .award-column {
       overflow-y: scroll;
@@ -263,8 +265,6 @@ function UserShow(props) {
             </Row>
             <Tabs defaultActiveKey="bio" id="uncontrolled-tab-example">
                 <Tab eventKey="bio" title="A little about me...">
-                    <h3>A little about me:</h3>
-                    <hr />
                     <p>{props.user.bio}</p>
                 </Tab>
                 <Tab eventKey="reviews" title="Reviews">

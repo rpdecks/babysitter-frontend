@@ -5,10 +5,7 @@ import styled from 'styled-components'
 import { withRouter } from 'react-router'
 
 const Styles = styled.div `
-  .topmenu {
-      position: sticky;
-      top: 0;
-    }
+//
 `
 
 function DashNav(props) {
@@ -22,21 +19,35 @@ function DashNav(props) {
            props.history.push('/reviews')
        } else if ( e === 'messages') {
            props.history.push('/messages')
+       } else if ( e === 'account') {
+           props.history.push('/account')
+       } else if ( e === 'past-jobs') {
+           props.history.push('/past-jobs')
+       } else if ( e === 'pending-jobs') {
+           props.history.push('/pending-jobs')
        }
     }
     if (props.isLoggedIn) {
         return (
             <Styles>
-                <Tabs defaultActiveKey="jobs" id="uncontrolled-tab-example" onSelect={handleSelect}>
-                    <Tab eventKey="jobs" title="Jobs">
-                    </Tab>
-                    <Tab eventKey="browse" title="Browse" onClick={() => this.props.history('/browse')}>
-                    </Tab>
-                    <Tab eventKey="reviews" title="Reviews" onClick={() => this.props.history('/reviews')}>
-                    </Tab>
-                    {/* <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
-                    </Tab> */}
-                </Tabs>
+                <div className='tab-bar'>
+                    <Tabs defaultActiveKey="jobs" id="uncontrolled-tab-example" onSelect={handleSelect}>
+                        <Tab eventKey="jobs" title="Jobs">
+                        </Tab>
+                        <Tab eventKey="browse" title="Browse" onClick={() => this.props.history('/browse')}>
+                        </Tab>
+                        <Tab eventKey="reviews" title="Reviews" onClick={() => this.props.history('/reviews')}>
+                        </Tab>
+                        <Tab eventKey="account" title="Account" onClick={() => this.props.history('/account')}>
+                        </Tab>
+                        <Tab eventKey="pending-jobs" title="Pending jobs" onClick={() => this.props.history('/pending-jobs')}>
+                        </Tab>
+                        <Tab eventKey="past-jobs" title="Past jobs" onClick={() => this.props.history('/past-jobs')}>
+                        </Tab>
+                        {/* <Tab eventKey="messages" title="Messages" onClick={() => this.props.history('/messages')}>
+                        </Tab> */}
+                    </Tabs>
+                </div>
             </Styles>
         )} else return <Navbar />
 }

@@ -2,6 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Styles = styled.div ` 
+  margin-top: 80px;
+`
+
 
 class LoginForm extends React.Component {
   state = {
@@ -100,7 +106,7 @@ class LoginForm extends React.Component {
 
   render() {
     return (
-      <>
+      <Styles>
         <h1>Welcome to Babysitters</h1>
         <p>Please login below as <b>{this.props.userType}</b></p>
         <form onSubmit={(e) => this.login(e)}>
@@ -112,7 +118,7 @@ class LoginForm extends React.Component {
           <input type="button" value="Back" onClick={() => this.props.setUserType(null)} />
         </form>
         <Link to="/signup" onClick={() => this.props.setSigningUp(true)}>Create an account</Link>
-      </>
+      </Styles>
     )
   }
 }

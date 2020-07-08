@@ -143,7 +143,7 @@ class EmployerSignup extends React.Component {
             </>
         } else {
             return <>
-                <h3>Create a Your Babysitting Account</h3>
+                <h3>Create your Babysitter account</h3>
                 <p>Complete the form below and click submit to get started!</p>
             </>
         }
