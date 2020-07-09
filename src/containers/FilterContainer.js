@@ -13,17 +13,17 @@ const Styles = styled.div `
         font-size: larger;
         font-weight: bold;
         text-align: center;
-        color: #212121;
+        color: #757575;
     }
     .filter-label {
         font-weight: bold;
         font-size: larger;
         text-align: center;
-        color: #212121;
+        color: #757575;
     }
     .form-check-label {
         font-size: small;
-        color: #212121;
+        color: #757575;
     }
     .completion-btns {
         text-align: left;

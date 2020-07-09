@@ -2,10 +2,45 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
+import { FaBabyCarriage } from 'react-icons/fa'
 
 const Styles = styled.div ` 
-  margin-top: 80px;
+  margin-top: 5rem;
+  font-family: 'Roboto', sans-serif;
+
+  .header-text {
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    font-size: large;
+    color: #757575;
+  }
+  .brand {
+    text-align: center;
+    font-size: xx-large;
+    color: #0097A7;
+    font-family: 'Pacifico', cursive;
+  }
+  .instructions {
+    text-align: center;
+    font-size: medium;
+    color: #757575;
+    margin-top: 1rem; 
+    margin-bottom: 1rem; 
+  }
+  .form-div {
+    margin-top: 2 rem;
+    text-align: center;
+    float: center;
+    color: #757575;
+  }
+  a:link {
+      color: #00BCD4;
+  }
+  a:visited {
+      color: #757575;
+  }
 `
 
 
@@ -107,17 +142,32 @@ class LoginForm extends React.Component {
   render() {
     return (
       <Styles>
-        <h1>Welcome to Babysitters</h1>
-        <p>Please login below as <b>{this.props.userType}</b></p>
-        <form onSubmit={(e) => this.login(e)}>
+        <div className='header-text'>
+          Welcome to
+        </div>
+        <div className='brand'>
+        <FaBabyCarriage />
+        Babysitter!
+        <FaBabyCarriage />
+        </div>
+        <div className='instructions'>
+          Login below to your <em><b>{this.props.userType}</b></em> account below:
+        </div>
+        <div className='form-div'>
+          <form onSubmit={(e) => this.login(e)}>
           <label>Email:</label><br />
           <input name="email" label="Email" onChange={e => this.handleChange(e)} /><br />
           <label>Password:</label><br />
           <input name="password" type="password" label="Password" onChange={e => this.handleChange(e)} /><br />
-          <input type="submit" />
-          <input type="button" value="Back" onClick={() => this.props.setUserType(null)} />
-        </form>
-        <Link to="/signup" onClick={() => this.props.setSigningUp(true)}>Create an account</Link>
+          <Button type="submit" style={{ backgroundColor: "#0097A7", color: 'white', border: '0', marginLeft: '5px', marginTop: '1rem', marginBottom: '0.5rem' }} >
+              Submit
+          </Button>
+          <Button onClick={() => this.props.setUserType(null)} style={{ backgroundColor: "#0097A7", color: 'white', border: '0', marginLeft: '5px', marginTop: '1rem', marginBottom: '0.5rem' }} >
+              Cancel
+          </Button><br />
+          <Link to="/signup" onClick={() => this.props.setSigningUp(true)}>Create an account</Link>
+          </form>
+          </div>
       </Styles>
     )
   }

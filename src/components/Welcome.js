@@ -43,17 +43,15 @@ function Welcome(props) {
                 animation={true}
                 dialogClassName="custom-modal"
             >
-                    <div className='modal-title'>
                 <Modal.Header>
                     <Modal.Title style={{ margin: 'auto', fontFamily: 'Pacifico', color: '#0097A7' }} >
                             <FaBabyCarriage />
-                            Babysitter!
+                                Babysitter!
                             <FaBabyCarriage />
                     </Modal.Title>
                 </Modal.Header>
-                    </div>
                 <Modal.Body style={{ textAlign: 'center', color: '#757575'}}>
-                            <b>Meeting the needs of <em>families</em> and caregivers</b><hr />
+                            <b>Meeting the needs of <em>families</em> and caregivers</b><br />
                             Need a job? Need a sitter?<br />
                             Create an account, browse opportunites,<br />
                             post a job, find a job, and win together

@@ -28,7 +28,6 @@ const Styles = styled.div `
         margin-bottom: 10px !important;
         margin-top: 10px !important;
         font-size: x-small;
-        // height: 10vh;
     }
     .card-text {
         font-family: 'Roboto', sans-serif;
@@ -40,7 +39,7 @@ const Styles = styled.div `
     }
     .pets-icon {
         font-size: 30px;
-        color: 0097A7;
+        color: #0097A7;
     }
     .first-aid-icon {
         font-size: 30px;

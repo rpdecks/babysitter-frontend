@@ -28,10 +28,10 @@ const Styles = styled.div `
         font-family: 'Pacifico', cursive;
     }
     .brand-img-left {
-        margin-right: 1vw;
+        margin-right: .1rem;
     }
     .brand-img-right {
-        margin-left: 1vw;
+        margin-left: .1rem;
     }
     .right-btns {
         text-align: right;
@@ -97,7 +97,8 @@ function Appbar(props) {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.userReducer.isLoggedIn
+        isLoggedIn: state.userReducer.isLoggedIn,
+        userType: state.userReducer.userType,
     }
 }
 
