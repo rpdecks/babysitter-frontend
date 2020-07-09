@@ -20,6 +20,7 @@ const Styles = styled.div `
         object-fit: cover;
         margin-left: 10px;
         margin-top: 10px;
+        text-align: center;
     }
     .award-column {
         overflow-y: scroll;
@@ -30,8 +31,9 @@ const Styles = styled.div `
         height: 100%;
         border: none;
         font-size: small;
-        margin-left: 0.7rem;
+        margin-left: 0.5rem;
         margin-top: 5px;
+        margin-bottom: 0.7rem;
     }
     .back-btn {
         background-color: #757575;
@@ -41,6 +43,7 @@ const Styles = styled.div `
         font-size: small;
         margin-left: 5px;
         margin-top: 5px;
+        margin-bottom: 0.7rem;
     }
     .name {
         font-size: x-large;
@@ -59,14 +62,15 @@ const Styles = styled.div `
         margin-left: 0.9rem;
     }
     .user-info {
-        margin-top: 1.2rem;
+        margin-top: 2rem;
         margin-left: 0.3rem;
         margin-bottom: 1.3rem;
         font-size: small;
         color: #212121;
     }
     .user-icons {
-        margin-left: 1rem;
+        margin-top: 0.2rem;
+        margin-left: 0.8rem;
     }
     .nav-link {
         color: #00BCD4;
@@ -79,6 +83,26 @@ const Styles = styled.div `
     }
     .btn-link:active {
         color: #757575;
+        font-size: medium;
+    }
+    .apps-header {
+        width: 100%;
+        font-size: x-large;
+        margin-top: 1.5rem;
+        color: #212121;
+        text-align: left;
+        margin-left: 1.8rem;
+    }
+    .card-header {
+        text-align: left;
+        background: white;
+        height: 50%;
+        padding: 0;
+        border: 2px;
+    }
+    .card {
+    }
+    .card-title {
     }
 `
 
@@ -210,7 +234,7 @@ function UserShow(props) {
                             <Card xs={12} key={index} >
                                 <Card.Header>
                                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        <b key={index} >{job.title}</b>
+                                        {job.title} - {job.start_date_YYYYMMDD}
                                     </Accordion.Toggle>
                                 </Card.Header>
                                 <Accordion.Collapse eventKey="0">
@@ -319,14 +343,10 @@ function UserShow(props) {
                             </Row>
                             <br />
                     </Col>
-                    <Col >
-                        <ul>
-                            <Row><h3>Job applications:</h3></Row>
-                            <Row className='award-column'>
-                                <Col>{renderJobsToAward()}</Col>
-                            </Row>
-                        </ul>
-                    </Col>
+                        <Col>
+                            <div className='apps-header'>Applications:</div>
+                            <Col>{renderJobsToAward()}</Col>
+                        </Col>
                     </Row>
                 </Col>  
             </Row>

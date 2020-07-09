@@ -16,6 +16,9 @@ const Styles = styled.div `
         font-size: small;
         margin: auto;
     }
+    .nav-item {
+        text-align: right;
+    }
     .navbar-brand {
         margin: 0;
     }
@@ -31,7 +34,7 @@ const Styles = styled.div `
         margin-left: 1vw;
     }
     .right-btns {
-        float: right;
+        text-align: right;
     }
 `
 
@@ -48,11 +51,15 @@ function Appbar(props) {
             return (
                 <>
                 <Row>
-                    <Nav.Item>
-                        <Nav.Link href="/newjob">
-                            Post a Job
-                        </Nav.Link>
-                    </Nav.Item>
+                    {props.userType === 'employer' ?
+                        <Nav.Item>
+                            <Nav.Link href="/newjob">
+                                Post a Job
+                            </Nav.Link>
+                        </Nav.Item>
+                        :
+                        null
+                    }
                     <Nav.Item>
                         <Nav.Link onClick={() => handleLogout()}>
                             Logout

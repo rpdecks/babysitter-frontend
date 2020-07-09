@@ -5,19 +5,40 @@ import { Col, Form, Button, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-  .left-column {
-    border: black solid 1px;
-  }
-  .split-input-row {
-    overflow-y: scroll;
-  }
-  .instructions {
-    // padding-bottom: 15px;
-  }
-  .instructions h3 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
+    font-family: 'Roboto', sans-serif;
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        margin-top: 0.5rem; 
+    } 
+    .split-input-row {
+        overflow-y: scroll;
+    }
+    .instructions {
+        margin-top: .5rem;
+        font-size: small;
+        text-align: left;
+        color: #212121;
+    }
+    .form-label, form-check-label {
+        font-size: small;
+        color: #212121;
+    }
+    .form-check-label {
+        font-size: small;
+        color: #212121;
+    }
+    .input {
+        font-size: small;
+        color: #212121;
+    }
+    .btn {
+        margin: 5px;
+    }
+    .button-row {
+        float: right;
+    }
 `
 
 class CaregiverSignup extends React.Component {
@@ -138,13 +159,15 @@ class CaregiverSignup extends React.Component {
     renderInstructions = () => {
         if (this.props.userData) {
             return <>
-                <h3>My Account</h3>
-                <p>Edit the form below and click submit to edit your profile:</p>
+                <div className='header-text'>My Account</div>
+                <div className='instructions'>Edit the form below and click submit to edit your profile:</div>
+                <hr />
             </>
         } else {
             return <>
-                <h3>Create your Babysitting Account</h3>
-                <p>Complete the form below and click submit to get started!</p>
+                <div className='header-text'>Create your Babysitter account</div>
+                <div className='instructions'>Complete the form below and click submit to get started!</div>
+                <hr />
             </>
         }
     }
@@ -218,12 +241,14 @@ class CaregiverSignup extends React.Component {
                             defaultValue={this.state.bio}
                             onChange={e => this.handleChange(e)}
                         /><br />
-                    <Button variant="primary" type="submit">
-                        Submit
-                    </Button>
-                    <Button variant="danger" onClick={() => this.handleCancelClick()} >
-                        Cancel
-                    </Button>
+                    <Row className='button-row'>
+                        <Button type="submit" style={{ background: '#00BCD4', border: '0' }}>
+                            Submit
+                        </Button>
+                        <Button style={{ background: '#0097A7', border: '0' }} onClick={() => this.handleCancelClick()} >
+                            Cancel
+                        </Button>
+                    </Row>
                 </Form>
             </Styles>
         )
