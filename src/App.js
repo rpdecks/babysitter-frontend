@@ -23,17 +23,18 @@ const Styles = styled.div `
 
   .sidebar-column {
     border: rgb(0,0,0,0.2) solid 1px;
-    height: 92vh;
+    height: 93.5vh;
     background: #FFC107;
   }
   .center-column {
     border: rgb(0,0,0,0.2) solid 1px;
-    height: 92vh;
-    overflow-y: scroll;
+    height: 93.5vh;
+    background: #F7F7F7;
+    overflow-y: auto;
   }
   .right-column {
     border: rgb(0,0,0,0.2) solid 1px;
-    height: 92h;
+    height: 93.5vh;
     background: #FFC107;
   };
 `

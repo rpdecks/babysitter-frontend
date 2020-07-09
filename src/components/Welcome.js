@@ -6,6 +6,28 @@ import { FaBabyCarriage } from 'react-icons/fa'
 import styled from 'styled-components'
 
 const Styles = styled.div ` 
+    font-family: 'Roboto', sans-serif;
+
+    .header-text {
+        font-family: 'Pacifico', cursive;
+        text-align: center;
+        font-size: xx-large;
+        color: #0097A7;
+        margin-top: 20vh;
+    }
+  .brand {
+    text-align: center;
+    font-size: xxx-large;
+    color: #0097A7;
+    font-family: 'Pacifico', cursive;
+  }
+  .instructions {
+    text-align: center;
+    font-size: medium;
+    color: #757575;
+    margin-top: 1rem; 
+    margin-bottom: 1rem; 
+  }
     .btn {
         background: blue;
     }
@@ -22,6 +44,12 @@ const Styles = styled.div `
     .brand-img {
         margin-right: 1rem;
     }
+    .top-row {
+        height: 20vh;
+    }
+    .bottom-row {
+        height: 20vh;
+    }
 `
 
 function Welcome(props) {
@@ -30,11 +58,33 @@ function Welcome(props) {
         localStorage.setItem("userType", value)
         props.setUserType(value)
     }
+    const handleStartClick = (value) => {
+        props.showUserTypeModal(value)
+    }
 
     return (
         <Styles>
-            <Modal    
-                show={!props.userType}
+                <Row>
+                    <div className='header-text mx-auto' >
+                        Welcome to
+                    </div>
+                </Row>
+                <Row>
+                    <div className='brand mx-auto'>
+                    <FaBabyCarriage />
+                        Babysitter!
+                    <FaBabyCarriage />
+                    </div>
+                </Row>
+                <Row>
+                    <Button 
+                        style={{ backgroundColor: "#00BCD4", color: 'white', border: '0', marginLeft: '5px', marginTop: '1rem', marginBottom: '0.5rem' }} className='mx-auto'
+                        onClick={() => handleStartClick(true)}>
+                        Get Started!
+                    </Button>
+                </Row>
+            <Modal
+                show={props.showModal}
                 backdrop="static"
                 keyboard={false}
                 size="lg"
@@ -82,13 +132,15 @@ function Welcome(props) {
 
 const mapStateToProps = state => {
     return {
-        userType: state.userReducer.userType
+        userType: state.userReducer.userType,
+        showModal: state.userReducer.showModal
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType})
+        setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
+        showUserTypeModal: (value) => dispatch({ type: 'SHOW_USER_TYPE_MODAL', showModal: value})
     }
 }
 

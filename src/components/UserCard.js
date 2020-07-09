@@ -50,7 +50,7 @@ const Styles = styled.div `
         color: #0097A7;
     }
     .icons-row {
-        text-align: center;
+        text-align: left;
     }
 `  
 
@@ -84,22 +84,22 @@ function UserCard(props) {
             <Card.Footer style={{ background: '#B2EBF2' }}>
                 <small className="text-muted">
                 <Row>
-                <Col className='icons-row'>
-                {renderSmokingIcon()}
-                {renderFirstAidIcon()}
-                {renderPetsIcon()}
-                </Col>
-                <Col className='star-column'>
-                    {props.user.rating}
-                    <StarRatings
-                            name='rating'
-                            rating={props.user.rating}
-                            starRatedColor="#FFC107"
-                            numberOfStars={1}
-                            starDimension="30px"
-                            starSpacing="2px"
-                    />
-                </Col>
+                    <Col className='icons-row' xs={7}>
+                    {renderSmokingIcon()}
+                    {renderFirstAidIcon()}
+                    {renderPetsIcon()}
+                    </Col>
+                    <Col className='star-column' x={5}>
+                        {props.user.rating}
+                        <StarRatings
+                                name='rating'
+                                rating={props.user.rating}
+                                starRatedColor="#FFC107"
+                                numberOfStars={1}
+                                starDimension="30px"
+                                starSpacing="2px"
+                        />
+                    </Col>
                 </Row>
                 </small>
             </Card.Footer>

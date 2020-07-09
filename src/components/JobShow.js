@@ -21,18 +21,21 @@ const Styles = styled.div `
         color: green;
     }
     .award-failure {
-        font-size: xx-large;
+        font-size: x-large;
+        font-weight: bold;
         text-align: center;
         color: red;
+        width: 100%;
     }
     .sitter-instruction {
-        font-size: large;
+        font-size: medium;
         text-align: center;
-        color: red;
+        color: #757575;
+        width: 100%;
     }
     .job-title {
         font-size: x-large;
-        text-align: center;
+        text-align: left;
         color: #757575;
         font-family: 'Roboto', sans-serif;
         margin-left: 1rem;
@@ -49,9 +52,25 @@ const Styles = styled.div `
     .job-detail-data {
         font-size: small;
         text-align: left;
-        color: #757575;
+        color: ##212121;
         font-family: 'Roboto', sans-serif;
     }
+    .job-requirements {
+        font-size: x-large; 
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-right: rem;
+        margin-bottom: 0.5rem;
+    } 
+    .job-requirements-items {
+        font-size: small; 
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-right: rem;
+        margin-bottom: 0.5rem;
+    } 
     .btn {
         margin: 5px;
     }
@@ -64,10 +83,11 @@ const Styles = styled.div `
         text-align: left;
         color: #757575;
         font-family: 'Roboto', sans-serif;
+        margin-bottom: 1rem;
     } 
     .desc-text {
         font-size: small;
-        text-align: justify;
+        text-justify: auto;
         color: #212121;
         font-family: 'Roboto', sans-serif;
     } 
@@ -120,14 +140,24 @@ class JobShow extends React.Component {
                 <>
                     <div className="award-failure">
                         Job not yet awarded!<br /> 
-                        <div className="sitter-instruction">
-                            Select your babysitter above
-                        </div>
+                    </div>
+                    <div className="sitter-instruction">
+                        Select your babysitter above
                     </div>
                 </>
             )
         }
     }
+
+    // renderJobRequirements(job) {
+    //     let reqAry = []
+    //     if (job.non_smoking) reqAry.push('non_smoking')
+    //     if (job.first_aid_cert) reqAry.push('first_aid_cert')
+    //     if (job.has_pets) reqAry.push('has_pets')
+    //     return reqAry.map(req => {
+    //         if 
+    //     }) ... 
+    // }
 
     render() {
         return (
@@ -144,7 +174,6 @@ class JobShow extends React.Component {
                     :
                     null
                 }
-            <hr />
             <Row>
                 { this.props.userType === 'employer' ? this.renderJobCaregiverInfo() : null }
             </Row>
@@ -152,10 +181,15 @@ class JobShow extends React.Component {
             <Row>
                 <Col xs={12}>
                     <Row>
-                        <div className="job-title"><b>Job title:</b> {this.props.job.title}</div>
+                        <Col xs={7}>
+                            <div className="job-title"><b>Job title:</b> {this.props.job.title}</div>
+                        </Col>
+                        <Col xs={5}>
+                            <div className="job-requirements">Requirements</div>
+                        </Col>
                     </Row>
                     <Row>
-                        <Col xs={2}>
+                        <Col xs={3}>
                             <div className="job-detail-items">
                                 Status:<br />
                                 When:<br />
@@ -165,7 +199,7 @@ class JobShow extends React.Component {
                                 Pay rate:<br />
                             </div>
                         </Col>
-                        <Col xs={6}>
+                        <Col xs={4}>
                             <div className="job-detail-data">
                                 {this.props.job.status}<br />
                                 {new Date(this.props.job.end_time).toDateString()}<br />
@@ -175,27 +209,25 @@ class JobShow extends React.Component {
                                 {this.props.job.pay_rate} / hour<br />
                             </div>
                         </Col>
-                        <Col xs={3}>
-                            <div className="job-detail-items">
-                                <div className="header-text">Job requirements:</div>
-                                Non-smoking?<br />
-                                First-aid cert?<br />
-                                Pets involved?<br />
-                            </div>
+                        <Col xs={5} >
+                            <Col>
+                                <div className="job-requirements-items">
+                                    <b>Non-smoking?</b> {this.props.job.non_smoking === true ? 'Yes' : 'No'}<br />
+                                    <b>First Aid Cert?</b> {this.props.job.first_aid_cert === true ? 'Yes' : 'No'}<br />
+                                    <b>Pets involved?</b> {this.props.job.has_pets === true ? 'Yes' : 'No'}<br />
+                                </div>
+                            </Col>
                         </Col>
-                        {/* <b>Non-smoking?</b> {this.props.job.non_smoking === true ? 'Yes' : 'No'}
-                        <b>First Aid Cert?</b> {this.props.job.first_aid_cert === true ? 'Yes' : 'No'}
-                        <b>Pets involved?</b> {this.props.job.has_pets === true ? 'Yes' : 'No'} */}
                     </Row>
                 </Col>
             </Row>
             <hr />
-            <div className="desc-header">Description:</div>
-            <div>className="desc-text">{this.props.job.desc}</div>
+            <div className="desc-header">Job Description:</div>
+            <div className="desc-text">{this.props.job.desc}</div>
 
             <Row className='button-row'>
                 {this.renderEditBtn()}
-                <Button style={{ background: '#0097A7', border: '0' }} onClick={() => this.props.history.push('/jobs')} >
+                <Button style={{ background: '#0097A7', border: '0', marginRight: '1.5rem' }} onClick={() => this.props.history.push('/jobs')} >
                     Back
                 </Button>
             </Row>
