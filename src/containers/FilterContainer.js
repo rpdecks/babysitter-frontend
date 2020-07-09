@@ -4,19 +4,49 @@ import { Button, Form } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-    margin-left: 10px;
-    p {
+    padding-top: 6rem;
+    color: #212121;
+    font-size: medium;
+    font-family: 'Roboto', sans-serif;
+
+    .status-label {
+        font-size: larger;
         font-weight: bold;
         text-align: center;
+        color: #212121;
     }
-    .completionButtons {
-        text-align: left
+    .filter-label {
+        font-weight: bold;
+        font-size: larger;
+        text-align: center;
+        color: #212121;
     }
-    h3 {
+    .form-check-label {
+        font-size: small;
+        color: #212121;
+    }
+    .completion-btns {
+        text-align: left;
+        font-size: smaller;
+        margin-left: 1.8rem;
+    }
+    .filter-btns {
+        text-align: left;
+        font-size: smaller;
+        margin-left: 1.8rem;
+    }
+    .filters-container {
+        margin-top: 0;
+    }   
+    .button-row {
         text-align: center;
     }
-    .buttons {
+    .view-btn {
+        margin-top: 1rem;
         text-align: center;
+        background-color: #0097A7;
+        border: none;
+        display: inline;
     }
 `
 
@@ -25,107 +55,112 @@ function FilterContainer(props) {
     function whatToRender() {
         if (props.path === '/browse') {
             return <>
-            <p>Filters:</p>
-            <hr />
-            <Form className="job_requirements">
-                <Form.Check 
-                    name='favorites'
-                    type={'checkbox'}
-                    id={'favorites'}
-                    label={'My favorites'}
-                    checked={props.favoritesFilter}
-                    onChange={() => props.filterByFavorites(!props.favoritesFilter)}
-                />
-                <Form.Check 
-                    name='non-smoking'
-                    type={'checkbox'}
-                    id={'non-smoking'}
-                    label={'Non-smoking'}
-                    checked={props.nonSmokingFilter}
-                    onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
-                />
-                <Form.Check
-                    name='first_aid_cert'
-                    type={'checkbox'}
-                    id={'first_aid_cert'}
-                    label={'First-aid certified'}
-                    onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
-                />
-                <Form.Check
-                    name='has_pets'
-                    type={'checkbox'}
-                    id={'has_pets'}
-                    label={'Has pets'}
-                    onChange={() => props.filterByPets(!props.petsFilter)}
-                />
-            </Form>
+                <div className='filter-label'>Filters:</div>
+                <hr />
+                <Form >
+                    <div className='filter-btns'>
+                    <Form.Check 
+                        name='favorites'
+                        type={'checkbox'}
+                        id={'favorites'}
+                        label={'My favorites'}
+                        checked={props.favoritesFilter}
+                        onChange={() => props.filterByFavorites(!props.favoritesFilter)}
+                    />
+                    <Form.Check 
+                        name='non-smoking'
+                        type={'checkbox'}
+                        id={'non-smoking'}
+                        label={'Non-smoking'}
+                        checked={props.nonSmokingFilter}
+                        onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
+                    />
+                    <Form.Check
+                        name='first_aid_cert'
+                        type={'checkbox'}
+                        id={'first_aid_cert'}
+                        label={'First-aid certified'}
+                        onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
+                    />
+                    <Form.Check
+                        name='has_pets'
+                        type={'checkbox'}
+                        id={'has_pets'}
+                        label={'Has pets'}
+                        onChange={() => props.filterByPets(!props.petsFilter)}
+                    />
+                    </div>
+                </Form>
             </>
-        } else if (props.path === '/jobs') {
-            return <>
-            <p>Job status:</p>
-            <hr />
-            <Form className="completionButtons">
-                <Form.Check
-                    name='completionFilter'
-                    type={'radio'}
-                    id={'completed-radio'}
-                    label={'complete'}
-                    onChange={() => props.filterByCompleted('complete')}
-                />
-                <Form.Check
-                    name='completionFilter'
-                    type={'radio'}
-                    id={'incomplete-radio'}
-                    label={'incomplete'}
-                    onChange={() => props.filterByCompleted('incomplete')}
-                />
-                <Form.Check
-                    name='completionFilter'
-                    type={'radio'}
-                    id={'selectAll-radio'}
-                    label={'all'}
-                    defaultChecked={true}
-                    onChange={() => props.filterByCompleted(null)}
-                />
-            </Form><br />
-            <p>Job filters:</p>
-            <hr />
-            <Form className="job_requirements">
-                <Form.Check
-                    name='non-smoking'
-                    type={'checkbox'}
-                    id={'non-smoking'}
-                    label={'Non-smoking'}
-                    checked={props.nonSmokingFilter}
-                    onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
-                />
-                <Form.Check
-                    name='first_aid_cert'
-                    type={'checkbox'}
-                    id={'first_aid_cert'}
-                    label={'First-aid certified'}
-                    onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
-                />
-                <Form.Check
-                    name='has_pets'
-                    type={'checkbox'}
-                    id={'has_pets'}
-                    label={'Has pets'}
-                    onChange={() => props.filterByPets(!props.petsFilter)}
-                />
-            </Form>
-            <hr />
-            <div className="buttons">
-                {props.calendarView ? 
-                    <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
-                        List view
-                    </Button>
-                    :
-                    <Button variant="primary" size="sm" onClick={() => props.switchView(!props.calendarView)}>
-                        Calendar view
-                    </Button>
-                }
-            </div>
+            } else if (props.path === '/jobs') {
+                return <>
+                    <div className='status-label'>Job status:</div>
+                    <hr />
+                    <Form>
+                        <div className='completion-btns'>
+                        <Form.Check
+                            name='completionFilter'
+                            type={'radio'}
+                            id={'completed-radio'}
+                            label={'complete'}
+                            onChange={() => props.filterByCompleted('complete')}
+                        />
+                        <Form.Check
+                            name='completionFilter'
+                            type={'radio'}
+                            id={'incomplete-radio'}
+                            label={'incomplete'}
+                            onChange={() => props.filterByCompleted('incomplete')}
+                        />
+                        <Form.Check
+                            name='completionFilter'
+                            type={'radio'}
+                            id={'selectAll-radio'}
+                            label={'all'}
+                            defaultChecked={true}
+                            onChange={() => props.filterByCompleted(null)}
+                        />
+                        </div>
+                    </Form><br />
+                    <div className='filter-label'>Job filters:</div>
+                    <hr />
+                    <Form>
+                        <div className='filter-btns'>
+                        <Form.Check
+                            name='non-smoking'
+                            type={'checkbox'}
+                            id={'non-smoking'}
+                            label={'Non-smoking'}
+                            checked={props.nonSmokingFilter}
+                            onChange={() => props.filterByNonSmoking(!props.nonSmokingFilter)}
+                        />
+                        <Form.Check
+                            name='first_aid_cert'
+                            type={'checkbox'}
+                            id={'first_aid_cert'}
+                            label={'First-aid certified'}
+                            onChange={() => props.filterByFirstAidCert(!props.firstAidCertFilter)}
+                        />
+                        <Form.Check
+                            name='has_pets'
+                            type={'checkbox'}
+                            id={'has_pets'}
+                            label={'Has pets'}
+                            onChange={() => props.filterByPets(!props.petsFilter)}
+                        />
+                        </div>
+                    </Form>
+                    <div className="button-row">
+                        {props.calendarView ? 
+                            <Button className="view-btn" size="sm" onClick={() => props.switchView(!props.calendarView)}>
+                                List view
+                            </Button>
+                            :
+                            <Button className="view-btn" size="sm" onClick={() => props.switchView(!props.calendarView)}>
+                                Calendar view
+                            </Button>
+                        }
+                    </div>
             </>
         }
     }

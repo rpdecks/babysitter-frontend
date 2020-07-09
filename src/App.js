@@ -19,20 +19,22 @@ import FilterContainer from './containers/FilterContainer'
 import CalendarView from './components/CalendarView'
 
 const Styles = styled.div `
+  overflow-x: hidden;
+
   .sidebar-column {
-    border: black solid 1px;
-    height: 95vh;
-    background: #89cff0;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92vh;
+    background: #FFC107;
   }
   .center-column {
-    border: black solid 1px;
-    height: 95vh;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92vh;
     overflow-y: scroll;
   }
   .right-column {
-    border: black solid 1px;
-    height: 95vh;
-    background: #89cff0;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92h;
+    background: #FFC107;
   };
 `
  
@@ -112,6 +114,12 @@ class App extends React.Component {
                     <Route exact path='/jobs'
                       render={({match}) => <FilterContainer path={match.path}/>}  
                     />
+                    <Route exact path='/past-jobs'
+                      render={({match}) => <FilterContainer path={match.path}/>}  
+                    />
+                    <Route exact path='/pending-jobs'
+                      render={({match}) => <FilterContainer path={match.path}/>}  
+                    />
                     <Route path='/browse'
                       render={({match}) => <FilterContainer path={match.path}/>}  
                     />
@@ -151,6 +159,22 @@ class App extends React.Component {
                         {this.props.userType === 'employer' ? <EmployerSignup /> : <CaregiverSignup />}
                       </Route>
                       <Route exact path='/jobs'>
+                        {(this.props.isLoggedIn && this.props.calendarView) ?
+                          <CalendarView />
+                          :
+                          this.props.isLoggedIn ?
+                            <Jobs /> : <Welcome />
+                        }
+                      </Route>
+                      <Route exact path='/past-jobs'>
+                        {(this.props.isLoggedIn && this.props.calendarView) ?
+                          <CalendarView />
+                          :
+                          this.props.isLoggedIn ?
+                            <Jobs /> : <Welcome />
+                        }
+                      </Route>
+                      <Route exact path='/pending-jobs'>
                         {(this.props.isLoggedIn && this.props.calendarView) ?
                           <CalendarView />
                           :

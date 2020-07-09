@@ -5,22 +5,20 @@ import { connect } from 'react-redux'
 import UserCard from './UserCard'
 import styled from 'styled-components'
 
-const Styles = styled.div `
+const Styles = styled.div ` 
+    overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
     .card-deck {
-        // height: 40vh;
         overflow-y: auto;
         white-space: nowrap;
         float: none;
     }
-    .card-img-top {
-        width: 100%;
-        height: 15vw;
-        object-fit: cover;
-    }
-    .card {
-        margin-bottom: 10px !important;
-        margin-top: 10px !important;
-    }
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+    } 
 `  
 
 function UserIndex(props) {
@@ -45,7 +43,7 @@ function UserIndex(props) {
                     user={u} 
                     userType={selectCardUserType()}
                 />
-              </Col>)
+            </Col>)
     }
 
     // Filters
@@ -76,13 +74,13 @@ function UserIndex(props) {
 
     function welcomeUser() {
         if (props.userType === 'employer') {
-            return <h1>Browse potential <b>Caregivers</b></h1> 
-        } else return <h1 className='h1'>Browse potential <b>Employers</b></h1> 
+            return 'Browse Caregivers'
+        } else return 'Browse Employers'
     }
 
     return (
         <Styles>
-            {welcomeUser()}
+                <div className='header-text'>{welcomeUser()}</div>
                 <Row>
                     <CardDeck >
                         {props.userType === 'employer' ? 

@@ -4,10 +4,54 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Table, Button } from 'react-bootstrap'
 import styled from 'styled-components'
+import { FaAlignCenter } from 'react-icons/fa'
 
 const Styles = styled.div `
-//   overflow-y: scroll;
-//   max-height: 100vh;
+    font-family: 'Roboto', sans-serif;
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        font-family: 'Arimo', sans-serif;
+    } 
+    a:link {
+        color: #00BCD4;
+    }
+    a:visited {
+        color: #757575;
+    }
+    table, th, td, tr {
+        font-size: x-small;
+        color: #212121;
+    }
+    table {
+        border: none;
+        text-align: center;
+    }
+    td:nth-child(1), td:nth-child(8), td:nth-child(9) {
+        text-align: center;
+    }
+    th:nth-child(2) {
+        width: 120px;
+    }
+    th:nth-child(4) {
+        width: 140px;
+    }
+    th:nth-child(6) {
+        width: 190px;
+    }
+    th:nth-child(8) {
+        width: 50px;
+    }
+    th:nth-child(9) {
+        width: 180px;
+    }
+    th:nth-child(10) {
+        width: 120px;
+    }
+    th:nth-child(n+11) {
+        width: 50px;
+    }
 `
 class Jobs extends React.Component {
 
@@ -49,8 +93,25 @@ class Jobs extends React.Component {
 
     interestBtn = (job_id) => {
         if (this.props.interestedJobs && this.props.interestedJobs.find(job => job.job_id === job_id)) {
-            return <Button variant='danger' onClick={() => this.saveInterestInJob(job_id)}>Remove</Button> 
-            } else return <Button onClick={() => this.saveInterestInJob(job_id)}>Interested?</Button>
+            return (
+                <Button 
+                    size="sm" 
+                    onClick={() => this.saveInterestInJob(job_id)}
+                    style={{ backgroundColor: "#757575", color: 'white', border: '0', width: '100%' }}
+                    variant='link'
+                >
+                    Remove
+                </Button> 
+            )
+        } else return (
+            <Button 
+                size="sm" 
+                onClick={() => this.saveInterestInJob(job_id)}
+                style={{ backgroundColor: "#0097A7", color: 'white', border: '0', width: '100%' }}
+            >
+                Interested?
+            </Button>
+        )
     }
 
     // sortJobs = (jobs, criteria ) => {
@@ -88,10 +149,10 @@ class Jobs extends React.Component {
         return filteredJobs.map((job, index)=> {
             return (
                 <tr key={index}>
-                    <td><Link to={`/jobs/${job.id}`}>Details</Link></td>
+                    <td><Link to={`/jobs/${job.id}`}>Show</Link></td>
                     <td>{job.start_date_YYYYMMDD}</td>
                     <td>{job.start_time_HHMM}</td>
-                    <td>{job.duration} hr</td>
+                    <td>{job.duration}</td>
                     <td>{job.title}</td>
                     <td>{job.job_location}</td>
                     <td>${job.pay_rate}/hour</td>
@@ -106,53 +167,148 @@ class Jobs extends React.Component {
     }
 
     renderAvailableJobs = (jobs) => {
-       if (this.props.userType === 'caregiver' && this.props.availableJobs) {
-        return <>
-            <hr />
-            <h1>Available Babysitting Jobs</h1> 
-            <Table striped bordered hover size="sm">
-                <thead>
-                    <tr>
-                        <th>Details</th>
-                        <th onClick={() => this.props.sortTable('start_time')}>Date</th>
-                        <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
-                        <th onClick={() => this.props.sortTable('length')}>Duration</th>
-                        <th>Title</th>
-                        <th>Location</th>
-                        <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
-                        <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
-                        <th>Non-Smoking?</th>
-                        <th>First-aid cert?</th>
-                        <th>Pets?</th>
-                        <th>Interested?</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.mapMyJobs(jobs)} 
-                </tbody>
-            </Table>
-        </>
-       } 
-    }
-    
-    render() {
         return (
-            <Styles>
-                <hr />
-                <h1>My Babysitting Jobs</h1> 
-                <Table striped bordered hover size="sm">
+        <>
+            <Table striped bordered hover size="sm">
+                <div className='table'>
                     <thead>
                         <tr>
                             <th>Details</th>
                             <th onClick={() => this.props.sortTable('start_time')}>Date</th>
-                            <th onClick={() => this.props.sortTable('start_time')}>Start time</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Start</th>
                             <th onClick={() => this.props.sortTable('length')}>Duration</th>
                             <th>Title</th>
                             <th>Location</th>
                             <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
                             <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
                             <th>Non-Smoking?</th>
-                            <th>First-aid cert?</th>
+                            <th>First-aid</th>
+                            <th>Pets?</th>
+                            <th>Interested?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.mapMyJobs(jobs)} 
+                    </tbody>
+                </div>
+            </Table>
+        </>
+        )
+    }
+
+    renderHeader = () => {
+        if (window.location.pathname === '/past-jobs') {
+            return (
+                <div className='header-text'>
+                    Past Babysitting Jobs
+                </div>
+            )
+        } else if (window.location.pathname === '/pending-jobs') {
+            return (
+                <div className='header-text'>
+                    Pending Babysitting Jobs
+                </div>
+            )
+        } else if (this.props.userType === 'employer') {
+            return (
+                <div className='header-text'>
+                    My Babysitting Jobs
+                </div>
+            )
+        } else if (this.props.userType === 'caregiver') {
+            return (
+                <div className='header-text'>
+                    Available Babysitting Jobs
+                </div>
+            )
+        }
+    }
+
+    renderJobs = () => {
+        if (window.location.pathname === '/past-jobs') {
+            let filteredJobs = this.props.userJobs.filter(job => job.status === 'complete')
+            return (
+                <>
+                    <Table striped bordered hover size="sm">
+                        <div className='table'>
+                        <thead>
+                            <tr>
+                                <th>Details</th>
+                                <th onClick={() => this.props.sortTable('start_time')}>Date</th>
+                                <th onClick={() => this.props.sortTable('start_time')}>Start</th>
+                                <th onClick={() => this.props.sortTable('length')}>Duration</th>
+                                <th>Title</th>
+                                <th>Location</th>
+                                <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
+                                <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
+                                <th>Non-Smoking?</th>
+                                <th>First-aid</th>
+                                <th>Pets?</th>
+                                <th onClick={() => this.props.sortTable('status')}>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.userJobs && this.mapMyJobs(filteredJobs)} 
+                        </tbody>
+                        </div>
+                    </Table>
+                </>
+            )
+        } else if (window.location.pathname === '/pending-jobs') {
+            let filteredJobs = this.props.userJobs.filter(job => job.status === 'incomplete')
+            return (
+                <>
+                    <Table striped bordered hover size="sm">
+                        <div className='table'>
+                        <thead>
+                            <tr>
+                                <th>Details</th>
+                                <th onClick={() => this.props.sortTable('start_time')}>Date</th>
+                                <th onClick={() => this.props.sortTable('start_time')}>Start</th>
+                                <th onClick={() => this.props.sortTable('length')}>Duration</th>
+                                <th>Title</th>
+                                <th>Location</th>
+                                <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
+                                <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
+                                <th>Non-Smoking?</th>
+                                <th>First-aid</th>
+                                <th>Pets?</th>
+                                <th onClick={() => this.props.sortTable('status')}>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.userJobs && this.mapMyJobs(filteredJobs)} 
+                        </tbody>
+                        </div>
+                    </Table>
+                </>
+            )
+        } else if (window.location.pathname === '/jobs') {
+            if (this.props.userType === 'caregiver') {
+                return this.renderAvailableJobs(this.props.availableJobs)
+            }
+        }
+    }
+    
+    render() {
+        return (
+            <Styles>
+                {this.renderHeader()}
+                {this.renderJobs()}
+                {/* <Table striped bordered hover size="sm">
+                    <div className='table'>
+                    <thead>
+                        <tr>
+                            <th>Details</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Date</th>
+                            <th onClick={() => this.props.sortTable('start_time')}>Start</th>
+                            <th onClick={() => this.props.sortTable('length')}>Duration</th>
+                            <th>Title</th>
+                            <th>Location</th>
+                            <th onClick={() => this.props.sortTable('pay_rate')}>Pay rate</th>
+                            <th onClick={() => this.props.sortTable('total_child_count')}>Kids</th>
+                            <th>Non-Smoking?</th>
+                            <th>First-aid</th>
                             <th>Pets?</th>
                             <th onClick={() => this.props.sortTable('status')}>Status</th>
                         </tr>
@@ -160,8 +316,9 @@ class Jobs extends React.Component {
                     <tbody>
                         {this.props.userJobs && this.mapMyJobs(this.props.userJobs)} 
                     </tbody>
+                    </div>
                 </Table>
-                {this.props.availableJobs && this.renderAvailableJobs(this.props.availableJobs)}
+                {this.props.availableJobs && this.renderAvailableJobs(this.props.availableJobs)} */}
             </Styles>
         )
     }
