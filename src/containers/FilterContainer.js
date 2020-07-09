@@ -91,13 +91,13 @@ function FilterContainer(props) {
                         name='has_pets'
                         type={'checkbox'}
                         id={'has_pets'}
-                        label={'Has pets'}
+                        label={'Pets are fine'}
                         onChange={() => props.filterByPets(!props.petsFilter)}
                     />
                     </div>
                 </Form>
             </>
-            } else if (props.path === '/jobs') {
+            } else if (props.path === '/jobs' || '/past-jobs') {
                 return <>
                     <div className='status-label'>Job status:</div>
                     <hr />

@@ -4,7 +4,6 @@ import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import { Table, Button } from 'react-bootstrap'
 import styled from 'styled-components'
-import { FaAlignCenter } from 'react-icons/fa'
 
 const Styles = styled.div `
     font-family: 'Roboto', sans-serif;
@@ -148,7 +147,8 @@ class Jobs extends React.Component {
         const filteredJobs = jobsCopy.filter(job => myFilters.every(f => f(job)))
         return filteredJobs.map((job, index)=> {
             return (
-                <tr key={index}>
+                // <Link to={`/jobs/${job.id}`}>
+                <tr key={index} >
                     <td><Link to={`/jobs/${job.id}`}>Show</Link></td>
                     <td>{job.start_date_YYYYMMDD}</td>
                     <td>{job.start_time_HHMM}</td>
@@ -162,6 +162,7 @@ class Jobs extends React.Component {
                     <td>{job.has_pets === true ? 'Yes' : 'No'}</td>
                     <td>{this.props.userType === 'employer' ? job.status : job.caregiver_id ? job.status : this.interestBtn(job.id)}</td>
                 </tr>
+                // </Link>
             )
         })
     }
@@ -170,7 +171,6 @@ class Jobs extends React.Component {
         return (
         <>
             <Table striped bordered hover size="sm">
-                <div className='table'>
                     <thead>
                         <tr>
                             <th>Details</th>
@@ -190,7 +190,6 @@ class Jobs extends React.Component {
                     <tbody>
                         {this.mapMyJobs(jobs)} 
                     </tbody>
-                </div>
             </Table>
         </>
         )

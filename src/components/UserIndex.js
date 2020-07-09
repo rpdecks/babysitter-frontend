@@ -56,7 +56,7 @@ function UserIndex(props) {
         } else return true
     }
     function applyNonSmokingFilter(user) {
-        if (props.nonSmokingFilter === true) return (user.smoker === true)
+        if (props.nonSmokingFilter === true) return (user.smoker === false) 
         else return true
     }
     function applyPetsFilter(user) {

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, CardDeck, Col, Row, Container } from 'react-bootstrap'
+import { Button, CardDeck, Col, Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import UserCard from './UserCard'
@@ -162,15 +162,19 @@ class JobShow extends React.Component {
     render() {
         return (
             <Styles>
-                {this.props.job.candidates && this.props.job.candidates.length > 0 ?
-                    <Styles>
-                        <div className="header-text">Review your applicants and award your job!</div>
-                        <Row >
-                            <CardDeck >
-                                { this.renderResponses() }
-                            </CardDeck>
-                        </Row>
-                    </Styles>
+                {this.props.userType === 'employer' ? 
+                    this.props.job.candidates && this.props.job.candidates.length > 0 ?
+                        <Styles>
+                            <div className="header-text">Review your applicants and award your job!</div>
+                            <Row >
+                                <CardDeck >
+                                    { this.renderResponses() }
+                                </CardDeck>
+                            </Row>
+                        </Styles>
+                        :
+                        null
+                    
                     :
                     null
                 }

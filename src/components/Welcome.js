@@ -50,6 +50,12 @@ const Styles = styled.div `
     .bottom-row {
         height: 20vh;
     }
+    .motto {
+        text-align: center;
+        font-size: medium;
+        color: #0097A7;
+        font-family: 'Pacifico', cursive;
+    }
 `
 
 function Welcome(props) {
@@ -78,10 +84,17 @@ function Welcome(props) {
                 </Row>
                 <Row>
                     <Button 
-                        style={{ backgroundColor: "#00BCD4", color: 'white', border: '0', marginLeft: '5px', marginTop: '1rem', marginBottom: '0.5rem' }} className='mx-auto'
-                        onClick={() => handleStartClick(true)}>
+                        style={{ backgroundColor: "#00BCD4", color: 'white', border: '0', marginLeft: '5px', marginTop: '1.3rem', marginBottom: '1.2rem' }} 
+                        className='mx-auto'
+                        onClick={() => handleStartClick(true)}
+                    >
                         Get Started!
                     </Button>
+                </Row>
+                <Row>
+                    <div className='motto mx-auto'>
+                        Connecting those in need with those who care
+                    </div>
                 </Row>
             <Modal
                 show={props.showModal}

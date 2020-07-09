@@ -245,19 +245,20 @@ function UserShow(props) {
                                         <Button variant="link" onClick={handleShow} >Award job to this user</Button>
                                         <Modal show={show} className='award-modal' onHide={handleClose}>
                                             <Modal.Header closeButton >
-                                                <Modal.Title>Award job</Modal.Title>
+                                                <Modal.Title style={{ margin: 'auto', fontFamily: 'Roboto', color: '#0097A7' }}>
+                                                    Award job
+                                                </Modal.Title>
                                             </Modal.Header>
                                             <Modal.Body>
-                                                Are you sure you would like to award:<br /><br />  
                                                 <b>Job: </b>{job.title} - {job.start_date_YYYYMMDD}<br /> 
                                                 <b>To: </b>{props.user.first_name}<br /> 
                                             </Modal.Body>
                                             <Modal.Footer >
-                                                <Button variant="secondary" onClick={handleClose} >
-                                                    Cancel
-                                                </Button>
-                                                <Button variant="primary" onClick={() => awardJob(job.id, props.user.id)} >
+                                                <Button style={{ background: '#00BCD4', border: '0' }} onClick={() => awardJob(job.id, props.user.id)} >
                                                     Award job
+                                                </Button>
+                                                <Button style={{ background: '#0097A7', border: '0' }} onClick={handleClose} >
+                                                    Cancel
                                                 </Button>
                                             </Modal.Footer>
                                         </Modal>
