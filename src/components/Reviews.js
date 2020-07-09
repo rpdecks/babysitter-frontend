@@ -3,6 +3,43 @@ import { withRouter } from 'react-router-dom'
 import Review from './Review'
 import { connect } from 'react-redux'
 import { Accordion, Button, Card, Form } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const Styles = styled.div `
+    font-family: 'Roboto', sans-serif;
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        margin-top: 1rem; 
+        margin-left: 1rem; 
+    } 
+    .btn {
+        // background: #757575;
+    }
+    .btn-link {
+        color: #00BCD4;
+    }
+    .menu {
+        margin-left: 2rem;
+        margin-top: 2rem;
+    }
+    .card {
+        height: 10%;
+    }
+    .card-header {
+        text-align: left;
+        background: white;
+        height: 10%;
+        border: 0;
+    }
+    .card-body {
+        color: #212121;
+    }
+    .form-label {
+        color: #212121;
+    }
+`
 
 class Reviews extends React.Component {
     state = {
@@ -113,58 +150,55 @@ class Reviews extends React.Component {
         }
     }
     
-    handleEdit = (id) => {
+    // editReview = (id) => {
 
-    }
+    //     const auth_token = localStorage.getItem('auth_token');
+    //     if (!auth_token) {
+    //     return;
+    //     }
 
-    editReview = (id) => {
+    //     let reviewObj
+    //     if (this.props.userType === 'employer') {
+    //         reviewObj =  {
+    //             employer_review: {
+    //                 employer_id: this.props.userData.id,
+    //                 caregiver_id: this.state.userId,
+    //                 content: this.state.content,
+    //                 title: this.state.title,
+    //                 rating: this.state.rating,
+    //             }
+    //         }
+    //     } else {
+    //         reviewObj =  {
+    //             caregiver_review: {
+    //                 caregiver_id: this.props.userData.id,
+    //                 employer_id: this.state.userId,
+    //                 content: this.state.content,
+    //                 title: this.state.title,
+    //                 rating: this.state.rating,
+    //             }
+    //         }
+    //     }
 
-        const auth_token = localStorage.getItem('auth_token');
-        if (!auth_token) {
-        return;
-        }
+    //     const fetchObj = {
+    //         method: 'PATCH',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             'Auth-Token': auth_token
+    //         },
+    //         body: JSON.stringify(reviewObj)
+    //     }
+    //     fetch(`http://localhost:3000/api/v1/${this.props.userType}s/${id}`, fetchObj)
+    //     .then(res => res.json())
+    //     .then(review => {
+    //         if (review.id) {
+    //             console.log(review)
+    //             this.props.editJob(review)
+    //         }
+    //     })
+    //     .catch(() => alert('Something went wrong'))
+    // }
 
-        let reviewObj
-        if (this.props.userType === 'employer') {
-            reviewObj =  {
-                employer_review: {
-                    employer_id: this.props.userData.id,
-                    caregiver_id: this.state.userId,
-                    content: this.state.content,
-                    title: this.state.title,
-                    rating: this.state.rating,
-                }
-            }
-        } else {
-            reviewObj =  {
-                caregiver_review: {
-                    caregiver_id: this.props.userData.id,
-                    employer_id: this.state.userId,
-                    content: this.state.content,
-                    title: this.state.title,
-                    rating: this.state.rating,
-                }
-            }
-        }
-
-        const fetchObj = {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-                'Auth-Token': auth_token
-            },
-            body: JSON.stringify(reviewObj)
-        }
-        fetch(`http://localhost:3000/api/v1/${this.props.userType}s/${id}`, fetchObj)
-        .then(res => res.json())
-        .then(review => {
-            if (review.id) {
-                console.log(review)
-                this.props.editJob(review)
-            }
-        })
-        .catch(() => alert('Something went wrong'))
-    }
     renderReviews(reviews) {
         return reviews.map((review, index) => {
             return <Review key={index} review={review} handleDelete={this.handleDelete}/>
@@ -173,8 +207,9 @@ class Reviews extends React.Component {
 
     render(){
         return (
-            <>
-                <h1>Which would you like to do?</h1>
+            <Styles>
+                <div className='header-text'>Which would you like to do?</div>
+                <div className='menu'>
                 <Accordion>
                     <Card>
                         <Card.Header>
@@ -223,9 +258,6 @@ class Reviews extends React.Component {
                                             defaultValue={this.state.title}
                                             onChange={e => this.handleChange(e)}
                                         />
-                                        <Form.Text className="text-muted">
-                                        We'll never share your email with anyone else.
-                                        </Form.Text>
                                     </Form.Group>
                                     <Form.Group controlId="review-content">
                                         <Form.Label>Review</Form.Label>
@@ -238,11 +270,11 @@ class Reviews extends React.Component {
                                         />
                                     </Form.Group>
                                     <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                                        <Button variant="primary" type="submit">
+                                        <Button type="submit" style={{ background: '#00BCD4', border: '0' }}>
                                             Submit
                                         </Button>
                                     </Accordion.Toggle>
-                                    <Accordion.Toggle as={Button} variant="secondary" eventKey="0">
+                                    <Accordion.Toggle as={Button} eventKey="0" style={{ background: '#0097A7', border: '0' }}>
                                         Cancel
                                     </Accordion.Toggle>
                                 </Form>
@@ -274,7 +306,8 @@ class Reviews extends React.Component {
                             </Accordion.Collapse>
                     </Card>
                 </Accordion>
-            </>
+                </div>
+            </Styles>
         )
     }
 }

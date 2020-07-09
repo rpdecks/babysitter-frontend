@@ -8,11 +8,7 @@ import styled from 'styled-components'
 const Styles = styled.div ` 
     overflow-x: hidden;
     font-family: 'Roboto', sans-serif;
-    .card-deck {
-        overflow-y: auto;
-        white-space: nowrap;
-        float: none;
-    }
+    
     .header-text {
         font-size: x-large;
         text-align: left;
@@ -60,7 +56,7 @@ function UserIndex(props) {
         } else return true
     }
     function applyNonSmokingFilter(user) {
-        if (props.nonSmokingFilter === true) return (user.smoker === true)
+        if (props.nonSmokingFilter === true) return (user.smoker === false) 
         else return true
     }
     function applyPetsFilter(user) {

@@ -13,17 +13,19 @@ const Styles = styled.div `
         font-size: larger;
         font-weight: bold;
         text-align: center;
-        color: #212121;
+        color: #757575;
+        height: 1rem;
     }
     .filter-label {
         font-weight: bold;
         font-size: larger;
         text-align: center;
-        color: #212121;
+        color: #757575;
+        height: 1rem;
     }
     .form-check-label {
         font-size: small;
-        color: #212121;
+        color: #757575;
     }
     .completion-btns {
         text-align: left;
@@ -47,6 +49,9 @@ const Styles = styled.div `
         background-color: #0097A7;
         border: none;
         display: inline;
+    }
+    hr {
+        width: 70%;
     }
 `
 
@@ -86,13 +91,13 @@ function FilterContainer(props) {
                         name='has_pets'
                         type={'checkbox'}
                         id={'has_pets'}
-                        label={'Has pets'}
+                        label={'Pets are fine'}
                         onChange={() => props.filterByPets(!props.petsFilter)}
                     />
                     </div>
                 </Form>
             </>
-            } else if (props.path === '/jobs') {
+            } else if (props.path === '/jobs' || '/past-jobs') {
                 return <>
                     <div className='status-label'>Job status:</div>
                     <hr />

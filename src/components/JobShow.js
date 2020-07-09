@@ -1,33 +1,96 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Button, CardDeck, Col, Row, Container } from 'react-bootstrap'
+import { Button, CardDeck, Col, Row } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
 import UserCard from './UserCard'
 import styled from 'styled-components'
 
 const Styles = styled.div `
-    .card-deck {
-        height: 40vh;
-        overflow-y: auto;
-        white-space: nowrap;
-        float: none;
-    }
-    .card-img-top {
-        width: 100%;
-        height: 15vw;
-        object-fit: cover;
-    }
-    .card {
-        margin-bottom: 10rem !important;
-        margin-top: 10px !important;
-    }
+    font-family: 'Roboto', sans-serif;
+
+    .header-text {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+    } 
     .award-success {
+        font-size: large;
+        text-align: center;
         color: green;
     }
     .award-failure {
+        font-size: x-large;
+        font-weight: bold;
+        text-align: center;
         color: red;
+        width: 100%;
     }
+    .sitter-instruction {
+        font-size: medium;
+        text-align: center;
+        color: #757575;
+        width: 100%;
+    }
+    .job-title {
+        font-size: x-large;
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-left: 1rem;
+        margin-bottom: 0.5rem;
+    } 
+    .job-detail-items {
+        font-size: small;
+        font-weight: bold;
+        text-align: right;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-left: 10px;
+    }
+    .job-detail-data {
+        font-size: small;
+        text-align: left;
+        color: ##212121;
+        font-family: 'Roboto', sans-serif;
+    }
+    .job-requirements {
+        font-size: x-large; 
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-right: rem;
+        margin-bottom: 0.5rem;
+    } 
+    .job-requirements-items {
+        font-size: small; 
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-right: rem;
+        margin-bottom: 0.5rem;
+    } 
+    .btn {
+        margin: 5px;
+    }
+    .button-row {
+        float: right;
+    }
+    .desc-header {
+        font-size: x-large;
+        font-weight: bold;
+        text-align: left;
+        color: #757575;
+        font-family: 'Roboto', sans-serif;
+        margin-bottom: 1rem;
+    } 
+    .desc-text {
+        font-size: small;
+        text-justify: auto;
+        color: #212121;
+        font-family: 'Roboto', sans-serif;
+    } 
 `  
 
 class JobShow extends React.Component {
@@ -35,7 +98,7 @@ class JobShow extends React.Component {
     renderEditBtn = () => {
         if (this.props.userType === 'employer') {
             return <Link to={`/jobs/${this.props.job.id}/edit`}>
-                <Button variant="primary" onClick={() => this.props.history.push('/')} >
+                <Button style={{ background: '#00BCD4', border: '0' }} onClick={() => this.props.history.push('/')} >
                     Edit
                 </Button>
             </Link>
@@ -63,58 +126,115 @@ class JobShow extends React.Component {
     renderJobCaregiverInfo() {
         const caregiver = this.props.caregivers.find(c => c.id === this.props.job.caregiver_id)
         if (this.props.job.caregiver_id) {
-            return <>
-                <h3 className="award-success">Job awarded!</h3>
-                <p>Charegiver name:</p>
+            return (
+                <>
+                    <div className="award-success">Job awarded!</div>
+                    Caregiver name:
                         <Link to={`/caregivers/${caregiver.id}`}>
                             {caregiver.first_name}
                         </Link>
-            </>
+                </>
+            )
         } else {
-            return <h3 className="award-failure">Job not yet awarded! Pick your babysitter</h3>
+            return (
+                <>
+                    <div className="award-failure">
+                        Job not yet awarded!<br /> 
+                    </div>
+                    <div className="sitter-instruction">
+                        Select your babysitter above
+                    </div>
+                </>
+            )
         }
     }
+
+    // renderJobRequirements(job) {
+    //     let reqAry = []
+    //     if (job.non_smoking) reqAry.push('non_smoking')
+    //     if (job.first_aid_cert) reqAry.push('first_aid_cert')
+    //     if (job.has_pets) reqAry.push('has_pets')
+    //     return reqAry.map(req => {
+    //         if 
+    //     }) ... 
+    // }
 
     render() {
         return (
             <Styles>
-                {this.props.job.candidates && this.props.job.candidates.length > 0 ?
-                    <Styles>
-                        <h3>Review your applicants and award your job!</h3>
-                        <Container>
-                            <Row className='row'>
-                                <CardDeck className='card-deck'>
+                {this.props.userType === 'employer' ? 
+                    this.props.job.candidates && this.props.job.candidates.length > 0 ?
+                        <Styles>
+                            <div className="header-text">Review your applicants and award your job!</div>
+                            <Row >
+                                <CardDeck >
                                     { this.renderResponses() }
                                 </CardDeck>
                             </Row>
-                        </Container>
-                    </Styles>
+                        </Styles>
+                        :
+                        null
+                    
                     :
                     null
                 }
+            <Row>
+                { this.props.userType === 'employer' ? this.renderJobCaregiverInfo() : null }
+            </Row>
             <hr />
-            <h3>{this.props.job.title}</h3>
+            <Row>
+                <Col xs={12}>
+                    <Row>
+                        <Col xs={7}>
+                            <div className="job-title"><b>Job title:</b> {this.props.job.title}</div>
+                        </Col>
+                        <Col xs={5}>
+                            <div className="job-requirements">Requirements</div>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col xs={3}>
+                            <div className="job-detail-items">
+                                Status:<br />
+                                When:<br />
+                                Duration:<br />
+                                Start/End Time:<br />
+                                Location:<br />
+                                Pay rate:<br />
+                            </div>
+                        </Col>
+                        <Col xs={4}>
+                            <div className="job-detail-data">
+                                {this.props.job.status}<br />
+                                {new Date(this.props.job.end_time).toDateString()}<br />
+                                {this.props.job.duration}<br />
+                                {this.props.job.start_time_HHMM} to {this.props.job.start_time_HHMM}<br />
+                                {this.props.job.job_location}<br />
+                                {this.props.job.pay_rate} / hour<br />
+                            </div>
+                        </Col>
+                        <Col xs={5} >
+                            <Col>
+                                <div className="job-requirements-items">
+                                    <b>Non-smoking?</b> {this.props.job.non_smoking === true ? 'Yes' : 'No'}<br />
+                                    <b>First Aid Cert?</b> {this.props.job.first_aid_cert === true ? 'Yes' : 'No'}<br />
+                                    <b>Pets involved?</b> {this.props.job.has_pets === true ? 'Yes' : 'No'}<br />
+                                </div>
+                            </Col>
+                        </Col>
+                    </Row>
+                </Col>
+            </Row>
             <hr />
-            { this.props.userType === 'employer' ? this.renderJobCaregiverInfo() : null }
-            <p><b>Status:</b> {this.props.job.status}</p>
-            <p><b>When:</b>{new Date(this.props.job.end_time).toDateString()}</p>
-            <p><b>Duration:</b> {this.props.job.duration} hours</p>
-            <p>{this.props.job.start_time_HHMM} to {this.props.job.start_time_HHMM}</p>
-            <p><b>Location:</b> {this.props.job.job_location}</p>
-            <p><b>Pay rate:</b> ${this.props.job.pay_rate} / hour</p>
-            <hr />
-            <h3>Job requirements:</h3>
-            <p><b>Non-smoking?</b> {this.props.job.non_smoking === true ? 'Yes' : 'No'}</p>
-            <p><b>First Aid Cert?</b> {this.props.job.first_aid_cert === true ? 'Yes' : 'No'}</p>
-            <p><b>Pets involved?</b> {this.props.job.has_pets === true ? 'Yes' : 'No'}</p>
-            <hr />
-            <h3>Description:</h3>
-            <p>{this.props.job.desc}</p>
+            <div className="desc-header">Job Description:</div>
+            <div className="desc-text">{this.props.job.desc}</div>
 
-            {this.renderEditBtn()}
-            <Button variant="danger" onClick={() => this.props.history.push('/jobs')} >
-                Back
-            </Button>
+            <Row className='button-row'>
+                {this.renderEditBtn()}
+                <Button style={{ background: '#0097A7', border: '0', marginRight: '1.5rem' }} onClick={() => this.props.history.push('/jobs')} >
+                    Back
+                </Button>
+            </Row>
         </Styles>
         )
     }

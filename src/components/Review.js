@@ -46,29 +46,31 @@ function Review(props) {
     }
 
     return (
-        <Accordion>
-            <Card xs={12}>
-                <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
-                        <b>Title:</b> {props.review.title}  |  Rating:  |
-                        <StarRatings
-                            name='rating'
-                            rating={props.review.rating}
-                            starRatedColor="#757575"
-                            numberOfStars={5}
-                            starDimension="20px"
-                            starSpacing="2px"
-                        />
-                    </Accordion.Toggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey="0">
-                    <Card.Body>
-                    <p>{props.review.content}</p>
-                    {renderButtons()}
-                    </Card.Body>
-                </Accordion.Collapse>
-            </Card>
-        </Accordion>
+        <Styles>
+            <Accordion>
+                <Card xs={12}>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                            <b>Title:</b> {props.review.title}  |  Rating:  |
+                            <StarRatings
+                                name='rating'
+                                rating={props.review.rating}
+                                starRatedColor="#757575"
+                                numberOfStars={5}
+                                starDimension="20px"
+                                starSpacing="2px"
+                            />
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                        <p>{props.review.content}</p>
+                        {renderButtons()}
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        </Styles>
     )
 }
 

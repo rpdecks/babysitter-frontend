@@ -28,7 +28,6 @@ const Styles = styled.div `
         margin-bottom: 10px !important;
         margin-top: 10px !important;
         font-size: x-small;
-        // height: 10vh;
     }
     .card-text {
         font-family: 'Roboto', sans-serif;
@@ -40,7 +39,7 @@ const Styles = styled.div `
     }
     .pets-icon {
         font-size: 30px;
-        color: 0097A7;
+        color: #0097A7;
     }
     .first-aid-icon {
         font-size: 30px;
@@ -51,7 +50,7 @@ const Styles = styled.div `
         color: #0097A7;
     }
     .icons-row {
-        text-align: center;
+        text-align: left;
     }
 `  
 
@@ -85,22 +84,22 @@ function UserCard(props) {
             <Card.Footer style={{ background: '#B2EBF2' }}>
                 <small className="text-muted">
                 <Row>
-                <Col className='icons-row'>
-                {renderSmokingIcon()}
-                {renderFirstAidIcon()}
-                {renderPetsIcon()}
-                </Col>
-                <Col className='star-column'>
-                    {props.user.rating}
-                    <StarRatings
-                            name='rating'
-                            rating={props.user.rating}
-                            starRatedColor="#FFC107"
-                            numberOfStars={1}
-                            starDimension="30px"
-                            starSpacing="2px"
-                    />
-                </Col>
+                    <Col className='icons-row' xs={7}>
+                    {renderSmokingIcon()}
+                    {renderFirstAidIcon()}
+                    {renderPetsIcon()}
+                    </Col>
+                    <Col className='star-column' x={5}>
+                        {props.user.rating}
+                        <StarRatings
+                                name='rating'
+                                rating={props.user.rating}
+                                starRatedColor="#FFC107"
+                                numberOfStars={1}
+                                starDimension="30px"
+                                starSpacing="2px"
+                        />
+                    </Col>
                 </Row>
                 </small>
             </Card.Footer>
