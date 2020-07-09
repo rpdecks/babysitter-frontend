@@ -6,12 +6,15 @@ import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
 
 const Styles = styled.div ` 
+    font-family: 'Roboto', sans-serif;
     .navbar {
         background-color: #0097A7;
-        max-height: 5vh;
+        max-height: 8vh;
     }
-    .nav-link {
+    .nav-link:link {
         color: white;
+        font-size: small;
+        margin: auto;
     }
     .navbar-brand {
         margin: 0;
@@ -21,8 +24,11 @@ const Styles = styled.div `
         font-size: 1.20rem;
         font-family: 'Pacifico', cursive;
     }
-    .brand-img {
+    .brand-img-left {
         margin-right: 1vw;
+    }
+    .brand-img-right {
+        margin-left: 1vw;
     }
     .right-btns {
         float: right;
@@ -60,13 +66,14 @@ function Appbar(props) {
     return (
         <Styles>
             <Navbar bg='navbar' variant='dark' >
-                <Col xs={2}>
+                <Col xs={3}>
                     <div className='brand-text'>
-                        <FaBabyCarriage className='brand-img' />
+                        <FaBabyCarriage className='brand-img-left' />
                         Babysitter
+                        <FaBabyCarriage className='brand-img-right' />
                     </div>
                 </Col>
-                <Col xs={8} />
+                <Col xs={7} />
                 <Col xs={2} className='right-btns'>
                 <Navbar.Collapse>
                     <Nav>

@@ -7,18 +7,23 @@ const Styles = styled.div `
     padding-top: 6rem;
     color: #212121;
     font-size: medium;
+    font-family: 'Roboto', sans-serif;
+
     .status-label {
         font-size: larger;
         font-weight: bold;
         text-align: center;
+        color: #212121;
     }
     .filter-label {
         font-weight: bold;
         font-size: larger;
         text-align: center;
+        color: #212121;
     }
     .form-check-label {
-        font-size: smaller;
+        font-size: small;
+        color: #212121;
     }
     .completion-btns {
         text-align: left;

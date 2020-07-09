@@ -2,6 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Accordion, Button, Card } from 'react-bootstrap'
 import StarRatings from 'react-star-ratings'
+import styled from 'styled-components'
+
+const Styles = styled.div ` 
+    font-family: 'Roboto', sans-serif;
+    .card-body {
+        color: #212121;
+    }
+`
 
 function Review(props) {
 
@@ -46,7 +54,7 @@ function Review(props) {
                         <StarRatings
                             name='rating'
                             rating={props.review.rating}
-                            starRatedColor="red"
+                            starRatedColor="#757575"
                             numberOfStars={5}
                             starDimension="20px"
                             starSpacing="2px"

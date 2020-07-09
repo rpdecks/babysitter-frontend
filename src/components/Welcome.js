@@ -1,15 +1,27 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Col, Modal, Row } from 'react-bootstrap'
+import { Button, Col, Modal, Row } from 'react-bootstrap'
+import { FaBabyCarriage } from 'react-icons/fa'
 import styled from 'styled-components'
 
 const Styles = styled.div ` 
-  btn.row {
-      background: blue;
-      justify-content: center;
-      width: 100%;
-  } 
+    .btn {
+        background: blue;
+    }
+    .button-row {
+        justify-content: center;
+        width: 100%;
+        background: blue;
+    } 
+    .modal-title {
+        color: white;
+        font-size: 1.20rem;
+        font-family: 'Pacifico', cursive;
+    }
+    .brand-img {
+        margin-right: 1rem;
+    }
 `
 
 function Welcome(props) {
@@ -31,41 +43,39 @@ function Welcome(props) {
                 animation={true}
                 dialogClassName="custom-modal"
             >
+                    <div className='modal-title'>
                 <Modal.Header>
-                    <Modal.Title style={{ margin: 'auto' }} >Welcome to Babysitter!</Modal.Title>
+                    <Modal.Title style={{ margin: 'auto', fontFamily: 'Pacifico', color: '#0097A7' }} >
+                            <FaBabyCarriage />
+                            Babysitter!
+                            <FaBabyCarriage />
+                    </Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <Row>
-                        <Col xs={2}>
-                            <img src='https://babysitters-app.s3.amazonaws.com/babysitter_img.jpeg' 
-                                height='128' 
-                                width='128' 
-                                alt='pacifier'
-                            />
-                            <br />
-                        </Col>
-                        <Col xs={10}>
-                            <b>Meeting the needs of both families and caregivers.</b><hr />
-                            Find babysitters and find jobs right here. Create an account, browse opportunites, post a job, find a job, and win together
-                        </Col>
-                    </Row>
+                    </div>
+                <Modal.Body style={{ textAlign: 'center', color: '#757575'}}>
+                            <b>Meeting the needs of <em>families</em> and caregivers</b><hr />
+                            Need a job? Need a sitter?<br />
+                            Create an account, browse opportunites,<br />
+                            post a job, find a job, and win together
                 </Modal.Body>
-                <Modal.Footer  >
+                <Modal.Footer style={{ color: '#757575'}}>
+                    <Col>
+                        <Row className='justify-content-center'>
+                            <b>Choose the best option and get started</b>
+                        </Row>
                     <Row className='justify-content-center'>
-                        Choose the option which best describes you to get started
-                    <div className='btn-row'>
-                        <Link to="/login" onClick={() => handleClick('employer')}>
-                            <button type="button">
+                        <Link to="/login" onClick={() => handleClick('employer')} className='button-row'>
+                            <Button style={{ backgroundColor: "#0097A7", color: 'white', border: '0', marginRight: '5px', marginTop: '10px' }}>
                                 Employer
-                            </button>
+                            </Button>
                         </Link>
                         <Link to="/login" onClick={() => handleClick('caregiver')}>
-                            <button type="button">
+                            <Button style={{ backgroundColor: "#0097A7", color: 'white', border: '0', marginLeft: '5px', marginTop: '10px' }}>
                                 Caregiver
-                            </button>
+                            </Button>
                         </Link>
-                    </div>
                     </Row>
+                    </Col>
                 </Modal.Footer>
             </Modal>
         </Styles>

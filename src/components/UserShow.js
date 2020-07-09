@@ -12,21 +12,74 @@ import { IconContext } from "react-icons"
 import Review from './Review'
 
 const Styles = styled.div `
-  .img {
-    height: 40vh;
-    width: 15vw;
-    object-fit: cover;
-  }
-  .award-column {
-      overflow-y: scroll;
-      height: 40vh;
-  }
-  .award-title {
-  }
-  .award-btn {
-  }
-  .award-job-details {
-  }
+    font-family: 'Roboto', sans-serif;
+
+    .img {
+        height: 40vh;
+        width: 15vw;
+        object-fit: cover;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+    .award-column {
+        overflow-y: scroll;
+        height: 40vh;
+    }
+    .message-btn {
+        background-color: #00BCD4;
+        height: 100%;
+        border: none;
+        font-size: small;
+        margin-left: 0.7rem;
+        margin-top: 5px;
+    }
+    .back-btn {
+        background-color: #757575;
+        width: 30%;
+        height: 100%;
+        border: none;
+        font-size: small;
+        margin-left: 5px;
+        margin-top: 5px;
+    }
+    .name {
+        font-size: x-large;
+        margin-top: 1.5rem;
+        margin-left: 1rem;
+        text-align: left;
+        color: #212121;
+    }
+    .fav-icon {
+        margin-top: 1rem;
+        margin-left: 0.5rem;
+        color: #0097A7;
+    }
+    .stars {
+        margin-top: 10px;
+        margin-left: 0.9rem;
+    }
+    .user-info {
+        margin-top: 1.2rem;
+        margin-left: 0.3rem;
+        margin-bottom: 1.3rem;
+        font-size: small;
+        color: #212121;
+    }
+    .user-icons {
+        margin-left: 1rem;
+    }
+    .nav-link {
+        color: #00BCD4;
+    }
+    .nav-link:active {
+        color: #757575;
+    }
+    .btn-link {
+        color: #00BCD4;
+    }
+    .btn-link:active {
+        color: #757575;
+    }
 `
 
 function UserShow(props) {
@@ -123,12 +176,12 @@ function UserShow(props) {
         let result = null
         if (props.userType === 'employer') {
             result = props.userFavorites.filter(f => f.caregiver_id === props.user.id)
-            if (result.length > 0) return <BsHeartFill onClick={() => favoriteUser()} />
-            else return <BsHeart onClick={() => favoriteUser()} />
+            if (result.length > 0) return <BsHeartFill onClick={() => favoriteUser()} className='fav-icon'/>
+            else return <BsHeart onClick={() => favoriteUser()} className='fav-icon'/>
         } else if ( props.userType === 'caregiver' ) {
             result = props.userFavorites.filter(f => f.employer_id === props.user.id)
-            if (result.length> 0) return <BsHeartFill onClick={() => favoriteUser()} />
-            else return <BsHeart onClick={() => favoriteUser()} />
+            if (result.length> 0) return <BsHeartFill onClick={() => favoriteUser()} className='fav-icon'/>
+            else return <BsHeart onClick={() => favoriteUser()} className='fav-icon'/>
         }
     }
 
@@ -149,7 +202,7 @@ function UserShow(props) {
                 } else return myJobsUserAppliedFor
             })
         }
-        if (myJobsUserAppliedFor.length > 0) {
+        if (myJobsUserAppliedFor && myJobsUserAppliedFor.length > 0) {
             return myJobsUserAppliedFor.map((job, index) => {
                 return (
                     <>
@@ -199,58 +252,72 @@ function UserShow(props) {
             <Row>
                 <Col xs={12}>
                     <Row>
-                    <Image 
-                        className='img' 
-                        src={props.user.image} 
-                        rounded
-                        alt={'babysitter'} 
-                    />  
-                    <Col>
-                        <Row>
-                            <h3>{props.user.first_name} {props.user.last_name[0]}.</h3>
-                            {props.userFavorites && renderFavoriteHearts()}
-                        </Row>
-                        <StarRatings
-                            name='rating'
-                            rating={props.user.rating}
-                            starRatedColor="red"
-                            numberOfStars={5}
-                            starDimension="30px"
-                            starSpacing="2px"
-                        />
-                        <p>{props.user.rating} out of 5 stars</p><br />
-                        
-                        <b>Age:</b> ~ {props.user.age} years old<br />
-                        <b>Gender:</b> {props.user.gender}<br />
-                        <b>Has pets?</b> {props.user.has_pets.toString()}<br />
-                        <b>Experience:</b> {props.user.job_count} completed jobs<br />
-                        <b>Pay rate</b> ${props.user.pay_rate} / hour
-                        <br /><br />
-                        <Row>
-                            {props.user.non_smoking ? 
-                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                        <MdSmokeFree />
-                                </IconContext.Provider> 
-                                : 
-                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                        <MdSmokingRooms />
-                                </IconContext.Provider>
-                            }
-                            {props.user.first_aid_cert ? 
-                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                        <GiHealthNormal />
-                                </IconContext.Provider>
-                                :
-                                null}
-                            {props.user.has_pets ? 
-                                <IconContext.Provider value={{size: "50px", color: "#A9A9A9"}}>
-                                        <MdPets />
-                                </IconContext.Provider>
-                                :
-                                null}
-                        </Row>
-                        <br />
-                        <Button variant='primary'>Message me!</Button>
+                        <Col className="left-column" xs={3}>
+                            <Row>
+                            <Image 
+                                className='img' 
+                                src={props.user.image} 
+                                rounded
+                                alt={'babysitter'} 
+                            />
+                            </Row>
+                            <Row >
+                                <Button className="message-btn" >Message me!</Button>
+                                <Button className="back-btn" onClick={() => handleBackButton()} >
+                                    Back
+                                </Button>
+                            </Row>
+                        </Col>
+                        <Col className="middle-column">
+                            <Row>
+                                <div className="name">{props.user.first_name} {props.user.last_name[0]}.</div>
+                                <div className="fav-icon">{props.userFavorites && renderFavoriteHearts()}</div>
+                            </Row>
+                            <Row>
+                            <div className='stars'>
+                            <StarRatings
+                                name='rating'
+                                rating={props.user.rating}
+                                starRatedColor="#757575"
+                                numberOfStars={5}
+                                starDimension="30px"
+                                starSpacing="2px"
+                            />
+                            </div>
+                            </Row>
+                            <div className='user-info'>
+                                {props.user.rating} out of 5 stars<br />
+                                Age: ~ {props.user.age} years old<br />
+                                Gender: {props.user.gender}<br />
+                                Experience: {props.user.job_count} completed jobs<br />
+                                Pay rate ${props.user.pay_rate} / hour
+                            </div>
+                            <Row>
+                                <div className='user-icons'>
+                                {props.user.smoker ? 
+                                    <IconContext.Provider value={{size: "50px", color: "#0097A7"}}>
+                                            <MdSmokeFree />
+                                    </IconContext.Provider> 
+                                    : 
+                                    <IconContext.Provider value={{size: "50px", color: "#0097A7"}}>
+                                            <MdSmokingRooms />
+                                    </IconContext.Provider>
+                                }
+                                {props.user.first_aid_cert ? 
+                                    <IconContext.Provider value={{size: "50px", color: "#0097A7"}}>
+                                            <GiHealthNormal />
+                                    </IconContext.Provider>
+                                    :
+                                    null}
+                                {props.user.has_pets ? 
+                                    <IconContext.Provider value={{size: "50px", color: "#0097A7"}}>
+                                            <MdPets />
+                                    </IconContext.Provider>
+                                    :
+                                    null}
+                                </div>
+                            </Row>
+                            <br />
                     </Col>
                     <Col >
                         <ul>
@@ -271,9 +338,6 @@ function UserShow(props) {
                     {renderReviews()}
                 </Tab>
             </Tabs>
-            <Button variant="danger" onClick={() => handleBackButton()} >
-                Back
-            </Button>
         </Styles>
     )   
 }

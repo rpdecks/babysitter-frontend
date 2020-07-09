@@ -22,18 +22,18 @@ const Styles = styled.div `
   overflow-x: hidden;
 
   .sidebar-column {
-    border: black solid 1px;
-    height: 95vh;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92vh;
     background: #FFC107;
   }
   .center-column {
-    border: black solid 1px;
-    height: 95vh;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92vh;
     overflow-y: scroll;
   }
   .right-column {
-    border: black solid 1px;
-    height: 95vh;
+    border: rgb(0,0,0,0.2) solid 1px;
+    height: 92h;
     background: #FFC107;
   };
 `
@@ -115,6 +115,9 @@ class App extends React.Component {
                       render={({match}) => <FilterContainer path={match.path}/>}  
                     />
                     <Route exact path='/past-jobs'
+                      render={({match}) => <FilterContainer path={match.path}/>}  
+                    />
+                    <Route exact path='/pending-jobs'
                       render={({match}) => <FilterContainer path={match.path}/>}  
                     />
                     <Route path='/browse'

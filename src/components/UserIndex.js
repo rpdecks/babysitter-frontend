@@ -7,15 +7,17 @@ import styled from 'styled-components'
 
 const Styles = styled.div ` 
     overflow-x: hidden;
+    font-family: 'Roboto', sans-serif;
     .card-deck {
         overflow-y: auto;
         white-space: nowrap;
         float: none;
     }
     .header-text {
-        font-size: xx-large;
+        font-size: x-large;
         text-align: left;
         color: #757575;
+        font-family: 'Roboto', sans-serif;
     } 
 `  
 
@@ -41,7 +43,7 @@ function UserIndex(props) {
                     user={u} 
                     userType={selectCardUserType()}
                 />
-              </Col>)
+            </Col>)
     }
 
     // Filters
