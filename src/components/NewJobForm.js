@@ -1,4 +1,5 @@
 import React from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Button, Col, Form, Row } from 'react-bootstrap'
@@ -132,7 +133,7 @@ class NewJobForm extends React.Component {
             body: JSON.stringify(jobObj)
         }
 
-        fetch('http://localhost:3000/api/v1/jobs', fetchObj)
+        fetch(`${API_ROOT}/jobs`, fetchObj)
         .then(res => res.json())
         .then(jobData => {
             console.log(jobData)
@@ -160,7 +161,7 @@ class NewJobForm extends React.Component {
             body: JSON.stringify(jobObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/jobs/${this.props.job.id}`, fetchObj)
+        fetch(`${API_ROOT}/jobs/${this.props.job.id}`, fetchObj)
         .then(res => res.json())
         .then(jobData => {
             console.log(jobData)
@@ -184,7 +185,7 @@ class NewJobForm extends React.Component {
             },
         }
 
-        fetch(`http://localhost:3000/api/v1/jobs/${id}`, fetchObj)
+        fetch(`${API_ROOT}/jobs/${id}`, fetchObj)
         .then(res => res.json())
         .then(jobData => {
             if (jobData) {

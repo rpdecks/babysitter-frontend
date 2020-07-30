@@ -1,4 +1,5 @@
 import React from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -109,7 +110,7 @@ class EmployerSignup extends React.Component {
             body: JSON.stringify(userObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/employers/${id}`, fetchObj)
+        fetch(`${API_ROOT}/employers/${id}`, fetchObj)
         .then(res => res.json())
         .then(userData => {
             if (userData.id) {
@@ -136,7 +137,7 @@ class EmployerSignup extends React.Component {
             body: JSON.stringify(userObj)
         }
 
-        fetch('http://localhost:3000/api/v1/employers', fetchObj)
+        fetch(`${API_ROOT}/employers`, fetchObj)
         .then(res => res.json())
         .then(loginData => {
             if (loginData.token) {

@@ -56,6 +56,12 @@ const Styles = styled.div `
         color: #0097A7;
         font-family: 'Pacifico', cursive;
     }
+    .brand-img-left {
+        margin-right: .1rem;
+    }
+    .brand-img-right {
+        margin-left: .1rem;
+    }
 `
 
 function Welcome(props) {
@@ -77,9 +83,9 @@ function Welcome(props) {
                 </Row>
                 <Row>
                     <div className='brand mx-auto'>
-                    <FaBabyCarriage />
-                        Babysitter!
-                    <FaBabyCarriage />
+                    <FaBabyCarriage className='brand-img-left'/>
+                        Babysitter
+                    <FaBabyCarriage className='brand-img-right'/>
                     </div>
                 </Row>
                 <Row>
@@ -109,7 +115,7 @@ function Welcome(props) {
                 <Modal.Header>
                     <Modal.Title style={{ margin: 'auto', fontFamily: 'Pacifico', color: '#0097A7' }} >
                             <FaBabyCarriage />
-                                Babysitter!
+                                Babysitter
                             <FaBabyCarriage />
                     </Modal.Title>
                 </Modal.Header>

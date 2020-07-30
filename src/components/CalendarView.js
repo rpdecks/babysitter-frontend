@@ -5,17 +5,10 @@ import dayGridPlugin from "@fullcalendar/daygrid"
 import timeGridPlugin from "@fullcalendar/timegrid"
 import interactionPlugin from '@fullcalendar/interaction'
 import { createEventId } from '../event-utils'
-// import styled from 'styled-components'
-
-// const Styles = styled.div `
-//   .fc-toolbar {
-//   }
-// `
 
 class CalendarView extends React.Component {
 
   parseEvents = (jobs) => {
-    // debugger
     let eventColor
     return jobs.map(job => {
       if (!job.caregiver_id) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -112,7 +113,7 @@ class CaregiverSignup extends React.Component {
             body: JSON.stringify(userObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/caregivers/${id}`, fetchObj)
+        fetch(`${API_ROOT}/caregivers/${id}`, fetchObj)
         .then(res => res.json())
         .then(userData => {
             if (userData.id) {
@@ -137,7 +138,7 @@ class CaregiverSignup extends React.Component {
             body: JSON.stringify(userObj)
         }
 
-        fetch('http://localhost:3000/api/v1/caregivers', fetchObj)
+        fetch(`${API_ROOT}/caregivers`, fetchObj)
         .then(res => res.json())
         .then(loginData => {
             if (loginData.token) {

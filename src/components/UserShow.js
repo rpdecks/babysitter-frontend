@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { connect } from 'react-redux'
 import { Accordion, Button, Card, Col, Image, Modal, Row, Tabs, Tab } from 'react-bootstrap'
 import { withRouter } from 'react-router'
@@ -141,7 +142,7 @@ function UserShow(props) {
             body: JSON.stringify(jobObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/jobs/${jobId}`, fetchObj)
+        fetch(`${API_ROOT}/jobs/${jobId}`, fetchObj)
         .then(res => res.json())
         .then(job => {
             props.editJob(job)
@@ -182,7 +183,7 @@ function UserShow(props) {
             body: JSON.stringify(favoriteObj)
         }
 
-        fetch(`http://localhost:3000/api/v1/${props.userType}_favorites`, fetchObj)
+        fetch(`${API_ROOT}/${props.userType}_favorites`, fetchObj)
         .then(res => res.json())
         .then(favResponse => {
             if (favResponse.created) {

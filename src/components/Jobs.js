@@ -1,4 +1,5 @@
 import React from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -76,7 +77,7 @@ class Jobs extends React.Component {
             body: JSON.stringify(candidateObj)
         }
 
-        fetch('http://localhost:3000/api/v1/candidates', fetchObj)
+        fetch(`${API_ROOT}/candidates`, fetchObj)
         .then(res => res.json())
         .then(candidateResponse => {
             if (candidateResponse.created) {

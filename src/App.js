@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_ROOT } from './services/apiRoot'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
@@ -62,7 +63,7 @@ class App extends React.Component {
         'Auth-Token': auth_token,
       }
     }
-    fetch('http://localhost:3000/api/v1/app_status', fetchObj)
+    fetch(`${API_ROOT}/app_status`, fetchObj)
       .then(res => res.json())
       .then(appData => {
         this.props.storeUserJobs(appData.jobs)

@@ -1,4 +1,5 @@
 import React from 'react'
+import { API_ROOT } from '../services/apiRoot'
 import { withRouter } from 'react-router-dom'
 import Review from './Review'
 import { connect } from 'react-redux'
@@ -108,7 +109,7 @@ class Reviews extends React.Component {
             body: JSON.stringify(reviewObj)
         }
 
-        fetch (`http://localhost:3000/api/v1/${this.props.userType}_reviews`, fetchObj)
+        fetch (`${API_ROOT}/${this.props.userType}_reviews`, fetchObj)
         .then(res => res.json())
         .then(review => {
             if (review.id) {
@@ -136,7 +137,7 @@ class Reviews extends React.Component {
                 },
             }
     
-            fetch(`http://localhost:3000/api/v1/${this.props.userType}_reviews/${id}`, fetchObj)
+            fetch(`${API_ROOT}/${this.props.userType}_reviews/${id}`, fetchObj)
             .then(res => res.json())
             .then(review => {
                 if (review.deleted) {
@@ -188,7 +189,7 @@ class Reviews extends React.Component {
     //         },
     //         body: JSON.stringify(reviewObj)
     //     }
-    //     fetch(`http://localhost:3000/api/v1/${this.props.userType}s/${id}`, fetchObj)
+    //     fetch(`${API_ROOT}/${this.props.userType}s/${id}`, fetchObj)
     //     .then(res => res.json())
     //     .then(review => {
     //         if (review.id) {

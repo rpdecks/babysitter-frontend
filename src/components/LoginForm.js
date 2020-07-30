@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
+import { API_ROOT} from '../services/apiRoot'
 
 const Styles = styled.div ` 
   margin-top: 5rem;
@@ -71,7 +72,7 @@ class LoginForm extends React.Component {
         'Auth-Token': auth_token,
       }
     }
-    fetch('http://localhost:3000/api/v1/app_status', fetchObj)
+    fetch(`${API_ROOT}/app_status`, fetchObj)
       .then(res => res.json())
       .then(appData => {
         this.props.storeUserJobs(appData.jobs)
@@ -113,7 +114,7 @@ class LoginForm extends React.Component {
     }
 
     if (this.props.userType === 'employer') {
-      fetch('http://localhost:3000/api/v1/employers/login', fetchObj)
+      fetch(`${API_ROOT}/employers/login`, fetchObj)
         .then(res => res.json())
         .then(loginData => {
           if (loginData.token) {
@@ -125,7 +126,7 @@ class LoginForm extends React.Component {
         })
         .catch(() => alert('Something went wrong'))
     } else if (this.props.userType === 'caregiver') {
-      fetch('http://localhost:3000/api/v1/caregivers/login', fetchObj)
+      fetch(`${API_ROOT}/caregivers/login`, fetchObj)
         .then(res => res.json())
         .then(loginData => {
           if (loginData.token) {

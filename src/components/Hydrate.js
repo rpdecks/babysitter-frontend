@@ -28,7 +28,7 @@ class Hydrate extends React.Component {
         'Auth-Token': auth_token,
       }
     }
-    fetch('http://localhost:3000/api/v1/app_status', fetchObj)
+    fetch(`${API_ROOT}/app_status`, fetchObj)
       .then(res => res.json())
       .then(appData => {
         this.props.storeUserJobs(appData.jobs)
