@@ -136,7 +136,6 @@ class NewJobForm extends React.Component {
         fetch(`${API_ROOT}/jobs`, fetchObj)
         .then(res => res.json())
         .then(jobData => {
-            console.log(jobData)
             this.props.createJob(jobData)
         })
         .catch(() => alert('Something went wrong'))
@@ -164,7 +163,6 @@ class NewJobForm extends React.Component {
         fetch(`${API_ROOT}/jobs/${this.props.job.id}`, fetchObj)
         .then(res => res.json())
         .then(jobData => {
-            console.log(jobData)
             this.props.editJob(jobData)
         })
         .catch(() => alert('Something went wrong'))
@@ -189,7 +187,6 @@ class NewJobForm extends React.Component {
         .then(res => res.json())
         .then(jobData => {
             if (jobData) {
-                console.log(jobData, 'Job deleted successfully')
                 this.props.history.push('/')
                 this.props.deleteJob(id)
             } else {

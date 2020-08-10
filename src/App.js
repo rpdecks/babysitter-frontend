@@ -1,8 +1,8 @@
 import React from 'react';
-import { API_ROOT } from './services/apiRoot'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
+import { fetchData } from './services/fetches'
 import Welcome from './components/Welcome'
 import LoginForm from './components/LoginForm'
 import CaregiverSignup from './components/CaregiverSignup'
@@ -48,42 +48,10 @@ class App extends React.Component {
     if (auth_token && userType) {
       this.props.setLoginStatus(true)
       this.props.setUserType(userType)
-      this.fetchData(userType)
+      fetchData(this.props.userType, this.props)
     } else {
       this.props.setLoginStatus(false)
     }
-  }
-
-  fetchData = (userType) => {
-    const auth_token = localStorage.getItem('auth_token')
-    const fetchObj = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Auth-Token': auth_token,
-      }
-    }
-    fetch(`${API_ROOT}/app_status`, fetchObj)
-      .then(res => res.json())
-      .then(appData => {
-        this.props.storeUserJobs(appData.jobs)
-        this.props.storeUserData(appData.user)
-        if (userType === 'employer') {
-          this.props.storeUserFavorites(appData.employer_favorites)
-          this.props.storeAuthoredReviews(appData.employer_reviews)
-          this.props.storeReviewsAboutMe(appData.caregiver_reviews)
-          this.props.storeCaregivers(appData.caregivers)
-        } else if (userType === 'caregiver') {
-          this.props.storeUserFavorites(appData.caregiver_favorites)
-          this.props.storeAuthoredReviews(appData.caregiver_reviews)
-          this.props.storeReviewsAboutMe(appData.employer_reviews)
-          this.props.storeEmployers(appData.employers)
-          this.props.storeAvailableJobs(appData.available_jobs)
-          this.props.storeInterestedJobs(appData.interested_jobs)
-        } else { console.log('No userType specific appData stored')}
-        this.props.hydrateComplete()
-      })
-      .catch(error => console.log(error))
   }
 
   selectFirstPage = () => {

@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
 import { API_ROOT} from '../services/apiRoot'
+import { fetchData } from '../services/fetches'
 
 const Styles = styled.div ` 
   margin-top: 5rem;
@@ -59,40 +60,7 @@ class LoginForm extends React.Component {
     localStorage.setItem('auth_token', token);
     localStorage.setItem('userType', this.props.userType);
     this.props.setLoginStatus(true)
-    this.fetchData(this.props.userType)
-    this.props.history.push('/')
-  }
-
-  fetchData = (userType) => {
-    const auth_token = localStorage.getItem('auth_token')
-    const fetchObj = {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Auth-Token': auth_token,
-      }
-    }
-    fetch(`${API_ROOT}/app_status`, fetchObj)
-      .then(res => res.json())
-      .then(appData => {
-        this.props.storeUserJobs(appData.jobs)
-        this.props.storeUserData(appData.user)
-        if (userType === 'employer') {
-          this.props.storeUserFavorites(appData.employer_favorites)
-          this.props.storeAuthoredReviews(appData.employer_reviews)
-          this.props.storeReviewsAboutMe(appData.caregiver_reviews)
-          this.props.storeCaregivers(appData.caregivers)
-        } else if (userType === 'caregiver') {
-          this.props.storeUserFavorites(appData.caregiver_favorites)
-          this.props.storeAuthoredReviews(appData.caregiver_reviews)
-          this.props.storeReviewsAboutMe(appData.employer_reviews)
-          this.props.storeEmployers(appData.employers)
-          this.props.storeAvailableJobs(appData.available_jobs)
-          this.props.storeInterestedJobs(appData.interested_jobs)
-        } else { console.log('No userType specific appData stored') }
-        this.props.hydrateComplete()
-      })
-      .catch(error => console.log(error))
+    fetchData(this.props.userType, this.props)
   }
 
   login = e => {
@@ -131,6 +99,7 @@ class LoginForm extends React.Component {
         .then(loginData => {
           if (loginData.token) {
             this.handleLogin(loginData.token)
+            this.props.history.push('/jobs')
           }
           else
             alert(loginData.message);

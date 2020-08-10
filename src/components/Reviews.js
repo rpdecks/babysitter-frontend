@@ -52,8 +52,12 @@ class Reviews extends React.Component {
 
     mapUsersToReview = () => {
         if (this.props.userType === 'employer') {
-            return this.props.caregivers.map(c => <option value={c.id}>{c.first_name} {c.last_name[0]}.</option>)
-        } else return this.props.employers.map(e => <option value={e.id}>{e.first_name} {e.last_name[0]}.</option>)
+            if (this.props.caregivers) {
+                return this.props.caregivers.map(c => <option value={c.id}>{c.first_name} {c.last_name[0]}.</option>)
+            }
+        } else if (this.props.employers) {
+            return this.props.employers.map(e => <option value={e.id}>{e.first_name} {e.last_name[0]}.</option>)
+        }
     }
 
     handleChange = e => {
@@ -151,56 +155,8 @@ class Reviews extends React.Component {
         }
     }
     
-    // editReview = (id) => {
-
-    //     const auth_token = localStorage.getItem('auth_token');
-    //     if (!auth_token) {
-    //     return;
-    //     }
-
-    //     let reviewObj
-    //     if (this.props.userType === 'employer') {
-    //         reviewObj =  {
-    //             employer_review: {
-    //                 employer_id: this.props.userData.id,
-    //                 caregiver_id: this.state.userId,
-    //                 content: this.state.content,
-    //                 title: this.state.title,
-    //                 rating: this.state.rating,
-    //             }
-    //         }
-    //     } else {
-    //         reviewObj =  {
-    //             caregiver_review: {
-    //                 caregiver_id: this.props.userData.id,
-    //                 employer_id: this.state.userId,
-    //                 content: this.state.content,
-    //                 title: this.state.title,
-    //                 rating: this.state.rating,
-    //             }
-    //         }
-    //     }
-
-    //     const fetchObj = {
-    //         method: 'PATCH',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             'Auth-Token': auth_token
-    //         },
-    //         body: JSON.stringify(reviewObj)
-    //     }
-    //     fetch(`${API_ROOT}/${this.props.userType}s/${id}`, fetchObj)
-    //     .then(res => res.json())
-    //     .then(review => {
-    //         if (review.id) {
-    //             console.log(review)
-    //             this.props.editJob(review)
-    //         }
-    //     })
-    //     .catch(() => alert('Something went wrong'))
-    // }
-
     renderReviews(reviews) {
+        
         return reviews.map((review, index) => {
             return <Review key={index} review={review} handleDelete={this.handleDelete}/>
         })

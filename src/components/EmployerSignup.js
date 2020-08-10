@@ -1,5 +1,6 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
+import { fetchData } from '../services/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -90,7 +91,10 @@ class EmployerSignup extends React.Component {
         e.target.reset();
         if (this.props.userData) {
             this.editUser(this.props.userData.id)
-        } else this.signup()
+            this.props.history.push('/account')
+        } else {
+            this.signup()
+        }
     }
 
     handleChange = e => {
@@ -115,15 +119,13 @@ class EmployerSignup extends React.Component {
         .then(userData => {
             if (userData.id) {
                 this.props.storeUserData(userData)
-                this.props.history.push('/');
+                this.props.history.push('/account');
             } else { alert(userData.msg) };
         })
         .catch((errors) => console.log(errors))
-
     }
 
     signup = (e) => {
-        e.preventDefault();
 
         const userObj =  {
             employer: this.state
@@ -143,8 +145,9 @@ class EmployerSignup extends React.Component {
             if (loginData.token) {
                 localStorage.setItem('auth_token', loginData.token);
                 localStorage.setItem('userType', this.props.userType);
-                this.props.setLoginStatus(true)
-                this.props.history.push('/');
+                this.props.setLoginStatus(true);
+                fetchData(this.props.userType, this.props);
+                this.props.history.push('/browse')
             } else { alert(loginData.msg) };
         })
         .catch((errors) => alert(errors))
@@ -244,7 +247,7 @@ class EmployerSignup extends React.Component {
                         <Form.Control 
                             as="textarea" 
                             rows="5"
-                            name="content"
+                            name="bio"
                             placeholder="Tell other users about yourself" 
                             defaultValue={this.state.bio}
                             onChange={e => this.handleChange(e)}
@@ -273,9 +276,18 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
-        setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
+        setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}), 
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
         storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
+        storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
+        storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
+        storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
+        storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
+        storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
+        storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
+        storeAuthoredReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', authoredReviews: reviews}),
+        storeReviewsAboutMe: (reviews) => dispatch ({ type: 'STORE_REVIEWS_ABOUT_ME', reviewsAboutMe: reviews}),
+        hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
     }
 }
 
