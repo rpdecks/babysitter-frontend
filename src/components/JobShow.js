@@ -149,16 +149,6 @@ class JobShow extends React.Component {
         }
     }
 
-    // renderJobRequirements(job) {
-    //     let reqAry = []
-    //     if (job.non_smoking) reqAry.push('non_smoking')
-    //     if (job.first_aid_cert) reqAry.push('first_aid_cert')
-    //     if (job.has_pets) reqAry.push('has_pets')
-    //     return reqAry.map(req => {
-    //         if 
-    //     }) ... 
-    // }
-
     render() {
         return (
             <Styles>

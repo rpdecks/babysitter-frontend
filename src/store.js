@@ -1,4 +1,5 @@
-import { combineReducers, createStore } from 'redux';
+import { combineReducers, compose, createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk'
 import jobReducer from './reducers/jobReducer';
 import userReducer from './reducers/userReducer';
 import reviewsReducer from './reducers/reviewsReducer';
@@ -23,5 +24,5 @@ const rootReducer = (state, action) => {
 
 export default createStore(
   rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  compose( applyMiddleware(thunk), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 );
