@@ -35,7 +35,7 @@ Built with:
 * bCrypt / JWT encryption for security
 
 # How to Use
-The backend install steps require the following on your system
+The front end install steps require the following on your system
 * [Node.js](https://https://nodejs.org/)
 * [Yarn](https://classic.yarnpkg.com/en/)
 * [React](https://reactjs.org)
