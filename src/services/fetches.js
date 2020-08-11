@@ -1,4 +1,3 @@
-// import { connect } from 'react-redux'
 import { API_ROOT} from '../services/apiRoot'
 
 export const fetchData = (userType, props) => {
