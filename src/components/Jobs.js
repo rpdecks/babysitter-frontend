@@ -1,6 +1,5 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
-import { fetchData } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -311,7 +310,6 @@ const mapDispatchToProps = dispatch => {
         sortTable: (criteria) => dispatch({ type: 'SORT_BY', sortBy: criteria }),
         switchOrder: (criteria) => dispatch({ type: 'SWITCH_ORDER', ascending: criteria }),
         setSelectedJob: (job) => dispatch({ type: 'SET_SELECTED_JOB', selectedJob: job }),
-        fetchData: (userType) => dispatch(fetchData(userType))
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Jobs))

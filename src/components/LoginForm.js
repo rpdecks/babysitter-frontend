@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
 import { API_ROOT} from '../services/apiRoot'
-// import { fetchData } from '../services/fetches'
 import { fetchData } from '../actions/fetches'
 
 const Styles = styled.div ` 
@@ -93,7 +92,7 @@ class LoginForm extends React.Component {
           else
             alert(loginData.message);
         })
-        .catch(() => alert('Something went wrong'))
+        .catch((errors) => alert(errors))
     } else if (this.props.userType === 'caregiver') {
       fetch(`${API_ROOT}/caregivers/login`, fetchObj)
         .then(res => res.json())
@@ -105,7 +104,7 @@ class LoginForm extends React.Component {
           else
             alert(loginData.message);
         })
-        .catch(() => alert('Something went wrong'))
+        .catch((errors) => alert(errors))
       }
     e.target.reset()
   }
