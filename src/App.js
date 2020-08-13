@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { fetchData } from './services/fetches'
+import { fetchData } from './actions/fetches'
 import Welcome from './components/Welcome'
 import LoginForm from './components/LoginForm'
 import CaregiverSignup from './components/CaregiverSignup'
@@ -48,7 +48,7 @@ class App extends React.Component {
     if (auth_token && userType) {
       this.props.setLoginStatus(true)
       this.props.setUserType(userType)
-      fetchData(this.props.userType, this.props)
+      this.props.fetchData(this.props.userType)
     } else {
       this.props.setLoginStatus(false)
     }
@@ -61,15 +61,9 @@ class App extends React.Component {
     return <LoginForm /> 
     } else return <Jobs />
   }
-  
-  whatToShowPage = () => {
-    if (this.props.selectedJob) {
-      return <JobShow />
-    }
-  }
 
   renderLoading() {
-    return <div></div>
+    return <div>Loading...</div>
   }
 
   render() {
@@ -110,7 +104,9 @@ class App extends React.Component {
                   <Route exact path='/signup'>
                     {this.props.signingUp && this.props.userType && this.props.userType === 'caregiver' ? <CaregiverSignup /> : <EmployerSignup />}
                   </Route>
-                  {this.props.hydrated ? (
+                  {this.props.loading ? 
+                    <Route render={this.renderLoading} />
+                    :
                     <>
                       <Route exact path='/newjob'>
                         <NewJobForm />
@@ -187,10 +183,7 @@ class App extends React.Component {
                         <Reviews />
                       </Route>
                     </>
-                  )
-                    :
-                    <Route render={this.renderLoading} />
-                  }
+                  } 
                 </Col>
                 <Col xs={2} className="right-column">
                 </Col>
@@ -213,24 +206,15 @@ const mapStateToProps = state => {
     availableJobs: state.jobReducer.availableJobs,
     caregivers: state.userReducer.caregivers,
     employers: state.userReducer.employers,
-    hydrated: state.uiReducer.hydrated,
+    loading: state.uiReducer.loading,
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
+    fetchData: (userType) => dispatch(fetchData(userType)),
     setUserType: (userType) => dispatch({ type: 'SET_USER_TYPE', userType: userType}),
     setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
-    storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
-    storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
-    storeUserData: (userData) => dispatch({type: 'STORE_USER_DATA', userData: userData}),
-    storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
-    storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
-    storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
-    storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
-    storeAuthoredReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', authoredReviews: reviews}),
-    storeReviewsAboutMe: (reviews) => dispatch ({ type: 'STORE_REVIEWS_ABOUT_ME', reviewsAboutMe: reviews}),
-    hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
   }
 }
 

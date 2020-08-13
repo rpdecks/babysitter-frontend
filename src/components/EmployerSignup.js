@@ -1,6 +1,7 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
 import { fetchData } from '../services/fetches'
+// import { fetchData } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -147,6 +148,7 @@ class EmployerSignup extends React.Component {
                 localStorage.setItem('userType', this.props.userType);
                 this.props.setLoginStatus(true);
                 fetchData(this.props.userType, this.props);
+                // fetchData(this.props.userType);
                 this.props.history.push('/browse')
             } else { alert(loginData.msg) };
         })

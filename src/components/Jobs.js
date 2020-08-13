@@ -1,5 +1,6 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
+import { fetchData } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Link } from 'react-router-dom'
@@ -54,7 +55,7 @@ const Styles = styled.div `
     }
 `
 class Jobs extends React.Component {
-
+    
     saveInterestInJob = (jobId) => {
 
         const auth_token = localStorage.getItem('auth_token')
@@ -178,7 +179,7 @@ class Jobs extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.mapMyJobs(jobs)} 
+                        {jobs ? this.mapMyJobs(jobs) : null} 
                     </tbody>
             </Table>
         </>
@@ -198,13 +199,7 @@ class Jobs extends React.Component {
                     Pending Babysitting Jobs
                 </div>
             )
-        } else if (this.props.userType === 'employer') {
-            return (
-                <div className='header-text'>
-                    My Babysitting Jobs
-                </div>
-            )
-        } else if (this.props.userType === 'caregiver') {
+        } else if (window.location.pathname === '/jobs' && this.props.userType === 'caregiver') {
             return (
                 <div className='header-text'>
                     Available Babysitting Jobs
@@ -274,9 +269,11 @@ class Jobs extends React.Component {
                     </>
                 )
             }
-        } else if (window.location.pathname === '/jobs') {
+        } else if (window.location.pathname === '/jobs' || '/') {
             if (this.props.userType === 'caregiver') {
                 return this.renderAvailableJobs(this.props.availableJobs)
+            } else if (this.props.userType === 'employer') {
+                this.props.history.push('/pending-jobs')
             }
         }
     }
@@ -314,6 +311,7 @@ const mapDispatchToProps = dispatch => {
         sortTable: (criteria) => dispatch({ type: 'SORT_BY', sortBy: criteria }),
         switchOrder: (criteria) => dispatch({ type: 'SWITCH_ORDER', ascending: criteria }),
         setSelectedJob: (job) => dispatch({ type: 'SET_SELECTED_JOB', selectedJob: job }),
+        fetchData: (userType) => dispatch(fetchData(userType))
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Jobs))
