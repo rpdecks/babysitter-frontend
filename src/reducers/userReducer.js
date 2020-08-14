@@ -1,5 +1,5 @@
 export default function userReducer(state = { signingUp: false, calendarView: false, showModal: false }, action) {
-  switch (action.type) {
+    switch (action.type) {
     case 'STORE_USER_DATA':
       return {
         ...state,

@@ -54,7 +54,7 @@ const Styles = styled.div `
     }
 `
 class Jobs extends React.Component {
-
+    
     saveInterestInJob = (jobId) => {
 
         const auth_token = localStorage.getItem('auth_token')
@@ -178,7 +178,7 @@ class Jobs extends React.Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {this.mapMyJobs(jobs)} 
+                        {jobs ? this.mapMyJobs(jobs) : null} 
                     </tbody>
             </Table>
         </>
@@ -198,13 +198,7 @@ class Jobs extends React.Component {
                     Pending Babysitting Jobs
                 </div>
             )
-        } else if (this.props.userType === 'employer') {
-            return (
-                <div className='header-text'>
-                    My Babysitting Jobs
-                </div>
-            )
-        } else if (this.props.userType === 'caregiver') {
+        } else if (window.location.pathname === '/jobs' && this.props.userType === 'caregiver') {
             return (
                 <div className='header-text'>
                     Available Babysitting Jobs
@@ -274,9 +268,11 @@ class Jobs extends React.Component {
                     </>
                 )
             }
-        } else if (window.location.pathname === '/jobs') {
+        } else if (window.location.pathname === '/jobs' || '/') {
             if (this.props.userType === 'caregiver') {
                 return this.renderAvailableJobs(this.props.availableJobs)
+            } else if (this.props.userType === 'employer') {
+                this.props.history.push('/pending-jobs')
             }
         }
     }

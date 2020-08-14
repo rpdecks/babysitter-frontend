@@ -1,10 +1,15 @@
-export default function uiReducer(state = {hydrated: false, calendarView: true}, action) {
+export default function uiReducer(state = { loading: false, calendarView: true }, action) {
     switch (action.type) {
-      case 'HYDRATE_COMPLETE':
+      case 'LOADING_DATA':
         return {
           ...state,
-          hydrated: true
-      }
+          loading: true
+        }
+      case 'FINISH_LOADING':
+        return {
+          ...state,
+          loading: false
+        }
       default:
         return state;
     }

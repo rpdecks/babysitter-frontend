@@ -1,6 +1,6 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
-import { fetchData } from '../services/fetches'
+import { fetchData } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -95,13 +95,13 @@ class CaregiverSignup extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        e.target.reset();
         if (this.props.userData) {
             this.editUser(this.props.userData.id)
             this.props.history.push('/account')
         } else {
             this.signup()
         }
+        e.target.reset();
     }
 
     editUser = (id) => {
@@ -130,6 +130,7 @@ class CaregiverSignup extends React.Component {
     }
 
     signup = () => {
+
         const userObj =  {
             caregiver: this.state
         }
@@ -149,9 +150,10 @@ class CaregiverSignup extends React.Component {
                 localStorage.setItem('auth_token', loginData.token);
                 localStorage.setItem('userType', this.props.userType);
                 this.props.setLoginStatus(true)
-                fetchData(this.props.userType, this.props)
-                this.props.history.push('/browse')
-            } else { alert(loginData.msg) };
+                this.props.fetchData(this.props.userType);
+                this.props.history.push('/browse');
+            } else 
+                alert(loginData.msg);
         })
         .catch((errors) => alert(errors))
     }
@@ -274,15 +276,7 @@ const mapDispatchToProps = dispatch => {
         setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}), 
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
         storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
-        storeUserJobs: (userJobs) => dispatch({type: 'STORE_USER_JOBS', userJobs: userJobs}),
-        storeAvailableJobs: (availableJobs) => dispatch({type: 'STORE_AVAILABLE_JOBS', availableJobs: availableJobs}),
-        storeCaregivers: (caregivers) => dispatch({type: 'STORE_CAREGIVERS', caregivers: caregivers}),
-        storeEmployers: (employers) => dispatch({type: 'STORE_EMPLOYERS', employers: employers}),
-        storeInterestedJobs: (jobs) => dispatch({type: 'STORE_INTERESTED_JOBS', interestedJobs: jobs}),
-        storeUserFavorites: (favorites) => dispatch({type: 'STORE_USER_FAVORITES', userFavorites: favorites}),
-        storeAuthoredReviews: (reviews) => dispatch ({ type: 'STORE_REVIEWS', authoredReviews: reviews}),
-        storeReviewsAboutMe: (reviews) => dispatch ({ type: 'STORE_REVIEWS_ABOUT_ME', reviewsAboutMe: reviews}),
-        hydrateComplete: () => dispatch ({ type: 'HYDRATE_COMPLETE'}),
+        fetchData: (userType) => dispatch(fetchData(userType)),
     }
 }
 

@@ -1,4 +1,4 @@
-import { API_ROOT} from '../services/apiRoot'
+import { API_ROOT } from '../services/apiRoot'
 
 export const fetchData = (userType, props) => {
     const auth_token = localStorage.getItem('auth_token')
