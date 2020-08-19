@@ -1,6 +1,6 @@
 import React from 'react'
 import { API_ROOT } from '../services/apiRoot'
-import { fetchData } from '../actions/fetches'
+import { fetchData, editUser } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -88,7 +88,7 @@ class EmployerSignup extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.props.userData) {
-            this.editUser(this.props.userData.id)
+            this.props.editUser(this.props.userData.id, this.props.userType, this.state)
             this.props.history.push('/account')
         } else {
             this.signup()
@@ -272,6 +272,7 @@ const mapDispatchToProps = dispatch => {
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
         storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
         fetchData: (userType) => dispatch(fetchData(userType)),
+        editUser: (id, userType, userObj) => dispatch(editUser(id, userType, userObj)),
     }
 }
 
