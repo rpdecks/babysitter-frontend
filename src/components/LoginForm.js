@@ -62,11 +62,6 @@ class LoginForm extends React.Component {
     this.props.setLoginStatus(true)
   }
 
-  handleCancelClick = () => {
-      this.props.setUserType(null) 
-      this.props.history.push('/')
-  }
-
   login = e => {
     e.preventDefault();
 
