@@ -1,6 +1,5 @@
 import React from 'react'
-import { API_ROOT } from '../services/apiRoot'
-import { fetchData, editUser } from '../actions/fetches'
+import { fetchData, editUser, signup } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -92,6 +91,7 @@ class EmployerSignup extends React.Component {
             this.props.history.push('/account')
         } else {
             this.signup()
+            this.props.history.push('/browse');
         }
         e.target.reset();
     }
@@ -100,63 +100,17 @@ class EmployerSignup extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
-    editUser = (id) => {
-        const userObj =  {
-            employer: this.state
-        }
-
-        const fetchObj = {
-            method: 'PATCH',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userObj)
-        }
-
-        fetch(`${API_ROOT}/employers/${id}`, fetchObj)
-        .then(res => res.json())
-        .then(userData => {
-            if (userData.id) {
-                this.props.storeUserData(userData)
-                this.props.history.push('/account');
-            } else { alert(userData.msg) };
-        })
-        .catch((errors) => console.log(errors))
-    }
-
-    signup = () => {
-
-        const userObj =  {
-            employer: this.state
-        }
-
-        const fetchObj = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userObj)
-        }
-
-        fetch(`${API_ROOT}/employers`, fetchObj)
-        .then(res => res.json())
-        .then(loginData => {
-            if (loginData.token) {
-                localStorage.setItem('auth_token', loginData.token);
-                localStorage.setItem('userType', this.props.userType);
-                this.props.setLoginStatus(true);
-                this.props.fetchData(this.props.userType);
-                this.props.history.push('/browse');
-            } else 
-                alert(loginData.msg);
-        })
-        .catch((errors) => alert(errors))
-    }
-
     handleCancelClick = () => {
         this.props.setUserType(null) 
         this.props.setSigningUp(false)
         this.props.history.push('/')
+    }
+
+    signup = () => {
+        const userObj =  {
+            employer: this.state
+        }
+        this.props.signupUser(userObj, this.props.userType)
     }
 
     renderInstructions = () => {
@@ -267,12 +221,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
-        setLoginStatus: (status) => dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: status}), 
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
-        storeUserData: (user) => dispatch ({ type: 'STORE_USER_DATA', userData: user }),
+        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         fetchData: (userType) => dispatch(fetchData(userType)),
         editUser: (id, userType, userObj) => dispatch(editUser(id, userType, userObj)),
+        signupUser: (userObj, userType) => dispatch(signup(userObj, userType)),
     }
 }
 

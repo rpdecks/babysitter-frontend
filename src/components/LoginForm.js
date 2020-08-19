@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
-import { API_ROOT} from '../services/apiRoot'
-import { fetchData } from '../actions/fetches'
+// import { API_ROOT} from '../services/apiRoot'
+import { fetchData, loginFetch } from '../actions/fetches'
 
 const Styles = styled.div ` 
   margin-top: 5rem;
@@ -60,7 +60,6 @@ class LoginForm extends React.Component {
     localStorage.setItem('auth_token', token);
     localStorage.setItem('userType', this.props.userType);
     this.props.setLoginStatus(true)
-    this.props.fetchData(this.props.userType)
   }
 
   login = e => {
@@ -73,39 +72,11 @@ class LoginForm extends React.Component {
       }
     }
 
-    const fetchObj = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(userObj)
-    }
-
+    this.props.loginFetch(this.props.userType, userObj)
     if (this.props.userType === 'employer') {
-      fetch(`${API_ROOT}/employers/login`, fetchObj)
-        .then(res => res.json())
-        .then(loginData => {
-          if (loginData.token) {
-            this.handleLogin(loginData.token)
-            this.props.history.push('/pending-jobs')
-          }
-          else
-            alert(loginData.message);
-        })
-        .catch((errors) => alert(errors))
-    } else if (this.props.userType === 'caregiver') {
-      fetch(`${API_ROOT}/caregivers/login`, fetchObj)
-        .then(res => res.json())
-        .then(loginData => {
-          if (loginData.token) {
-            this.handleLogin(loginData.token)
-            this.props.history.push('/jobs')
-          }
-          else
-            alert(loginData.message);
-        })
-        .catch((errors) => alert(errors))
-      }
+      this.props.history.push('/pending-jobs')
+    } else { this.props.history.push('/jobs') }
+    this.props.fetchData(this.props.userType)
     e.target.reset()
   }
 
@@ -154,8 +125,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
-    setLoginStatus: (status) => dispatch({type: 'SET_LOGIN_STATUS', isLoggedIn: status}),
-    fetchData: (userType) => dispatch(fetchData(userType))
+    setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
+    fetchData: (userType) => dispatch(fetchData(userType)),
+    loginFetch: (userType, userObj) => dispatch(loginFetch(userType, userObj)),
   }
 }
 
