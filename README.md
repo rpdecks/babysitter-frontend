@@ -18,7 +18,7 @@ This app has been deployed to Heroku [here](https://babysitter-front.herokuapp.c
 # Tech framework used
 Built with:
 * [React Javascript](https://reactjs.org/)
-* [React Redux](https://react-redux.js.org/)
+* [React Redux & Thunk](https://react-redux.js.org/)
 * [Ruby on Rails backend API](https://github.com/rpdecks/babysitter-backend)
 * [Postgresql](https://www.postgresql.org/)
 * [FullCalendar API](https://fullcalendar.io/docs)
