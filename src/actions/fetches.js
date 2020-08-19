@@ -28,14 +28,14 @@ export const fetchData = (userType) => {
                 dispatch({ type: 'STORE_EMPLOYERS', employers: appData.employers })
                 dispatch({ type: 'STORE_AVAILABLE_JOBS', availableJobs: appData.available_jobs })
                 dispatch({ type: 'STORE_INTERESTED_JOBS', interestedJobs: appData.interested_jobs })
-            } else { console.log('No userType specific appData stored') }
+            } 
             dispatch({ type: 'FINISH_LOADING' })
         })
         .catch(errors => console.log(errors))
     }
 }
 
-export const editUser = (id, userType, userObj) => {
+export const editUserFetch = (id, userType, userObj) => {
 
     const fetchObj = {
         method: 'PATCH',
@@ -59,7 +59,7 @@ export const editUser = (id, userType, userObj) => {
     }
 }
 
-export const signup = (userObj, userType) => {
+export const signupFetch = (userObj, userType) => {
 
     const fetchObj = {
         method: 'POST',
