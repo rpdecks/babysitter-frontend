@@ -1,5 +1,5 @@
 import React from 'react'
-import { fetchData, editUser, signup } from '../actions/fetches'
+import { fetchData, editUserFetch, signupFetch } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { Col, Form, Button, Row } from 'react-bootstrap'
@@ -95,7 +95,7 @@ class CaregiverSignup extends React.Component {
     handleSubmit = (e) => {
         e.preventDefault();
         if (this.props.userData) {
-            this.props.editUser(this.props.userData.id, this.props.userType, this.state)
+            this.props.editUserFetch(this.props.userData.id, this.props.userType, this.state)
             this.props.history.push('/account')
         } else {
             this.signup()
@@ -108,7 +108,7 @@ class CaregiverSignup extends React.Component {
         const userObj =  {
             caregiver: this.state
         }
-        this.props.signupUser(userObj, this.props.userType)
+        this.props.signupFetch(userObj, this.props.userType)
     }
 
     handleCancelClick = () => {
@@ -228,8 +228,8 @@ const mapDispatchToProps = dispatch => {
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
         setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         fetchData: (userType) => dispatch(fetchData(userType)),
-        editUser: (id, userType, userObj) => dispatch(editUser(id, userType, userObj)),
-        signupUser: (userObj, userType) => dispatch(signup(userObj, userType)),
+        editUserFetch: (id, userType, userObj) => dispatch(editUserFetch(id, userType, userObj)),
+        signupFetch: (userObj, userType) => dispatch(signupFetch(userObj, userType)),
     }
 }
 

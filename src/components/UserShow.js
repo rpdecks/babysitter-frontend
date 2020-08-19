@@ -187,10 +187,8 @@ function UserShow(props) {
         .then(res => res.json())
         .then(favResponse => {
             if (favResponse.created) {
-                console.log('favorite saved')   
                 return props.favoriteUser(favResponse.favorite)
             } else {
-                console.log('favorite saved')   
                 return props.unFavoriteUser(favResponse.idToRemove)
             }
         })

@@ -15,6 +15,7 @@
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "^4.5.0",
     "fullcalendar": "^5.0.1",
+    "lodash": "^4.17.20",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-datetime-bootstrap": "^1.4.7",
@@ -30,6 +31,7 @@
     "react-star-ratings": "^2.3.0",
     "redux": "^4.0.5",
     "reselect": "^4.0.0",
+    "serialize-javascript": "^4.0.0",
     "styled-components": "^5.1.1"
   },
   "scripts": {

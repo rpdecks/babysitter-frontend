@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 import { FaBabyCarriage } from 'react-icons/fa'
-// import { API_ROOT} from '../services/apiRoot'
 import { fetchData, loginFetch } from '../actions/fetches'
 
 const Styles = styled.div ` 

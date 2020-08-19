@@ -81,10 +81,8 @@ class Jobs extends React.Component {
         .then(res => res.json())
         .then(candidateResponse => {
             if (candidateResponse.created) {
-                console.log('interest saved')   
                 return this.props.addInterested(candidateResponse.job_id)
             } else {
-                console.log('interest saved')   
                 return this.props.removeInterested(candidateResponse.job_id)
             }
         })

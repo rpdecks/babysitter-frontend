@@ -117,7 +117,6 @@ class Reviews extends React.Component {
         .then(res => res.json())
         .then(review => {
             if (review.id) {
-                console.log(review)
                 alert('Review saved!')
                 this.props.createReview(review)
             } else alert(review.msg);
