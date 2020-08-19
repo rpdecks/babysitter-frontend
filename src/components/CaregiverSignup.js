@@ -99,7 +99,6 @@ class CaregiverSignup extends React.Component {
             this.props.history.push('/account')
         } else {
             this.signup()
-            this.props.fetchData(this.props.userType)
             this.props.history.push('/browse');
         }
         e.target.reset();

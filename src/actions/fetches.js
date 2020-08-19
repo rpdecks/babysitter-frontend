@@ -70,6 +70,7 @@ export const signup = (userObj, userType) => {
     }
 
     return (dispatch) => {
+        dispatch({ type: 'LOADING_DATA' })
         fetch(`${API_ROOT}/${userType}s`, fetchObj)
         .then(res => res.json())
         .then(loginData => {
