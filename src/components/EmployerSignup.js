@@ -1,5 +1,4 @@
 import React from 'react'
-import { API_ROOT } from '../services/apiRoot'
 import { fetchData, editUser, signup } from '../actions/fetches'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -101,18 +100,17 @@ class EmployerSignup extends React.Component {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    handleCancelClick = () => {
+        this.props.setUserType(null) 
+        this.props.setSigningUp(false)
+        this.props.history.push('/')
+    }
 
     signup = () => {
         const userObj =  {
             employer: this.state
         }
         this.props.signupUser(userObj, this.props.userType)
-    }
-
-    handleCancelClick = () => {
-        this.props.setUserType(null) 
-        this.props.setSigningUp(false)
-        this.props.history.push('/')
     }
 
     renderInstructions = () => {
@@ -224,6 +222,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
+        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         fetchData: (userType) => dispatch(fetchData(userType)),
         editUser: (id, userType, userObj) => dispatch(editUser(id, userType, userObj)),
         signupUser: (userObj, userType) => dispatch(signup(userObj, userType)),

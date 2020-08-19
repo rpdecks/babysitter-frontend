@@ -84,3 +84,46 @@ export const signup = (userObj, userType) => {
         .catch((errors) => alert(errors))
     }
 }
+
+export const loginFetch = (userType, userObj) => {
+
+    const fetchObj = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userObj)
+    }
+
+    return (dispatch) => {
+        dispatch({ type: 'LOADING_DATA' })
+        if (userType === 'employer') {
+        fetch(`${API_ROOT}/employers/login`, fetchObj)
+            .then(res => res.json())
+            .then(loginData => {
+            if (loginData.token) {
+                localStorage.setItem('auth_token', loginData.token)
+                localStorage.setItem('userType', userType)
+                dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: true})
+            }
+            else
+                alert(loginData.message);
+            })
+            .catch((errors) => alert(errors))
+        } else if (userType === 'caregiver') {
+        fetch(`${API_ROOT}/caregivers/login`, fetchObj)
+            .then(res => res.json())
+            .then(loginData => {
+            if (loginData.token) {
+                localStorage.setItem('auth_token', loginData.token)
+                localStorage.setItem('userType', userType)
+                dispatch({ type: 'SET_LOGIN_STATUS', isLoggedIn: true})
+            }
+            else
+                alert(loginData.message);
+                dispatch({ type: 'FINISH_LOADING' })
+            })
+            .catch((errors) => alert(errors))
+        }
+    }
+}

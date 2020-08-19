@@ -226,6 +226,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         setSigningUp: (condition) => dispatch({ type: 'SETTING_SIGNING_UP', signingUp: condition }),
+        setUserType: (value) => dispatch({ type: 'SET_USER_TYPE', userType: value}),
         fetchData: (userType) => dispatch(fetchData(userType)),
         editUser: (id, userType, userObj) => dispatch(editUser(id, userType, userObj)),
         signupUser: (userObj, userType) => dispatch(signup(userObj, userType)),
