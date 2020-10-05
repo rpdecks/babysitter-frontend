@@ -9,6 +9,7 @@ export const fetchData = (userType) => {
         'Auth-Token': auth_token,
       }
     }
+
     return (dispatch) => {
         dispatch({ type: 'LOADING_DATA' })
         fetch(`${API_ROOT}/app_status`, fetchObject)
