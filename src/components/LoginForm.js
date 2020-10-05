@@ -64,6 +64,8 @@ class LoginForm extends React.Component {
   login = e => {
     e.preventDefault();
 
+    console.log(this.props);
+
     const userObj = {
       [this.props.userType]: {
         email: this.state.email,

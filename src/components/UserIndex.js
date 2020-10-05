@@ -80,9 +80,9 @@ function UserIndex(props) {
                 <Row>
                     <CardDeck >
                         {props.userType === 'employer' ? 
-                            renderUsers(props.caregivers)
+                            props.caregivers && renderUsers(props.caregivers)
                             :
-                            renderUsers(props.employers)
+                            props.employers && renderUsers(props.employers)
                         }
                     </CardDeck>
                 </Row>
