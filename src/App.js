@@ -48,7 +48,7 @@ class App extends React.Component {
     if (auth_token && userType) {
       this.props.setLoginStatus(true)
       this.props.setUserType(userType)
-      fetchData(userType)
+      this.props.fetchData(userType)
     } else {
       this.props.setLoginStatus(false)
     }
