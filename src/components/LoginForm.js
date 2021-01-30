@@ -3,9 +3,10 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import styled from "styled-components";
 import { FaBabyCarriage } from "react-icons/fa";
-import { fetchData, loginFetch } from "../actions/fetches";
+import { fetchData } from "../actions/fetches";
+import { API_ROOT } from "../services/apiRoot";
+import styled from "styled-components";
 
 const Styles = styled.div`
   margin-top: 5rem;
@@ -62,21 +63,59 @@ class LoginForm extends React.Component {
 
   login = (e) => {
     e.preventDefault();
+    const { userType, dispatch, fetchData } = this.props;
 
     const userObj = {
-      [this.props.userType]: {
+      [userType]: {
         email: this.state.email,
         password: this.state.password,
       },
     };
 
-    this.props.loginFetch(this.props.userType, userObj);
-    if (this.props.userType === "employer") {
-      this.props.history.push("/pending-jobs");
-    } else {
-      this.props.history.push("/jobs");
+    const fetchObj = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(userObj),
+    };
+
+    dispatch({ type: "LOADING_DATA" });
+    if (userType === "employer") {
+      fetch(`${API_ROOT}/employers/login`, fetchObj)
+        .then((res) => res.json())
+        .then((loginData) => {
+          if (loginData.token) {
+            localStorage.setItem("auth_token", loginData.token);
+            localStorage.setItem("userType", userType);
+            dispatch({
+              type: "SET_LOGIN_STATUS",
+              isLoggedIn: true,
+            });
+            dispatch({ type: "FINISH_LOADING" });
+            fetchData(userType);
+            this.props.history.push("/jobs");
+          } else alert(loginData.message);
+        })
+        .catch((errors) => alert(errors));
+    } else if (userType === "caregiver") {
+      fetch(`${API_ROOT}/caregivers/login`, fetchObj)
+        .then((res) => res.json())
+        .then((loginData) => {
+          if (loginData.token) {
+            localStorage.setItem("auth_token", loginData.token);
+            localStorage.setItem("userType", userType);
+            dispatch({
+              type: "SET_LOGIN_STATUS",
+              isLoggedIn: true,
+            });
+            dispatch({ type: "FINISH_LOADING" });
+            fetchData(userType);
+            this.props.history.push("/pending-jobs");
+          } else alert(loginData.message);
+        })
+        .catch((errors) => alert(errors));
     }
-    this.props.fetchData(this.props.userType);
     e.target.reset();
   };
 
@@ -162,12 +201,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    dispatch,
     setSigningUp: (condition) =>
       dispatch({ type: "SETTING_SIGNING_UP", signingUp: condition }),
     setUserType: (value) =>
       dispatch({ type: "SET_USER_TYPE", userType: value }),
     fetchData: (userType) => dispatch(fetchData(userType)),
-    loginFetch: (userType, userObj) => dispatch(loginFetch(userType, userObj)),
   };
 };
 
