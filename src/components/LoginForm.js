@@ -76,6 +76,7 @@ class LoginForm extends React.Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        RequestCredentials: "omit",
       },
       body: JSON.stringify(userObj),
     };
