@@ -77,6 +77,8 @@ class LoginForm extends React.Component {
       headers: {
         "Content-Type": "application/json",
         RequestCredentials: "omit",
+        withCredentials: false,
+        mode: "no-cors",
       },
       body: JSON.stringify(userObj),
     };
