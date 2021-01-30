@@ -20,6 +20,8 @@
     "immer": "1.10.0",
     "lodash": "^4.17.20",
     "node-forge": "^0.10.0",
+    "node-notifier": "^8.0.1",
+    "object-path": "^0.11.5",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-datetime-bootstrap": "^1.4.7",
