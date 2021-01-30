@@ -55,12 +55,6 @@ class LoginForm extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleLogin = (token) => {
-    localStorage.setItem("auth_token", token);
-    localStorage.setItem("userType", this.props.userType);
-    this.props.setLoginStatus(true);
-  };
-
   login = (e) => {
     e.preventDefault();
     const { userType, dispatch, fetchData } = this.props;
