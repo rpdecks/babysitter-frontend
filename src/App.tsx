@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { fetchData } from "./actions/fetches";
+import { fetchData } from "./actions/actions";
 import Welcome from "./components/Welcome";
 import LoginForm from "./components/LoginForm";
 import CaregiverSignup from "./components/CaregiverSignup";
