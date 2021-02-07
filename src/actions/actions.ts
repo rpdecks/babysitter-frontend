@@ -2,7 +2,7 @@ import { API_ROOT } from "../services/apiRoot";
 import { Dispatch } from "redux";
 import { ActionTypes } from "./types";
 
-interface Caregiver {
+export interface Caregiver {
   id: number;
   first_name: string;
   last_name: string;
@@ -20,7 +20,7 @@ interface Caregiver {
   status: string;
 }
 
-interface Employer {
+export interface Employer {
   id: number;
   first_name: string;
   last_name: string;
@@ -38,7 +38,7 @@ interface Employer {
   status: string;
 }
 
-interface Job {
+export interface Job {
   employer_id: number;
   caregiver_id: number;
   title: string;
@@ -55,7 +55,7 @@ interface Job {
   has_pets: boolean;
 }
 
-interface Review {
+export interface Review {
   title: string;
   rating: number;
   content: string;
@@ -63,65 +63,65 @@ interface Review {
   employer_id: number;
 }
 
-interface Favorite {
+export interface Favorite {
   caregiver_id: number;
   employer_id: number;
 }
 
-interface StoreUserDataAction {
+export interface StoreUserDataAction {
   type: ActionTypes.storeUserData;
   userData: Employer | Caregiver;
 }
 
-interface StoreUserJobsAction {
+export interface StoreUserJobsAction {
   type: ActionTypes.storeUserJobs;
   userJobs: Job[];
 }
 
-interface StoreUserFavoritesAction {
+export interface StoreUserFavoritesAction {
   type: ActionTypes.storeUserFavorites;
   userFavorites: Favorite[];
 }
 
-interface StoreReviewsAction {
+export interface StoreReviewsAction {
   type: ActionTypes.storeReviews;
   authoredReviews: Review[];
 }
 
-interface StoreReviewsAboutMeAction {
+export interface StoreReviewsAboutMeAction {
   type: ActionTypes.storeReviewsAboutMe;
   reviewsAboutMe: Review[];
 }
 
-interface StoreCaregiversAction {
+export interface StoreCaregiversAction {
   type: ActionTypes.storeCaregivers;
   caregivers: Caregiver[];
 }
 
-interface StoreEmployersAction {
+export interface StoreEmployersAction {
   type: ActionTypes.storeEmployers;
   employers: Employer[];
 }
 
-interface StoreAvailableJobsAction {
+export interface StoreAvailableJobsAction {
   type: ActionTypes.storeAvailableJobs;
   availableJobs: Job[];
 }
 
-interface StoreInterestedJobsAction {
+export interface StoreInterestedJobsAction {
   type: ActionTypes.storeInterestedJobs;
   interestedJobs: Job[];
 }
 
-interface LoadingDataAction {
+export interface LoadingDataAction {
   type: ActionTypes.loadingData;
 }
 
-interface FinishLoadingAction {
+export interface FinishLoadingAction {
   type: ActionTypes.finishLoading;
 }
 
-interface SetLoginStatusAction {
+export interface SetLoginStatusAction {
   type: ActionTypes.setLoginStatus;
   isLoggedIn: boolean;
 }
@@ -192,13 +192,17 @@ export const fetchData = (userType: string) => {
             interestedJobs: appData.interested_jobs,
           });
         }
-        dispatch({ type: "FINISH_LOADING" });
+        dispatch<FinishLoadingAction>({ type: ActionTypes.finishLoading });
       })
       .catch((errors) => console.log(errors));
   };
 };
 
-export const editUserFetch = (id, userType, userObj) => {
+export const editUserFetch = (
+  id: number,
+  userType: string,
+  userObj: Employer | Caregiver
+) => {
   const fetchObj = {
     method: "PATCH",
     headers: {
@@ -226,7 +230,10 @@ export const editUserFetch = (id, userType, userObj) => {
   };
 };
 
-export const signupFetch = (userObj, userType) => {
+export const signupFetch = (
+  userObj: Employer | Caregiver,
+  userType: string
+) => {
   const fetchObj = {
     method: "POST",
     headers: {
@@ -256,7 +263,7 @@ export const signupFetch = (userObj, userType) => {
   };
 };
 
-export const loginFetch = (userType, userObj) => {
+export const loginFetch = (userType: string, userObj: Employer | Caregiver) => {
   const fetchObj = {
     method: "POST",
     headers: {
@@ -274,7 +281,10 @@ export const loginFetch = (userType, userObj) => {
           if (loginData.token) {
             localStorage.setItem("auth_token", loginData.token);
             localStorage.setItem("userType", userType);
-            dispatch({ type: "SET_LOGIN_STATUS", isLoggedIn: true });
+            dispatch<SetLoginStatusAction>({
+              type: ActionTypes.setLoginStatus,
+              isLoggedIn: true,
+            });
           } else alert(loginData.message);
         })
         .catch((errors) => alert(errors));
@@ -285,9 +295,12 @@ export const loginFetch = (userType, userObj) => {
           if (loginData.token) {
             localStorage.setItem("auth_token", loginData.token);
             localStorage.setItem("userType", userType);
-            dispatch({ type: "SET_LOGIN_STATUS", isLoggedIn: true });
+            dispatch<SetLoginStatusAction>({
+              type: ActionTypes.setLoginStatus,
+              isLoggedIn: true,
+            });
           } else alert(loginData.message);
-          dispatch({ type: "FINISH_LOADING" });
+          dispatch<FinishLoadingAction>({ type: ActionTypes.finishLoading });
         })
         .catch((errors) => alert(errors));
     }
