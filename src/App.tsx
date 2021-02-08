@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { fetchData } from "./actions/actions";
+import { Caregiver, Job, fetchData } from "./actions/actions";
 import Welcome from "./components/Welcome";
 import LoginForm from "./components/LoginForm";
 import CaregiverSignup from "./components/CaregiverSignup";
@@ -50,7 +50,7 @@ interface AppProps {
   setLoginStatus: any;
   setUserType: any;
   fetchData: Function;
-  jobs: any;
+  jobs: Job[];
   userJobs: any;
   availableJobs: any;
   caregivers: any;
@@ -157,7 +157,7 @@ class App extends React.Component<AppProps, {}> {
                           const jobAry = this.props.userJobs.concat(
                             this.props.availableJobs
                           );
-                          const job = jobAry.find((j) => j.id === jobId);
+                          const job = jobAry.find((j: Job) => j.id === jobId);
                           if (job) return <NewJobForm job={job} />;
                           else return null;
                         }}
@@ -204,7 +204,7 @@ class App extends React.Component<AppProps, {}> {
                           const jobAry = this.props.userJobs.concat(
                             this.props.availableJobs
                           );
-                          const job = jobAry.find((j) => j.id === jobId);
+                          const job = jobAry.find((j: Job) => j.id === jobId);
                           if (job) return <JobShow job={job} />;
                           else return null;
                         }}
@@ -215,7 +215,7 @@ class App extends React.Component<AppProps, {}> {
                         render={({ match }) => {
                           const userId = parseInt(match.params.id);
                           const user = this.props.caregivers.find(
-                            (c) => c.id === userId
+                            (c: Caregiver) => c.id === userId
                           );
                           if (user) return <UserShow user={user} />;
                           else return null;
@@ -227,7 +227,7 @@ class App extends React.Component<AppProps, {}> {
                         render={({ match }) => {
                           const userId = parseInt(match.params.id);
                           const user = this.props.employers.find(
-                            (c) => c.id === userId
+                            (c: Caregiver) => c.id === userId
                           );
                           if (user) return <UserShow user={user} />;
                           else return null;

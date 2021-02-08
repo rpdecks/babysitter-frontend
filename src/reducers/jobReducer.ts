@@ -6,8 +6,10 @@ import {
 } from "../actions/actions";
 import { ActionTypes } from "../actions/types";
 
-interface JobsState {
-  jobs: Job[] | [];
+export interface JobsState {
+  userJobs: Job[] | [];
+  interestedJobs: Job[] | [];
+  availableJobs: Job[] | [];
   completionFilter: string | null;
   nonSmokingFilter: boolean;
   firstAidCertFilter: boolean;
@@ -54,32 +56,34 @@ interface FilterByPetsJobsAction {
 
 interface CreateNewJobAction {
   type: ActionTypes.createNewJob;
-  userJobs: Job[];
+  payload: Job[];
 }
 
 interface EditJobAction {
   type: ActionTypes.editJob;
-  userJobs: Job[];
+  payload: Job;
 }
 
 interface DeleteJobAction {
   type: ActionTypes.deleteJob;
-  userJobs: Job[];
+  payload: number;
 }
 
 interface AddCandidateAction {
   type: ActionTypes.addCandidate;
-  interestedJobs: Job[];
+  payload: number;
 }
 
 interface RemoveCandidateAction {
   type: ActionTypes.removeCandidate;
-  interestedJobs: Job[];
+  payload: number;
 }
 
 export default function jobReducer(
   state: JobsState = {
-    jobs: [],
+    userJobs: [],
+    interestedJobs: [],
+    availableJobs: [],
     completionFilter: null,
     nonSmokingFilter: false,
     firstAidCertFilter: false,
@@ -144,21 +148,21 @@ export default function jobReducer(
     case ActionTypes.createNewJob:
       return {
         ...state,
-        userJobs: [...state.userJobs, action.newJob],
+        userJobs: [...state.userJobs, action.payload],
       };
     case ActionTypes.editJob:
       let jobsCopy = [
-        ...state.userJobs.filter((job: Job) => job.id !== action.editedJob.id),
+        ...state.userJobs.filter((job: Job) => job.id !== action.payload.id),
       ];
       return {
         ...state,
-        userJobs: [...jobsCopy, action.editedJob],
+        userJobs: [...jobsCopy, action.payload],
       };
     case ActionTypes.deleteJob:
       return {
         ...state,
         userJobs: [
-          ...state.userJobs.filter((job) => job.id !== action.deleteJob),
+          ...state.userJobs.filter((job) => job.id !== action.payload),
         ],
       };
     case ActionTypes.storeUserJobs:
@@ -179,13 +183,13 @@ export default function jobReducer(
     case ActionTypes.addCandidate:
       return {
         ...state,
-        interestedJobs: [...state.interestedJobs, { job_id: action.job_id }],
+        interestedJobs: [...state.interestedJobs, { job_id: action.payload }],
       };
     case ActionTypes.removeCandidate:
       return {
         ...state,
         interestedJobs: [
-          ...state.interestedJobs.filter((job) => job.job_id !== action.job_id),
+          ...state.interestedJobs.filter((job) => job.id !== action.payload),
         ],
       };
     default:

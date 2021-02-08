@@ -39,6 +39,7 @@ export interface Employer {
 }
 
 export interface Job {
+  id: number;
   employer_id: number;
   caregiver_id: number;
   title: string;
@@ -54,6 +55,8 @@ export interface Job {
   first_aid_cert: boolean;
   has_pets: boolean;
 }
+
+export interface AvailableJob {}
 
 export interface Review {
   title: string;
@@ -128,17 +131,18 @@ export interface SetLoginStatusAction {
 
 export const fetchData = (userType: string) => {
   const auth_token = localStorage.getItem("auth_token");
-  const fetchObject = {
+  const headers: HeadersInit = {
+    "Content-Type": "application/json",
+    "Auth-Token": `${auth_token}`,
+  };
+  const opts: RequestInit = {
     method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      "Auth-Token": auth_token,
-    },
+    headers: headers,
   };
 
   return (dispatch: Dispatch) => {
     dispatch<LoadingDataAction>({ type: ActionTypes.loadingData });
-    fetch(`${API_ROOT}/app_status`, fetchObject)
+    fetch(`${API_ROOT}/app_status`, opts)
       .then((res) => res.json())
       .then((appData) => {
         dispatch<StoreUserJobsAction>({
@@ -258,7 +262,8 @@ export const signupFetch = (
           alert(loginData.msg);
         }
       })
-      .then((res) => dispatch(fetchData(userType)))
+      // .then((res) => dispatch(fetchData(userType)))
+      .then((res) => fetchData(userType))
       .catch((errors) => alert(errors));
   };
 };

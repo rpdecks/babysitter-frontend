@@ -378,7 +378,7 @@ const mapDispatchToProps = dispatch => {
     return {
         favoriteUser: (favorite) => dispatch({ type: 'FAVORITE_USER', favorite: favorite}),
         unFavoriteUser: (id) => dispatch({ type: 'UNFAVORITE_USER', favoriteInstanceId: id}),
-        editJob: (editedJob) => dispatch({ type: 'EDIT_JOB', editedJob: editedJob}),
+        editJob: (editedJob) => dispatch({ type: 'EDIT_JOB', payload: editedJob}),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserShow))
