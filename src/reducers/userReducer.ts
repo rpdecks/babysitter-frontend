@@ -16,6 +16,7 @@ export interface UserState {
   userType: string;
   caregivers: Caregiver[];
   employers: Employer[];
+  isLoggedIn: boolean;
 }
 
 interface SetUserTypeAction {
@@ -52,6 +53,7 @@ export default function userReducer(
     userType: "",
     caregivers: [],
     employers: [],
+    isLoggedIn: false,
   },
   action:
     | StoreUserDataAction

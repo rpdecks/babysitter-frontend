@@ -58,7 +58,7 @@ interface AppProps {
   employers: Employer[];
 }
 
-class App extends React.Component<AppProps> {
+class _App extends React.Component<AppProps> {
   componentDidMount() {
     const auth_token = localStorage.getItem("auth_token");
     const userType = localStorage.getItem("userType");
@@ -253,17 +253,29 @@ class App extends React.Component<AppProps> {
   }
 }
 
-const mapStateToProps = (state: StoreState) => {
+const mapStateToProps = (
+  state: StoreState
+): {
+  userType: string;
+  isLoggedIn: boolean;
+  signingUp: boolean;
+  calendarView: boolean;
+  userJobs: Job[];
+  availableJobs: Job[];
+  caregivers: Caregiver[];
+  employers: Employer[];
+  loading: boolean;
+} => {
   return {
-    userType: state.userReducer.userType,
-    isLoggedIn: state.userReducer.isLoggedIn,
-    signingUp: state.userReducer.signingUp,
-    calendarView: state.userReducer.calendarView,
-    userJobs: state.jobReducer.userJobs,
-    availableJobs: state.jobReducer.availableJobs,
-    caregivers: state.userReducer.caregivers,
-    employers: state.userReducer.employers,
-    loading: state.uiReducer.loading,
+    userType: state.users.userType,
+    isLoggedIn: state.users.isLoggedIn,
+    signingUp: state.users.signingUp,
+    calendarView: state.users.calendarView,
+    userJobs: state.jobs.userJobs,
+    availableJobs: state.jobs.availableJobs,
+    caregivers: state.users.caregivers,
+    employers: state.users.employers,
+    loading: state.ui.loading,
   };
 };
 
@@ -278,4 +290,4 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export const App = connect(mapStateToProps, mapDispatchToProps)(_App);

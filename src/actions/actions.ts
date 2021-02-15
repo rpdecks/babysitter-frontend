@@ -1,6 +1,7 @@
 import { API_ROOT } from "../services/apiRoot";
 import { Dispatch } from "redux";
 import { ActionTypes } from "./types";
+import { InterestedJob } from "../reducers/jobReducer";
 
 export interface Caregiver {
   id: number;
@@ -117,7 +118,7 @@ export interface StoreAvailableJobsAction {
 
 export interface StoreInterestedJobsAction {
   type: ActionTypes.storeInterestedJobs;
-  interestedJobs: Job[];
+  interestedJobs: InterestedJob[];
 }
 
 export interface LoadingDataAction {

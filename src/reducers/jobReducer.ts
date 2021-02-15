@@ -8,7 +8,7 @@ import { ActionTypes } from "../actions/types";
 
 export interface JobsState {
   userJobs: Job[] | [];
-  interestedJobs: Job[] | [];
+  interestedJobs: InterestedJob[] | [];
   availableJobs: Job[] | [];
   completionFilter: string | null;
   nonSmokingFilter: boolean;
@@ -17,6 +17,10 @@ export interface JobsState {
   selectedJob: Job | {};
   sortBy: string;
   ascending: boolean;
+}
+
+export interface InterestedJob {
+  job_id: number;
 }
 
 interface SetSelectedJobAction {
@@ -189,7 +193,9 @@ export default function jobReducer(
       return {
         ...state,
         interestedJobs: [
-          ...state.interestedJobs.filter((job) => job.id !== action.payload),
+          ...state.interestedJobs.filter(
+            (job) => job.job_id !== action.payload
+          ),
         ],
       };
     default:
