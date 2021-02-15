@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { fetchData, Job, Caregiver, Employer } from "./actions/actions";
+import { fetchData, Job, Caregiver, Employer } from "./actions";
 import Welcome from "./components/Welcome";
 import LoginForm from "./components/LoginForm";
 import CaregiverSignup from "./components/CaregiverSignup";

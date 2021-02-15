@@ -1,21 +1,16 @@
-import { ActionTypes } from "../actions/types";
-import {
-  StoreReviewsAction,
-  StoreReviewsAboutMeAction,
-  Review,
-} from "../actions/actions";
+import { Action, ActionTypes, Review } from "../actions";
 
 export interface ReviewsState {
   authoredReviews: Review[];
   reviewsAboutMe: Review[];
 }
 
-interface AddReviewAction {
+export interface AddReviewAction {
   type: ActionTypes.addReview;
   payload: Review;
 }
 
-interface DeleteReviewAction {
+export interface DeleteReviewAction {
   type: ActionTypes.deleteReview;
   payload: number;
 }
@@ -25,11 +20,7 @@ export default function reviewsReducer(
     authoredReviews: [],
     reviewsAboutMe: [],
   },
-  action:
-    | StoreReviewsAboutMeAction
-    | StoreReviewsAction
-    | AddReviewAction
-    | DeleteReviewAction
+  action: Action
 ) {
   switch (action.type) {
     case ActionTypes.storeReviews:

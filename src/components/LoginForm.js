@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import styled from "styled-components";
 import { FaBabyCarriage } from "react-icons/fa";
-import { fetchData, loginFetch } from "../actions/actions";
+import { fetchData, loginFetch } from "../actions";
 
 const Styles = styled.div`
   margin-top: 5rem;

@@ -1,12 +1,4 @@
-import {
-  Caregiver,
-  Employer,
-  SetLoginStatusAction,
-  StoreCaregiversAction,
-  StoreEmployersAction,
-  StoreUserDataAction,
-} from "../actions/actions";
-import { ActionTypes } from "../actions/types";
+import { Action, ActionTypes, Caregiver, Employer } from "../actions";
 
 export interface UserState {
   signingUp: boolean;
@@ -19,7 +11,7 @@ export interface UserState {
   isLoggedIn: boolean;
 }
 
-interface SetUserTypeAction {
+export interface SetUserTypeAction {
   type: ActionTypes.setUserType;
   userType: string;
 }
@@ -29,17 +21,17 @@ export interface LogoutAction {
   isLoggedIn: boolean;
 }
 
-interface SetSigningUpAction {
+export interface SetSigningUpAction {
   type: ActionTypes.setSigningUp;
   signingUp: boolean;
 }
 
-interface SwitchViewAction {
+export interface SwitchViewAction {
   type: ActionTypes.switchView;
   calendarView: boolean;
 }
 
-interface ShowUserTypeModalAction {
+export interface ShowUserTypeModalAction {
   type: ActionTypes.showUserTypeModal;
   showModal: boolean;
 }
@@ -55,16 +47,7 @@ export default function userReducer(
     employers: [],
     isLoggedIn: false,
   },
-  action:
-    | StoreUserDataAction
-    | SetUserTypeAction
-    | SetLoginStatusAction
-    | LogoutAction
-    | SetSigningUpAction
-    | StoreCaregiversAction
-    | StoreEmployersAction
-    | SwitchViewAction
-    | ShowUserTypeModalAction
+  action: Action
 ) {
   switch (action.type) {
     case ActionTypes.storeUserData:

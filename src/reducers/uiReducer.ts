@@ -1,22 +1,22 @@
-import { ActionTypes } from "../actions/types";
+import { Action, ActionTypes } from "../actions/types";
 
 export interface UiState {
   loading: boolean;
 }
 
-interface LoadingDataAction {
+export interface LoadingDataAction {
   type: ActionTypes.loadingData;
   loading: boolean;
 }
 
-interface FinishLoadingDataAction {
+export interface FinishLoadingDataAction {
   type: ActionTypes.finishLoading;
   loading: boolean;
 }
 
 export default function uiReducer(
   state: UiState = { loading: false },
-  action: LoadingDataAction | FinishLoadingDataAction
+  action: Action
 ) {
   switch (action.type) {
     case ActionTypes.loadingData:

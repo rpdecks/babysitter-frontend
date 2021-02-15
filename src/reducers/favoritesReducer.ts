@@ -1,33 +1,28 @@
-import { ActionTypes } from "../actions/types";
-import { Favorite, StoreUserFavoritesAction } from "../actions/actions";
+import { ActionTypes, Favorite, Action } from "../actions";
 
 export interface FavoritesState {
   userFavorites: Favorite[];
   favoritesFilter: boolean;
 }
 
-interface AddFavoriteAction {
+export interface AddFavoriteAction {
   type: ActionTypes.addFavorite;
   favorite: Favorite;
 }
 
-interface DeleteFavoriteAction {
+export interface DeleteFavoriteAction {
   type: ActionTypes.deleteFavorite;
   favoriteInstanceId: number;
 }
 
-interface FilterByFavoritesAction {
+export interface FilterByFavoritesAction {
   type: ActionTypes.filterByFavorites;
   favoritesFilter: boolean;
 }
 
 export default function favoritesReducer(
   state: FavoritesState = { userFavorites: [], favoritesFilter: false },
-  action:
-    | AddFavoriteAction
-    | DeleteFavoriteAction
-    | StoreUserFavoritesAction
-    | FilterByFavoritesAction
+  action: Action
 ) {
   switch (action.type) {
     case ActionTypes.addFavorite:

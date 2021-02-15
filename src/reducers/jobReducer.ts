@@ -3,8 +3,8 @@ import {
   StoreAvailableJobsAction,
   StoreInterestedJobsAction,
   StoreUserJobsAction,
-} from "../actions/actions";
-import { ActionTypes } from "../actions/types";
+} from "../actions";
+import { Action, ActionTypes } from "../actions/types";
 
 export interface JobsState {
   userJobs: Job[] | [];
@@ -23,62 +23,62 @@ export interface InterestedJob {
   job_id: number;
 }
 
-interface SetSelectedJobAction {
+export interface SetSelectedJobAction {
   type: ActionTypes.setSelectedJob;
   selectedJob: Job;
 }
 
-interface SwitchJobOrderAction {
+export interface SwitchJobOrderAction {
   type: ActionTypes.switchOrder;
   ascending: boolean;
 }
 
-interface SortJobsByAction {
+export interface SortJobsByAction {
   type: ActionTypes.sortBy;
   sortBy: string;
 }
 
-interface FilterByCompletedJobsAction {
+export interface FilterByCompletedJobsAction {
   type: ActionTypes.filterByCompleted;
   completionFilter: string;
 }
 
-interface FilterByNonSmokingJobsAction {
+export interface FilterByNonSmokingJobsAction {
   type: ActionTypes.filterByNonSmoking;
   nonSmokingFilter: boolean;
 }
 
-interface FilterByFirstAidJobsAction {
+export interface FilterByFirstAidJobsAction {
   type: ActionTypes.filterByFirstAid;
   firstAidCertFilter: boolean;
 }
 
-interface FilterByPetsJobsAction {
+export interface FilterByPetsJobsAction {
   type: ActionTypes.filterByPets;
   petsFilter: boolean;
 }
 
-interface CreateNewJobAction {
+export interface CreateNewJobAction {
   type: ActionTypes.createNewJob;
   payload: Job;
 }
 
-interface EditJobAction {
+export interface EditJobAction {
   type: ActionTypes.editJob;
   payload: Job;
 }
 
-interface DeleteJobAction {
+export interface DeleteJobAction {
   type: ActionTypes.deleteJob;
   payload: number;
 }
 
-interface AddCandidateAction {
+export interface AddCandidateAction {
   type: ActionTypes.addCandidate;
   payload: number;
 }
 
-interface RemoveCandidateAction {
+export interface RemoveCandidateAction {
   type: ActionTypes.removeCandidate;
   payload: number;
 }
@@ -96,22 +96,7 @@ export default function jobReducer(
     sortBy: "start_time",
     ascending: true,
   },
-  action:
-    | StoreAvailableJobsAction
-    | StoreInterestedJobsAction
-    | SetSelectedJobAction
-    | SwitchJobOrderAction
-    | SortJobsByAction
-    | FilterByCompletedJobsAction
-    | FilterByNonSmokingJobsAction
-    | FilterByFirstAidJobsAction
-    | FilterByPetsJobsAction
-    | CreateNewJobAction
-    | EditJobAction
-    | DeleteJobAction
-    | StoreUserJobsAction
-    | AddCandidateAction
-    | RemoveCandidateAction
+  action: Action
 ) {
   switch (action.type) {
     case ActionTypes.setSelectedJob:

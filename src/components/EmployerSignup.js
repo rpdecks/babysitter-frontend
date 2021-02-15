@@ -1,5 +1,5 @@
 import React from "react";
-import { fetchData, editUserFetch, signupFetch } from "../actions/actions";
+import { fetchData, editUserFetch, signupFetch } from "../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 import { Col, Form, Button, Row } from "react-bootstrap";
