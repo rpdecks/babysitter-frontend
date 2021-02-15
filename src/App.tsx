@@ -19,6 +19,7 @@ import UserShow from "./components/UserShow";
 import Reviews from "./components/Reviews";
 import FilterContainer from "./containers/FilterContainer";
 import CalendarView from "./components/CalendarView";
+import { StoreState } from "./store";
 
 const Styles = styled.div`
   overflow-x: hidden;
@@ -252,7 +253,7 @@ class App extends React.Component<AppProps> {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: StoreState) => {
   return {
     userType: state.userReducer.userType,
     isLoggedIn: state.userReducer.isLoggedIn,

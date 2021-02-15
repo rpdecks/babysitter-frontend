@@ -57,16 +57,22 @@ export interface Job {
 }
 
 export interface Review {
-  title: string;
-  rating: number;
-  content: string;
-  caregiver_id: number;
+  id: number;
   employer_id: number;
+  caregiver_id: number;
+  title: string;
+  content: string;
+  rating: number;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface Favorite {
-  caregiver_id: number;
+  id: number;
   employer_id: number;
+  caregiver_id: number;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface StoreUserDataAction {

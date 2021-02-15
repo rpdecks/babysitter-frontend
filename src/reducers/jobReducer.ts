@@ -36,7 +36,7 @@ interface SortJobsByAction {
 
 interface FilterByCompletedJobsAction {
   type: ActionTypes.filterByCompleted;
-  completionFilter: boolean;
+  completionFilter: string;
 }
 
 interface FilterByNonSmokingJobsAction {
@@ -56,7 +56,7 @@ interface FilterByPetsJobsAction {
 
 interface CreateNewJobAction {
   type: ActionTypes.createNewJob;
-  payload: Job[];
+  payload: Job;
 }
 
 interface EditJobAction {
